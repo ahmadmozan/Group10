@@ -11,16 +11,11 @@ public class Floor_main extends Thread {
 	static String[] output= new String[4];
 	public static Thread floor;
 	
-<<<<<<< HEAD
-
-=======
-	
->>>>>>> branch 'master' of https://github.com/ahmadmozan/Group10.git
-	public static void getData() {
+	public synchronized static void getData() {
 		BufferedReader reader;
 		try {
 			System.out.println("Getting data...");
-			reader=new BufferedReader(new FileReader("C:\\Users\\akkas\\Desktop\\SYSC 3303\\InputFile.txt"));
+			reader=new BufferedReader(new FileReader("C:\\Users\\ahmad\\Documents\\InputFile.txt"));
 			String line = reader.readLine();
 			while(line !=null) {
 				//System.out.println(line);
@@ -41,7 +36,7 @@ public class Floor_main extends Thread {
 	
 	
 	
-	public static String[] getArray() {
+	public synchronized static String[] getArray() {
 		output[0]=data[0];
 		output[1]=data[1];
 		output[2]=data[2];
@@ -51,6 +46,8 @@ public class Floor_main extends Thread {
 		return output;	
 	}
 	
-		
+	public void run() {
+		getData();
+	}
 		
 }

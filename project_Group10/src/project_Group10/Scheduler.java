@@ -5,7 +5,7 @@ public class Scheduler extends Thread{
 	
 	public static String fInput[] = null;
 	
-	public void setfInput(String Inp[]) {
+	public synchronized void setfInput(String Inp[]) {
 		
 		while(fInput != null) {
 			try {
@@ -20,7 +20,7 @@ public class Scheduler extends Thread{
 		
 	}
 	
-	public void getfInput() {
+	public synchronized void getfInput() {
 		
 		while(fInput == null) {
 			try {
@@ -34,7 +34,7 @@ public class Scheduler extends Thread{
 		System.out.println(fInput);
 	}
 	
-	public void notifyElevator() {
+	public synchronized void notifyElevator() {
 		
 	}
 	
