@@ -11,7 +11,11 @@ public class Floor_main extends Thread {
 	static String[] output= new String[4];
 	public static Thread floor;
 	
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> branch 'master' of https://github.com/ahmadmozan/Group10.git
 	public static void getData() {
 		BufferedReader reader;
 		try {
