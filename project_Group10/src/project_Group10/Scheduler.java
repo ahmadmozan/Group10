@@ -3,10 +3,12 @@ package project_Group10;
 public class Scheduler extends Thread{
 	
 	
-	private static String fInput[] = null;
+	public static String fInput[] = null;
 	public static Boolean floorSensor = true;
 	public static String floorno = null;
 	public static String Direc = null;
+	public static String time = null;
+	public static String car = null;
 	
 	public synchronized void setfInput(String Inp[]) {
 		
@@ -72,6 +74,40 @@ public class Scheduler extends Thread{
 		System.out.println(getDirection());
 	}
 	
+	
+	public synchronized String getTime() {
+		return fInput[0];
+	}
+	
+	public synchronized void CheckTime() {
+		while(fInput.length == 0) {
+			try {
+				System.out.println();
+				wait();
+			}catch(InterruptedException e) {
+				System.out.println(e);
+			}
+		}
+		time = getTime();
+		System.out.println(getTime());
+	}
+	
+	public synchronized String getCar() {
+		return fInput[3];
+	}
+	
+	public synchronized void CheckCar() {
+		while(fInput.length == 0) {
+			try {
+				System.out.println();
+				wait();
+			}catch(InterruptedException e) {
+				System.out.println(e);
+			}
+		}
+		car = getCar();
+		System.out.println(getCar());
+	}
 	public void run(){
 		setfInput(Floor_main.data);
 //		String[] op = fInput;
@@ -79,6 +115,8 @@ public class Scheduler extends Thread{
 //	        System.out.println(str);
 	    CheckFloor();
 	    CheckDirection();
+	    CheckTime();
+	    CheckCar();
 	}
 	
 	
@@ -86,10 +124,10 @@ public class Scheduler extends Thread{
 		
 		Thread Floor = new Floor_main();
 		Thread sch = new Scheduler();
-		
+		Thread elv = new Elevator();
 		Floor.run();
 		sch.run();
-		
+		elv.run();
 		
 	}
 	
