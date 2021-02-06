@@ -1,9 +1,8 @@
-package project_Group10;
+//package project_Group10;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class Floor_main extends Thread {
 	
@@ -11,19 +10,27 @@ public class Floor_main extends Thread {
 	static String[] output= new String[4];
 	public static Thread floor;
 	
-	public synchronized static void getData() {
+	public synchronized void getData() {
 		BufferedReader reader;
 		try {
 			System.out.println("Getting data...");
 			reader=new BufferedReader(new FileReader("C:\\Users\\ahmad\\Documents\\InputFile.txt"));
 			String line = reader.readLine();
 			while(line !=null) {
-				//System.out.println(line);
 				for (int i=0;i<4;i++) {
 				data[i]=line;
 				line=reader.readLine();
 				}
-				//System.out.println(Arrays.toString(data));
+				while(data != null) {
+		            try {
+		                System.out.println("Input File is currently full");
+		                wait();
+		            }catch (InterruptedException e) {
+		                System.out.println(e);
+		            }
+		        }
+		        notifyAll();
+				
 				
 				
 			}
