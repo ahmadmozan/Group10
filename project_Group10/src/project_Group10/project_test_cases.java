@@ -21,9 +21,11 @@ class project_test_cases {
 		assertTrue(DATA1[2].equals("Up"));
 		assertTrue(DATA1[3].equals("3"));
 		
-		
-		
-		
+		((Scheduler) sch).setfInput(DATA1);
+		assertTrue(((Scheduler) sch).getFloor().equals("6"));
+		assertTrue(((Scheduler) sch).getTime().equals("18:14:587.4"));
+		assertTrue(((Scheduler) sch).getDirection().equals("Up"));
+		assertTrue(((Scheduler) sch).getCar().equals("3"));
 	}
 
 }
