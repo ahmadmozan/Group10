@@ -6,17 +6,23 @@ import org.junit.jupiter.api.Test;
 
 class project_test_cases {
 
+
 	@Test
 	void test() {
 		
-		Thread Floor = new Floor_main();
+		Thread floor = new Floor_main();
 		Thread sch = new Scheduler();
 		Thread elv = new Elevator();
 		
-		((Floor_main) Floor).getData();
-		For(int s = 0; Floor_main.data; s++){
-			
-		}
+		((Floor_main) floor).getData();
+		String[] DATA1 = (((Floor_main) floor).data);
+		assertTrue(DATA1[0].equals("18:14:587.4"));
+		assertTrue(DATA1[1].equals("6"));
+		assertTrue(DATA1[2].equals("Up"));
+		assertTrue(DATA1[3].equals("3"));
+		
+		
+		
 		
 	}
 
