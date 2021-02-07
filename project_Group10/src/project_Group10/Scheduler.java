@@ -3,7 +3,8 @@ package project_Group10;
 public class Scheduler extends Thread{
 	
 	
-	public static String fInput[] = null;
+	public static String fInput[] = new String[4];
+	public boolean empty1 = true;
 	public static Boolean floorSensor = true;
 	public static String floorno = null;
 	public static String Direc = null;
@@ -12,7 +13,24 @@ public class Scheduler extends Thread{
 	
 	public synchronized void setfInput(String Inp[]) {
 		
-		while(fInput != null) {
+		while(Inp[0] == null && Inp[1] == null && Inp[2] == null && Inp[3] == null) {
+			try {
+				System.out.println("wow");
+				wait();
+			}catch(InterruptedException e) {
+				System.out.println(e);
+			}
+		}
+		
+		for(int i = 0; i < fInput.length; i++) {
+			if(fInput[i] !=null) {
+				System.out.println(i);
+				empty1 = false;
+				break;
+			}
+		}
+		
+		while(empty1 == false) {
 			try {
 				System.out.println("Input file is currently being processed");
 				wait();
@@ -45,9 +63,9 @@ public class Scheduler extends Thread{
 	}
 	
 	public synchronized void CheckFloor() {
-		while(fInput.length == 0) {
+		while(fInput[1] == null) {
 			try {
-				System.out.println();
+				System.out.println("wow");
 				wait();
 			}catch(InterruptedException e) {
 				System.out.println(e);
@@ -62,9 +80,9 @@ public class Scheduler extends Thread{
 	}
 	
 	public synchronized void CheckDirection() {
-		while(fInput.length == 0) {
+		while(fInput[2] == null) {
 			try {
-				System.out.println();
+				System.out.println("wow");
 				wait();
 			}catch(InterruptedException e) {
 				System.out.println(e);
@@ -80,7 +98,7 @@ public class Scheduler extends Thread{
 	}
 	
 	public synchronized void CheckTime() {
-		while(fInput.length == 0) {
+		while(fInput[0] == null) {
 			try {
 				System.out.println();
 				wait();
@@ -97,7 +115,7 @@ public class Scheduler extends Thread{
 	}
 	
 	public synchronized void CheckCar() {
-		while(fInput.length == 0) {
+		while(fInput[3] == null) {
 			try {
 				System.out.println();
 				wait();
@@ -108,11 +126,14 @@ public class Scheduler extends Thread{
 		car = getCar();
 		System.out.println(getCar());
 	}
-	public void run(){
+	public synchronized void run(){
+		
+		String[] op = Floor_main.data;
+	    for(String str : op)
+	        System.out.println(str);
+	    
 		setfInput(Floor_main.data);
-//		String[] op = fInput;
-//	    for(String str : op)
-//	        System.out.println(str);
+	    
 	    CheckFloor();
 	    CheckDirection();
 	    CheckTime();
@@ -124,10 +145,11 @@ public class Scheduler extends Thread{
 		
 		Thread Floor = new Floor_main();
 		Thread sch = new Scheduler();
-		Thread elv = new Elevator();
-		Floor.run();
-		sch.run();
-		elv.run();
+		//Thread elv = new Elevator();
+		Floor.start();
+		//elv.start();
+		sch.start();
+		
 		
 	}
 	

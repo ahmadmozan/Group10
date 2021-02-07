@@ -23,7 +23,16 @@ public synchronized void getInfo() {
 
 
 public synchronized void outPut() {
-
+	
+	while(info == null) {
+		try {
+            System.out.println("Need Info first!");
+            wait();
+        }catch (InterruptedException e) {
+            System.out.println(e);
+        }
+	}
+	notifyAll();
     System.out.println("we are currently on the "+ info[1]+"floor.\n");
     System.out.println("we are currently going"+ info[2]+"\n");
     System.out.println("the current time is "+ info[0]+"\n");
@@ -32,11 +41,9 @@ public synchronized void outPut() {
 }
 
 public void run(){
-
+	
     getInfo();
     outPut();
-
-
 
     }
 }

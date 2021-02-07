@@ -1,4 +1,4 @@
-//package project_Group10;
+package project_Group10;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -7,11 +7,26 @@ import java.io.IOException;
 public class Floor_main extends Thread {
 	
 	public static String[] data= new String[4];
+	public boolean empty = true;
 	static String[] output= new String[4];
-	public static Thread floor;
 	
 	public synchronized void getData() {
+		
+		for(int x = 0; x < data.length; x++) {
+			if(data[x] !=null) {
+				empty = false;
+				break;
+			}
+		}
 		BufferedReader reader;
+		while(empty == false) {
+            try {
+                System.out.println("Input File is currently full");
+                wait();
+            }catch (InterruptedException e) {
+                System.out.println(e);
+            }
+        }
 		try {
 			System.out.println("Getting data...");
 			reader=new BufferedReader(new FileReader("C:\\Users\\ahmad\\Documents\\InputFile.txt"));
@@ -20,20 +35,9 @@ public class Floor_main extends Thread {
 				for (int i=0;i<4;i++) {
 				data[i]=line;
 				line=reader.readLine();
-				}
-				while(data != null) {
-		            try {
-		                System.out.println("Input File is currently full");
-		                wait();
-		            }catch (InterruptedException e) {
-		                System.out.println(e);
-		            }
-		        }
-		        notifyAll();
-				
-				
-				
+				}	
 			}
+			notifyAll();
 			reader.close();
 		}catch (IOException e) {
 			System.out.println("Error: File cannot be found");
@@ -53,7 +57,7 @@ public class Floor_main extends Thread {
 		return output;	
 	}
 	
-	public void run() {
+	public synchronized void run() {
 		getData();
 	}
 		
