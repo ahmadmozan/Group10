@@ -1,10 +1,20 @@
 package project_Group10;
-
+/**
+ * This is the Elevator class subsystem. This class will run what the elevator will do with the given data from the floor. It will determine which floor to go to 
+ * and will notify the scheduler when it has reached the appropriate floor. This class will also have buttons inside to indicate teh floor to go to
+ * and will have lamps, however they are not implemented in this version. 
+ * @author Ousama Al-chami
+ */
 import java.util.Random;
 
 public class Elevator extends Thread {
 
 	public static String info[] = null;
+	
+/**
+ * This method is retreiving the data from the floor class via the scheduler. 
+ * It checks if the information was collected or not before attempting to collect it
+ */
 	
 public synchronized void getInfo() {
 
@@ -21,7 +31,9 @@ public synchronized void getInfo() {
         System.out.println();
     }
 
-
+/**
+ * This method returns to the scheduler class the results of the task complete. It updates the scheduler.
+ */
 public synchronized void outPut() {
 	
 	while(info == null) {
@@ -39,7 +51,9 @@ public synchronized void outPut() {
     System.out.println("we are currently in car number "+info[3]+"\n");
 
 }
-
+/**
+ * This method runs the elevator class subsystem.
+ */
 public void run(){
 	
     getInfo();
