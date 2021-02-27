@@ -1,4 +1,4 @@
-package project_Group10;
+package Group10;
 /**
  * This is the Floor subsystem class. It runs the floor subsystem which is responsible for reading the input file and sending the data to the 
  * scheduler for the elevator to use. This class will also be responsible for the floor lamps and buttons, but is not included in this version. This version, v1,
@@ -17,54 +17,12 @@ import java.util.Scanner;
 public class Floor_main extends Thread {
 	
 	public static int car=1;
-	public static String[] data= new String[4];
-	public boolean empty = true;
-	static String[] output= new String[4];
 	
+	static Object[] input = new Object[4];
 	public static void main(String[] args) {
-		
 		inputFile();
-		
 	}
-	
-	/** 
-	 * This method is used to collect the data from the provided input file. It collects the data and stores it in a String Array.
-	 * 
-	 */
-	public synchronized void getData() {
-//		
-//		for(int x = 0; x < data.length; x++) {
-//			if(data[x] !=null) {
-//				empty = false;
-//				break;
-//			}
-//		}
-//		BufferedReader reader;
-//		while(empty == false) {
-//            try {
-//                System.out.println("Input File is currently full");
-//                wait();
-//            }catch (InterruptedException e) {
-//                System.out.println(e);
-//            }
-//        }
-//		try {
-//			System.out.println("Getting data...");//Start reading input file to get data
-//			reader=new BufferedReader(new FileReader("C:\\Users\\ahmad\\Documents\\InputFile.txt"));
-//			String line = reader.readLine();
-//			while(line !=null) {
-//				for (int i=0;i<4;i++) {
-//				data[i]=line;
-//				line=reader.readLine();
-//				}	
-//			}
-//			notifyAll();
-//			reader.close();
-//		}catch (IOException e) {
-//			System.out.println("Error: File cannot be found");
-//			e.printStackTrace();
-//		}
-	}
+
 	
 	public synchronized static int currentFloor(){
 		int floornum;
@@ -114,7 +72,7 @@ public class Floor_main extends Thread {
 		return dateString;
 	}
 	public synchronized static Object[] inputFile() {
-		Object[] input = new Object[4];
+		
 		input[0]=getTime();
 		input[1]= currentFloor();
 		input[2] = direction();
@@ -129,7 +87,7 @@ public class Floor_main extends Thread {
 	 * Main run method to run the floor class subsystem.
 	 */
 	public synchronized void run() {
-		getData();
+		inputFile();
 	}
 		
 }
