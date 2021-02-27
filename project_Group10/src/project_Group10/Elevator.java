@@ -1,4 +1,4 @@
-package project_Group10;
+package Group10;
 /**
  * This is the Elevator class subsystem. This class will run what the elevator will do with the given data from the floor. It will determine which floor to go to 
  * and will notify the scheduler when it has reached the appropriate floor. This class will also have buttons inside to indicate teh floor to go to
@@ -10,6 +10,7 @@ import java.util.Random;
 public class Elevator extends Thread {
 
 	public static String info[] = null;
+	public static String  Signal;;
 	
 /**
  * This method is retreiving the data from the floor class via the scheduler. 
@@ -51,7 +52,27 @@ public synchronized void outPut() {
     System.out.println("we are currently in car number "+info[3]+"\n");
 
 }
-/**
+public synchronized void getSignal() {
+
+    while( Signal == "false") {
+        try {
+            System.out.println("nobdoy is using the elavator yet");
+            wait();
+        }catch (InterruptedException e) {
+            System.out.println(e);
+        }
+
+        if (Signal== "True") {
+             System.out.println("the elevator is heading to ur service");
+        }
+    }
+     notifyAll();
+}
+public void  elevButton() {
+	Button newbutton= new Button();
+	newbutton.destFloor();
+}
+ /*
  * This method runs the elevator class subsystem.
  */
 public void run(){
