@@ -18,9 +18,9 @@ public class Elevator extends Thread {
 	
 public synchronized void getInfo() {
 
-		while(info != null) {
+		while(info == null) {
             try {
-                System.out.println("Info has already been collected!");
+                System.out.println("Need Info first");
                 wait();
             }catch (InterruptedException e) {
                 System.out.println(e);
@@ -36,9 +36,9 @@ public synchronized void getInfo() {
  */
 public synchronized void outPut() {
 	
-	while(info == null) {
+	while(info != null) {
 		try {
-            System.out.println("Need Info first!");
+            System.out.println("Info has already been collected!");
             wait();
         }catch (InterruptedException e) {
             System.out.println(e);

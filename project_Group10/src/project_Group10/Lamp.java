@@ -1,6 +1,6 @@
 package project_Group10;
 
-public class Lamp extends Thread{
+public abstract class Lamp{
 	
 	public static String lightUp = null;
 	public static String lightDown = null ;
@@ -67,13 +67,6 @@ public class Lamp extends Thread{
 		System.out.println(getlf(toString()));
 }
 	
-public synchronized void run(){
-		
-		lu(lightUp);
-		ld(lightDown);
-		lf(lightFlo);
-		
-	}
 
 
 }

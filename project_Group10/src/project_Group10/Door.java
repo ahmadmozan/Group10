@@ -1,6 +1,6 @@
 package project_Group10;
 
-public class Door extends Thread {
+public abstract class Door{
 	
 	public static String doorOpen = null;
 	public static String doorClo= null ;
@@ -45,12 +45,6 @@ public class Door extends Thread {
 		System.out.println(getDc(toString()));
 }
 
-public synchronized void run(){
-		
-		Do(doorOpen);
-		Dc(doorClo);
-		
-	}
 
 }
 	

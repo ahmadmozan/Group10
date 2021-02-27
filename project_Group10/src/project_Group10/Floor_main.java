@@ -17,54 +17,10 @@ import java.util.Scanner;
 public class Floor_main extends Thread {
 	
 	public static int car=1;
-	public static String[] data= new String[4];
-	public boolean empty = true;
-	static String[] output= new String[4];
-	
-	public static void main(String[] args) {
-		
-		inputFile();
-		
-	}
-	
-	/** 
-	 * This method is used to collect the data from the provided input file. It collects the data and stores it in a String Array.
-	 * 
-	 */
-	public synchronized void getData() {
-//		
-//		for(int x = 0; x < data.length; x++) {
-//			if(data[x] !=null) {
-//				empty = false;
-//				break;
-//			}
-//		}
-//		BufferedReader reader;
-//		while(empty == false) {
-//            try {
-//                System.out.println("Input File is currently full");
-//                wait();
-//            }catch (InterruptedException e) {
-//                System.out.println(e);
-//            }
-//        }
-//		try {
-//			System.out.println("Getting data...");//Start reading input file to get data
-//			reader=new BufferedReader(new FileReader("C:\\Users\\ahmad\\Documents\\InputFile.txt"));
-//			String line = reader.readLine();
-//			while(line !=null) {
-//				for (int i=0;i<4;i++) {
-//				data[i]=line;
-//				line=reader.readLine();
-//				}	
-//			}
-//			notifyAll();
-//			reader.close();
-//		}catch (IOException e) {
-//			System.out.println("Error: File cannot be found");
-//			e.printStackTrace();
-//		}
-	}
+	//public static boolean Inp = false;
+	public Scheduler sch = new Scheduler();
+	public static Object[] input = new Object[4];
+
 	
 	public synchronized static int currentFloor(){
 		int floornum;
@@ -113,23 +69,35 @@ public class Floor_main extends Thread {
 		System.out.println(dateString);
 		return dateString;
 	}
-	public synchronized static Object[] inputFile() {
-		Object[] input = new Object[4];
-		input[0]=getTime();
-		input[1]= currentFloor();
-		input[2] = direction();
-		input[3]=car;
+	public synchronized Object[] inputFile() {
+		
+		input[0]= getTime().toString();
+		input[1]= String.valueOf(currentFloor());
+		input[2]= direction();
+		input[3]= String.valueOf(car);
+		
+		
+		Scheduler.floorno = input[0].toString();
+		Scheduler.Direc = input[1].toString();
+		Scheduler.time = input[2].toString();
+		Scheduler.car = input[3].toString();
 		
 		System.out.println(Arrays.toString(input));
+		notifyAll();
+		//Inp = true;
 		return input;
 		
+	}
+	
+	public synchronized Object[] getInput() {
+		return input;
 	}
 	
 	/**
 	 * Main run method to run the floor class subsystem.
 	 */
 	public synchronized void run() {
-		getData();
+		inputFile();
 	}
 		
 }
