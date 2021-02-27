@@ -73,10 +73,10 @@ public class Floor_main extends Thread {
 	}
 	public synchronized static Object[] inputFile() {
 		
-		input[0]=getTime();
-		input[1]= currentFloor();
+		input[0]=getTime().toString();
+		input[1]= String.valueOf(currentFloor());
 		input[2] = direction();
-		input[3]=car;
+		input[3]=String.valueOf(car);
 		
 		System.out.println(Arrays.toString(input));
 		return input;
