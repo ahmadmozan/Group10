@@ -22,22 +22,27 @@ public class Scheduler extends Thread{
 	public static String time = null;
 	public static String car = null;
 	
+	private static State Fetch;
+	private static State Send;
+	private static State Repeat;
+	private State currState = Fetch;
+	//public static State[] states= {Fetch, Send, Repeat};
 	/**
 	 * This function sets the input file into an array of its own to be able to use it else where in the project
 	 * 
 	 * @param Inp  - which is input file
 	 */
-	public synchronized void setfInput(String Inp[]) {
+	public synchronized void setfInput() {
 		
-		System.out.println(Inp[0]);
-		while(Inp[0] == null && Inp[1] == null && Inp[2] == null && Inp[3] == null) {
+		while(floorno == null && Direc == null && time == null && car == null) {
 			try {
-				System.out.println("wow");
+				System.out.println("null");
 				wait();
 			}catch(InterruptedException e) {
 				System.out.println(e);
 			}
 		}
+		System.out.println("HELOEOOEOE");
 		
 		for(int i = 0; i < fInput.length; i++) {
 			if(fInput[i] !=null) {
@@ -55,7 +60,10 @@ public class Scheduler extends Thread{
 				System.out.println(e);
 			}
 		}
-		fInput = Inp; // time/ floor / up/down / elevator no.
+		fInput[0] = Floor_main.input[0].toString(); // time/ floor / up/down / elevator no.
+		fInput[1] = Floor_main.input[1].toString();
+		fInput[2] = Floor_main.input[2].toString();
+		fInput[3] = Floor_main.input[3].toString();
 		notifyAll();
 		
 	}
@@ -177,12 +185,49 @@ public class Scheduler extends Thread{
 		System.out.println(getCar());
 	}
 	
+	
+
+//	public synchronized void StateMachine() {
+//		if(currState == Fetch) {
+//			
+//			
+//			
+//		}
+//		else if(currState == Send) {
+//			
+//			while(fInput[0] == null && fInput[1] == null && fInput[2] == null && fInput[3] == null) {
+//				try {
+//					System.out.println("Unfortunately the input file is empty!");
+//					wait();
+//				}catch(InterruptedException e) {
+//					System.out.println(e);
+//				}
+//			}
+//			
+//			floorno
+//			Direc
+//			time
+//			car
+//			Motor.moveUp();
+//			
+//			
+//		}
+//		else if(currState == Repeat) {
+//			
+//			
+//			
+//		}
+//		else {
+//			System.out.println("damn something went wrong!");
+//		}
+//	}
+	
 	/**
 	 * runs the system. First gets the array and then prints all 4 values
 	 */
 	public synchronized void run(){
 		 
-		setfInput(Floor_main.data);
+		setfInput();
 	    
 	    CheckFloor();
 	    CheckDirection();

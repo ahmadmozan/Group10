@@ -1,7 +1,7 @@
 /**
  * 
  */
-package iteration1;
+package project_Group10;
 
 /**
  * @author bs
