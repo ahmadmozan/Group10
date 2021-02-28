@@ -1,4 +1,4 @@
-package Group10;
+package project_Group10;
 /**
  * This is the Elevator class subsystem. This class will run what the elevator will do with the given data from the floor. It will determine which floor to go to 
  * and will notify the scheduler when it has reached the appropriate floor. This class will also have buttons inside to indicate teh floor to go to

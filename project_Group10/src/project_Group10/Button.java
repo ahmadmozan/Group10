@@ -8,6 +8,7 @@ public class Button {
 	private String direction= null;
 	private int floorNum;
 	private static int max_floors= 5;
+	public static int destFloor;
 	
 	
 	public synchronized static String direction() {
@@ -72,9 +73,13 @@ public class Button {
 			}
 			
 		}
+		
 		return floor;
 		
 	}
 
+	public static int getdestFloor() {
+		return destFloor;
+	}
 }
 

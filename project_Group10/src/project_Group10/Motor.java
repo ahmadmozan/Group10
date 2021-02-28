@@ -1,13 +1,13 @@
 /**
  * 
  */
-package iteration1;
+package project_Group10;
 
 /**
  * @author bs
  *
  */
-public class Motor {
+public abstract class Motor {
 	
 	
 private Boolean status ;
@@ -25,7 +25,7 @@ private Boolean status ;
 		status = false;	
 	}
 	
-	// Checks sensor status	
+	// Checks Motor status	
 	public Boolean checkStatus() {
 		
 		return status;	
@@ -33,16 +33,18 @@ private Boolean status ;
 	
 	
 	// Motor moves up to input floor and returns true if successful
-	public Boolean moveUp(String floor) {
+	public static void moveUp(int floor) {
 		
-		return true;	
+		System.out.println("we are currently moving up to floor " + floor);
+		System.out.println("we just arrived at floor " + floor);
 	}
 	
 	// Motor moves down to input floor and returns true if successful
-		public Boolean movedown(String floor) {
+	public static void moveDown(int floor) {
 			
-			return true;	
-		}
+		System.out.println("we are currently moving down to floor " + floor);
+		System.out.println("we just arrived at floor " + floor);
+	}
 		
 	
 

@@ -186,7 +186,9 @@ public class Scheduler extends Thread{
 	}
 	
 	
-
+	/**
+	 * 
+	 */
 	public synchronized void StateMachine() {
 		if(currState == Fetch) {				// Fetch the information needed to start running
 			
@@ -208,10 +210,10 @@ public class Scheduler extends Thread{
 				Door.closeDoor();
 			}
 			if(fInput[2] == "Up") {
-				Motor.moveUp(Elevator.destFloor());
+				Motor.moveUp(Button.getdestFloor());
 			}
 			if(fInput[2] == "Down") {
-				Motor.moveDown(Elevator.destFloor());
+				Motor.moveDown(Button.getdestFloor());
 			}
 			
 			

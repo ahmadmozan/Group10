@@ -1,13 +1,13 @@
 /**
  * 
  */
-package iteration1;
+package project_Group10;
 
 /**
  * @author bs
  *
  */
-public class Sensor {
+public abstract class Sensor {
 	
 	Boolean status ;
 	
