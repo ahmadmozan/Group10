@@ -2,7 +2,12 @@ package Group10;
 
 import java.util.Arrays;
 
-
+/**
+ * This is the Floor subsystem class. It runs the floor subsystem which is responsible for generating an input file and sending the data to the 
+ * scheduler for the elevator to use. This class will also be responsible for the floor lamps and buttons. The floor buttons will be implemented from the 
+ * Button class which will indicate if the diretion is up or down.
+ *@author Akkash Anton Amalarajah
+ */
 public class Floor_main extends Thread {
 	
 	public static int car=1;
@@ -15,7 +20,10 @@ public class Floor_main extends Thread {
 	
 
 	
-	
+	/**
+	 * Generate the input file and store it in an Object array
+	 * @return
+	 */
 	@SuppressWarnings("static-access")
 	public synchronized  Object[] inputFile() {
 		b = new Button();
@@ -36,7 +44,9 @@ public class Floor_main extends Thread {
 		return input;
 	}
 	
-	
+	/*
+	 * The scheduler gets the input file with this method
+	 */
 	public synchronized Object[] getInput() {
 		return input;
 	}

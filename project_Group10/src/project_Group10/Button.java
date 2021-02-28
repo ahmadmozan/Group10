@@ -3,14 +3,22 @@ package project_Group10;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
-
+/**
+ * This class is used to control the Buttons on the system. It has the floor buttons indicating up or down and elevator buttons indicating which floor to 
+ * travel to.
+ * @author Akkash Anton Amalarajah
+ *
+ */
 public class Button {
 	private String direction= null;
 	private int floorNum;
 	private static int max_floors= 5;
 	public static int destFloor;
 	
-	
+	/**
+	 * Button for the floor to use to indicate the direction
+	 * @return
+	 */
 	public synchronized static String direction() {
 		String direction;
 		while (true){
@@ -33,6 +41,9 @@ public class Button {
 		}
 		return direction;
 	}
+	/*
+	 * Get the time the button was pressed. USed by floor
+	 */
 	public static Object getTime() {
 		Date date= new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss.mmm");
@@ -40,6 +51,9 @@ public class Button {
 		System.out.println(dateString);
 		return dateString;
 	}
+	/* 
+	 * Get the floor which the button was pressed. Used by floor
+	 */
 	public synchronized static int currentFloor(){
 		int floornum;
 		while (true) {
@@ -57,6 +71,9 @@ public class Button {
 	}
 		return floornum;
 	}
+	/*
+	 * Determine which floor you want to go to. Used by elevator. 
+	 */
 	public synchronized static int destFloor() {
 		int floor;
 		while(true) {
