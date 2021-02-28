@@ -73,7 +73,7 @@ public class Button {
 			}
 			
 		}
-		
+		destFloor = floor;
 		return floor;
 		
 	}
