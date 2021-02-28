@@ -1,5 +1,7 @@
 package project_Group10;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * This class is about a scheduler subsystem that utilizes other subsystems. It is responsible for taking the input file the
  * Floor subsystem produces and pushes that file to the other subsystems. This class will be responsible for timing all the 
@@ -15,24 +17,48 @@ public class Scheduler extends Thread{
 	 * Adding 4 Strings for each of the info given by the input file 
 	 */
 	public static String fInput[] = new String[4];
-	public boolean empty1 = true;
+	public boolean empty1 = false;
 	public static Boolean floorSensor = true;
 	public static String floorno = null;
 	public static String Direc = null;
 	public static String time = null;
 	public static String car = null;
 	
+	public static Motor mot = new Motor();
+	public static Sensor sen = new Sensor();
+	
+	public static int currElev = 1;
+	
 	private static State Fetch;
-	private static State Send;
+	private static State SendElevator;
+	private static State MoveElevator;
 	private static State Repeat;
 	private State currState = Fetch;
-	//public static State[] states= {Fetch, Send, Repeat};
+
 	/**
 	 * This function sets the input file into an array of its own to be able to use it else where in the project
 	 * 
 	 * @param Inp  - which is input file
 	 */
 	public synchronized void setfInput() {
+		
+		// potential solution
+		/*
+		 * try { TimeUnit.SECONDS.sleep(10); } catch (InterruptedException e) {
+		 * e.printStackTrace(); }
+		 */
+		
+		/*
+		 * while(Floor_main.input[0] == null && Floor_main.input[1] == null &&
+		 * Floor_main.input[2] == null && Floor_main.input[3] == null &&) { try {
+		 * System.out.println("null"); wait(); }catch(InterruptedException e) {
+		 * System.out.println(e); } }
+		 */
+		
+		/*
+		 * while(!inp) { inp = Floor_main.getInputStatus(); }
+		 */
+		
 		
 		while(floorno == null && Direc == null && time == null && car == null) {
 			try {
@@ -42,17 +68,23 @@ public class Scheduler extends Thread{
 				System.out.println(e);
 			}
 		}
+		
 		System.out.println("HELOEOOEOE");
 		
+		fInput[0] = floorno;		// time/ floor / up/down / elevator no.
+		fInput[1] = Direc;
+		fInput[2] = time;
+		fInput[3] = car;
+		
 		for(int i = 0; i < fInput.length; i++) {
-			if(fInput[i] !=null) {
+			if(fInput[i] == null) {
 				System.out.println(i);
-				empty1 = false;
+				empty1 = true;
 				break;
 			}
 		}
 		
-		while(empty1 == false) {
+		while(empty1 == true) {
 			try {
 				System.out.println("Input file is currently being processed");
 				wait();
@@ -60,10 +92,6 @@ public class Scheduler extends Thread{
 				System.out.println(e);
 			}
 		}
-		fInput[0] = Floor_main.input[0].toString(); // time/ floor / up/down / elevator no.
-		fInput[1] = Floor_main.input[1].toString();
-		fInput[2] = Floor_main.input[2].toString();
-		fInput[3] = Floor_main.input[3].toString();
 		notifyAll();
 		
 	}
@@ -186,16 +214,23 @@ public class Scheduler extends Thread{
 	}
 	
 	
+	
 	/**
-	 * 
+	 * State machine that will keep running and make sure that the system is running in 
+	 * a cycle that goes from fetching -> to moving elevator to pick up -> to moving 
+	 * elevator to destination for drop off -> then finally repeating the cycle
 	 */
 	public synchronized void StateMachine() {
+		
 		if(currState == Fetch) {				// Fetch the information needed to start running
 			
+			// currently the method to exchange info between floor and scheduler is not working therefore this will be implemented when the fix happens
+			setfInput();
 			
-			currState = Send;
+			currState = SendElevator;
 		}
-		else if(currState == Send) {			// Send all the instructions to the right places.
+		
+		else if(currState == SendElevator) {
 			
 			while(fInput[0] == null && fInput[1] == null && fInput[2] == null && fInput[3] == null) {
 				try {
@@ -209,22 +244,62 @@ public class Scheduler extends Thread{
 			if(Door.getDo() == false) {
 				Door.closeDoor();
 			}
+			
+			//move elevator to floor
+			if(currElev < Integer.parseInt(fInput[1])) {
+				mot.moveDown(Button.getfloorNum());
+			}
+			
+			if(currElev > Integer.parseInt(fInput[1])) {
+				mot.moveUp(Button.getfloorNum());
+			}
+			
+			
+			
+			sen.sendSignal();
+			Door.openDoor();
+			sen.clearSignal();
+			
+			try {
+				TimeUnit.SECONDS.sleep(5);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			Door.closeDoor();
+			
+		}
+		
+		else if(currState == MoveElevator) {			// Send all the instructions to the right places.
+			
+			
+			if(Door.getDo() == false) {
+				Door.closeDoor();
+			}
 			if(fInput[2] == "Up") {
-				Motor.moveUp(Button.getdestFloor());
+				mot.moveUp(Button.getdestFloor());
 			}
 			if(fInput[2] == "Down") {
-				Motor.moveDown(Button.getdestFloor());
+				mot.moveDown(Button.getdestFloor());
 			}
 			
+			currElev = Button.getdestFloor();
 			
-			floorno
-			Direc
-			time
-			car
+			sen.sendSignal();
+			Door.openDoor();
+			sen.clearSignal();
 			
+			try {
+				TimeUnit.SECONDS.sleep(5);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			Door.closeDoor();
 			
 			currState = Repeat;
 		}
+		
 		else if(currState == Repeat) {			// clears the input file so that we are ready to take another one when needed.
 			Floor_main.input = new Object[4];
 			
@@ -236,16 +311,16 @@ public class Scheduler extends Thread{
 	}
 	
 	/**
-	 * runs the system. First gets the array and then prints all 4 values
+	 * runs the state machine system.
 	 */
 	public synchronized void run(){
 		 
-		setfInput();
+	    int x = 0;
+	    while(x == 0) {
+	    	StateMachine();
+	    }
 	    
-	    CheckFloor();
-	    CheckDirection();
-	    CheckTime();
-	    CheckCar();
+	    
 	}
 	
 	/**

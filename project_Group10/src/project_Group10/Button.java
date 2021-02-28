@@ -11,7 +11,7 @@ import java.util.Scanner;
  */
 public class Button {
 	private String direction= null;
-	private int floorNum;
+	private static int floorNum;
 	private static int max_floors= 5;
 	public static int destFloor;
 	
@@ -44,7 +44,7 @@ public class Button {
 	/*
 	 * Get the time the button was pressed. USed by floor
 	 */
-	public static Object getTime() {
+	public static String getTime() {
 		Date date= new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss.mmm");
 		String dateString=sdf.format(date);
@@ -97,6 +97,10 @@ public class Button {
 
 	public static int getdestFloor() {
 		return destFloor;
+	}
+	
+	public static int getfloorNum() {
+		return floorNum;
 	}
 }
 

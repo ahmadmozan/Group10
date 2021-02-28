@@ -7,7 +7,7 @@ package project_Group10;
  * @author bs
  *
  */
-public abstract class Motor {
+public class Motor {
 	
 	
 private Boolean status ;
@@ -33,14 +33,14 @@ private Boolean status ;
 	
 	
 	// Motor moves up to input floor and returns true if successful
-	public static void moveUp(int floor) {
+	public void moveUp(int floor) {
 		
 		System.out.println("we are currently moving up to floor " + floor);
 		System.out.println("we just arrived at floor " + floor);
 	}
 	
 	// Motor moves down to input floor and returns true if successful
-	public static void moveDown(int floor) {
+	public void moveDown(int floor) {
 			
 		System.out.println("we are currently moving down to floor " + floor);
 		System.out.println("we just arrived at floor " + floor);

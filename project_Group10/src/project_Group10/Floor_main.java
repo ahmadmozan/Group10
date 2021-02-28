@@ -1,4 +1,4 @@
-package Group10;
+package project_Group10;
 
 import java.util.Arrays;
 
@@ -16,7 +16,7 @@ public class Floor_main extends Thread {
 	public Door Floor;
 	public Scheduler sch =  new Scheduler();
 	
-	static Object[] input = new Object[4];
+	public static Object[] input = new Object[4];
 	
 
 	

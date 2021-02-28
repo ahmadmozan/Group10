@@ -52,6 +52,8 @@ public synchronized void outPut() {
     System.out.println("we are currently in car number "+info[3]+"\n");
 
 }
+
+//not uses yet will be used later
 public synchronized void getSignal() {
 
     while( Signal == "false") {
@@ -68,6 +70,8 @@ public synchronized void getSignal() {
     }
      notifyAll();
 }
+
+// to get destination after person enters elevator
 public void  elevButton() {
 	Button newbutton= new Button();
 	newbutton.destFloor();
