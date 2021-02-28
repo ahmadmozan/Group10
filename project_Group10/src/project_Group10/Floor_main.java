@@ -1,4 +1,4 @@
-package Group10;
+package project_Group10;
 
 import java.util.Arrays;
 
@@ -10,14 +10,11 @@ public class Floor_main extends Thread {
 	public Scheduler sch =  new Scheduler();
 	
 	static Object[] input = new Object[4];
-	public static void main(String[] args) {
-		inputFile();
-	}
 
 	
 	
 	@SuppressWarnings("static-access")
-	public synchronized static Object[] inputFile() {
+	public synchronized Object[] inputFile() {
 		b = new Button();
 		input[0]=b.getTime().toString();
 		input[1]= String.valueOf(b.currentFloor());

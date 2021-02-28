@@ -1,4 +1,4 @@
-package Group10;
+package project_Group10;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

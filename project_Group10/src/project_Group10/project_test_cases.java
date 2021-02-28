@@ -15,7 +15,7 @@ class project_test_cases {
 		Thread elv = new Elevator();
 		
 		((Floor_main) floor).inputFile();
-		String[] DATA1 = (((Floor_main) floor).input.ArraytoString());
+		String[] DATA1 = (((Floor_main) floor).input.toString());
 		assertTrue(DATA1[0].equals("18:14:587.4"));
 		assertTrue(DATA1[1].equals("6"));
 		assertTrue(DATA1[2].equals("Up"));

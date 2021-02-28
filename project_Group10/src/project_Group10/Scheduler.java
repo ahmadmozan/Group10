@@ -187,40 +187,51 @@ public class Scheduler extends Thread{
 	
 	
 
-//	public synchronized void StateMachine() {
-//		if(currState == Fetch) {
-//			
-//			
-//			
-//		}
-//		else if(currState == Send) {
-//			
-//			while(fInput[0] == null && fInput[1] == null && fInput[2] == null && fInput[3] == null) {
-//				try {
-//					System.out.println("Unfortunately the input file is empty!");
-//					wait();
-//				}catch(InterruptedException e) {
-//					System.out.println(e);
-//				}
-//			}
-//			
-//			floorno
-//			Direc
-//			time
-//			car
-//			Motor.moveUp();
-//			
-//			
-//		}
-//		else if(currState == Repeat) {
-//			
-//			
-//			
-//		}
-//		else {
-//			System.out.println("damn something went wrong!");
-//		}
-//	}
+	public synchronized void StateMachine() {
+		if(currState == Fetch) {				// Fetch the information needed to start running
+			
+			
+			currState = Send;
+		}
+		else if(currState == Send) {			// Send all the instructions to the right places.
+			
+			while(fInput[0] == null && fInput[1] == null && fInput[2] == null && fInput[3] == null) {
+				try {
+					System.out.println("Unfortunately the input file is empty!");
+					wait();
+				}catch(InterruptedException e) {
+					System.out.println(e);
+				}
+			}
+			
+			if(Door.getDo() == false) {
+				Door.closeDoor();
+			}
+			if(fInput[2] == "Up") {
+				Motor.moveUp(Elevator.destFloor());
+			}
+			if(fInput[2] == "Down") {
+				Motor.moveDown(Elevator.destFloor());
+			}
+			
+			
+			floorno
+			Direc
+			time
+			car
+			
+			
+			currState = Repeat;
+		}
+		else if(currState == Repeat) {			// clears the input file so that we are ready to take another one when needed.
+			Floor_main.input = new Object[4];
+			
+			currState = Fetch;
+		}
+		else {
+			System.out.println("damn something went wrong!");
+		}
+	}
 	
 	/**
 	 * runs the system. First gets the array and then prints all 4 values
