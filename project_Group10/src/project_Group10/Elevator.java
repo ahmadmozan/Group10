@@ -9,37 +9,18 @@ import java.util.Random;
 
 public class Elevator extends Thread {
 
-	public static String info[] = null;
-	public static String  Signal;;
-	
-/**
- * This method is retreiving the data from the floor class via the scheduler. 
- * It checks if the information was collected or not before attempting to collect it
- */
-	
-public synchronized void getInfo() {
-
-		while(info == null) {
-            try {
-                System.out.println("Need Info first");
-                wait();
-            }catch (InterruptedException e) {
-                System.out.println(e);
-            }
-        }
-		info = Scheduler.fInput;
-        notifyAll();
-        System.out.println();
-    }
+	public static String info[] = new String[4];
+	public static String  Signal;
+	public Floor_main flr = new Floor_main();
 
 /**
  * This method returns to the scheduler class the results of the task complete. It updates the scheduler.
  */
 public synchronized void outPut() {
 	
-	while(info != null) {
+	while(info == null) {
 		try {
-            System.out.println("Info has already been collected!");
+            System.out.println("Info has not been collected!");
             wait();
         }catch (InterruptedException e) {
             System.out.println(e);
@@ -81,7 +62,7 @@ public void  elevButton() {
  */
 public void run(){
 	
-    getInfo();
+    flr.sch.mn.getInfo();
     outPut();
 
     }

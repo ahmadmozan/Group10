@@ -35,66 +35,7 @@ public class Scheduler extends Thread{
 	private static State Repeat;
 	private State currState = Fetch;
 
-	/**
-	 * This function sets the input file into an array of its own to be able to use it else where in the project
-	 * 
-	 * @param Inp  - which is input file
-	 */
-	public synchronized void setfInput() {
-		
-		// potential solution
-		/*
-		 * try { TimeUnit.SECONDS.sleep(10); } catch (InterruptedException e) {
-		 * e.printStackTrace(); }
-		 */
-		
-		/*
-		 * while(Floor_main.input[0] == null && Floor_main.input[1] == null &&
-		 * Floor_main.input[2] == null && Floor_main.input[3] == null &&) { try {
-		 * System.out.println("null"); wait(); }catch(InterruptedException e) {
-		 * System.out.println(e); } }
-		 */
-		
-		/*
-		 * while(!inp) { inp = Floor_main.getInputStatus(); }
-		 */
-		
-		
-		while(floorno == null && Direc == null && time == null && car == null) {
-			try {
-				System.out.println("null");
-				wait();
-			}catch(InterruptedException e) {
-				System.out.println(e);
-			}
-		}
-		
-		System.out.println("HELOEOOEOE");
-		
-		fInput[0] = floorno;		// time/ floor / up/down / elevator no.
-		fInput[1] = Direc;
-		fInput[2] = time;
-		fInput[3] = car;
-		
-		for(int i = 0; i < fInput.length; i++) {
-			if(fInput[i] == null) {
-				System.out.println(i);
-				empty1 = true;
-				break;
-			}
-		}
-		
-		while(empty1 == true) {
-			try {
-				System.out.println("Input file is currently being processed");
-				wait();
-			}catch (InterruptedException e) {
-				System.out.println(e);
-			}
-		}
-		notifyAll();
-		
-	}
+	public static Main mn = new Main();
 	
 	/**
 	 * gets the input file and prints it
@@ -225,7 +166,7 @@ public class Scheduler extends Thread{
 		if(currState == Fetch) {				// Fetch the information needed to start running
 			
 			// currently the method to exchange info between floor and scheduler is not working therefore this will be implemented when the fix happens
-			setfInput();
+			mn.setfInput();
 			
 			currState = SendElevator;
 		}
@@ -318,6 +259,7 @@ public class Scheduler extends Thread{
 	    int x = 0;
 	    while(x == 0) {
 	    	StateMachine();
+	    	x++;
 	    }
 	    
 	    
@@ -329,9 +271,10 @@ public class Scheduler extends Thread{
 	 */
 	public static void main(String[] args) {
 		
+		Thread elv = new Elevator();
 		Thread Floor = new Floor_main();
 		Thread sch = new Scheduler();
-		Thread elv = new Elevator();
+		
 		Floor.start();
 		elv.start();
 		sch.start();

@@ -10,39 +10,14 @@ import java.util.Arrays;
  */
 public class Floor_main extends Thread {
 	
-	public static int car=1;
-	static Button b;
 	static Lamp l;
 	public Door Floor;
-	public Scheduler sch =  new Scheduler();
+	public static Scheduler sch =  new Scheduler();
 	
+	public static int car=1;
+	static Button b;
 	public static Object[] input = new Object[4];
 	
-
-	
-	/**
-	 * Generate the input file and store it in an Object array
-	 * @return
-	 */
-	@SuppressWarnings("static-access")
-	public synchronized  Object[] inputFile() {
-		b = new Button();
-		input[0]=b.getTime().toString();
-		input[1]= String.valueOf(b.currentFloor());
-		input[2] = b.direction();
-		input[3]=String.valueOf(car);
-		
-
-		Scheduler.floorno = input[0].toString();
-		Scheduler.Direc = input[1].toString();
-		Scheduler.time = input[2].toString();
-		Scheduler.car = input[3].toString();
-		
-		System.out.println(Arrays.toString(input));
-		notifyAll();
-		//Inp = true;
-		return input;
-	}
 	
 	/*
 	 * The scheduler gets the input file with this method
@@ -50,6 +25,7 @@ public class Floor_main extends Thread {
 	public synchronized Object[] getInput() {
 		return input;
 	}
+	
 //	public void lamps() {
 //		b= new Button();
 //		l = new Lamp();
@@ -74,7 +50,7 @@ public class Floor_main extends Thread {
 	 * Main run method to run the floor class subsystem.
 	 */
 	public synchronized void run() {
-		inputFile();
+		sch.mn.inputFile();
 	}
 		
 }
