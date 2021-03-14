@@ -21,6 +21,7 @@ public class Sensor {
 	
 	// Sends signal when floor detected
 	public Boolean sendSignal() {
+		System.out.println("Elevator Reached the Sensor");
 		status = true;
 		return status;	
 	}

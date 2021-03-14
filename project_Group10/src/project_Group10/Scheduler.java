@@ -28,12 +28,6 @@ public class Scheduler extends Thread{
 	public static Sensor sen = new Sensor();
 	
 	public static int currElev = 1;
-	
-	private static State Fetch;
-	private static State SendElevator;
-	private static State MoveElevator;
-	private static State Repeat;
-	private State currState = Fetch;
 
 	public static Main mn = new Main();
 	
@@ -155,6 +149,63 @@ public class Scheduler extends Thread{
 	}
 	
 	
+	/////////////////////////////////////////
+	//// State Machine setup/////////////////
+	/////////////////////////////////////////
+	
+	public enum statemachine{
+		Fetch{
+			public statemachine next() {
+				return SendElevator;
+			}
+			
+			public String dowork() {
+				mn.setfInput();
+				System.out.println("Information has been submitted, moving elevator next");
+				System.out.println();
+				return "Information has been submited, moving elevator next";
+			}
+			
+		},
+		SendElevator{
+			
+			public statemachine next() {
+				return Repeat;
+			}
+			
+			public String dowork() {
+				
+				System.out.println("Moving Elevator");
+				Elevator.moveit = true;
+				System.out.println();
+				return "Moving Elevator";
+			}
+			
+		},
+		Repeat{
+			
+			public statemachine next() {
+				return Fetch;
+			}
+			
+			public String dowork() {
+				while(Elevator.moveit == true) {
+				}
+				System.out.println("person has been dropped, waiting on new one");
+				fInput = new String[4];
+				floorno = null;
+				Direc = null;
+				car = null;
+				time = null;
+				System.out.println();
+				return "person has been dropped, waiting on new one";
+			}
+			
+		},;
+
+		public abstract statemachine next();
+		public abstract String dowork();
+	}
 	
 	/**
 	 * State machine that will keep running and make sure that the system is running in 
@@ -162,92 +213,16 @@ public class Scheduler extends Thread{
 	 * elevator to destination for drop off -> then finally repeating the cycle
 	 */
 	public synchronized void StateMachine() {
-		
-		if(currState == Fetch) {				// Fetch the information needed to start running
-			
-			// currently the method to exchange info between floor and scheduler is not working therefore this will be implemented when the fix happens
-			mn.setfInput();
-			
-			currState = SendElevator;
-		}
-		
-		else if(currState == SendElevator) {
-			
-			while(fInput[0] == null && fInput[1] == null && fInput[2] == null && fInput[3] == null) {
-				try {
-					System.out.println("Unfortunately the input file is empty!");
-					wait();
-				}catch(InterruptedException e) {
-					System.out.println(e);
-				}
-			}
-			
-			if(Door.getDo() == false) {
-				Door.closeDoor();
-			}
-			
-			//move elevator to floor
-			if(currElev < Integer.parseInt(fInput[1])) {
-				mot.moveDown(Button.getfloorNum());
-			}
-			
-			if(currElev > Integer.parseInt(fInput[1])) {
-				mot.moveUp(Button.getfloorNum());
-			}
-			
-			
-			
-			sen.sendSignal();
-			Door.openDoor();
-			sen.clearSignal();
+		statemachine state = statemachine.Fetch;
+		while(true) {
+			state.dowork();
+			state = state.next();
 			
 			try {
-				TimeUnit.SECONDS.sleep(5);
+				TimeUnit.SECONDS.sleep(10);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
-			Door.closeDoor();
-			
-		}
-		
-		else if(currState == MoveElevator) {			// Send all the instructions to the right places.
-			
-			
-			if(Door.getDo() == false) {
-				Door.closeDoor();
-			}
-			if(fInput[2] == "Up") {
-				mot.moveUp(Button.getdestFloor());
-			}
-			if(fInput[2] == "Down") {
-				mot.moveDown(Button.getdestFloor());
-			}
-			
-			currElev = Button.getdestFloor();
-			
-			sen.sendSignal();
-			Door.openDoor();
-			sen.clearSignal();
-			
-			try {
-				TimeUnit.SECONDS.sleep(5);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			
-			Door.closeDoor();
-			
-			currState = Repeat;
-		}
-		
-		else if(currState == Repeat) {			// clears the input file so that we are ready to take another one when needed.
-			Floor_main.input = new Object[4];
-			
-			currState = Fetch;
-		}
-		else {
-			System.out.println("damn something went wrong!");
 		}
 	}
 	
@@ -255,14 +230,7 @@ public class Scheduler extends Thread{
 	 * runs the state machine system.
 	 */
 	public synchronized void run(){
-		 
-	    int x = 0;
-	    while(x == 0) {
-	    	StateMachine();
-	    	x++;
-	    }
-	    
-	    
+		 StateMachine();
 	}
 	
 	/**

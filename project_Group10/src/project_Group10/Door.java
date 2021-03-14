@@ -16,6 +16,7 @@ public class Door{
 	public static boolean openDoor() {
 		if(door == true) {
 			door = false;
+			System.out.println("opening door");
 			return true;
 		}else {
 			return false;
@@ -25,9 +26,11 @@ public class Door{
 	// closes door
 	public static boolean closeDoor() {
 		if(door == true) {
-			return false;
+			System.out.println("door already closed");
+			return true;
 		}else {
-			door = false;
+			door = true;
+			System.out.println("closing door");
 			return true;
 		}
 	}

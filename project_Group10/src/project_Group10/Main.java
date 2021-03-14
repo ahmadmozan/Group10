@@ -20,8 +20,6 @@ public class Main extends Thread {
 	            }
 	        }
 			
-			
-	        notifyAll();
 	        System.out.println(Elevator.info[0]);
 	        System.out.println(Elevator.info[1]);
 	        System.out.println(Elevator.info[2]);
@@ -67,7 +65,7 @@ public class Main extends Thread {
 		
 		System.out.println("HELOEOOEOE");
 		
-		notifyAll();
+		
 		
 		Scheduler.floorno = (String) Floor_main.input[1];		// time/ floor / up/down / elevator no.
 		Scheduler.Direc = (String) Floor_main.input[2];
@@ -79,7 +77,8 @@ public class Main extends Thread {
 		Elevator.info[1] = Scheduler.floorno;
 		Elevator.info[2] = Scheduler.Direc; 
 		Elevator.info[3] = Scheduler.car;
-		 
+		
+		notifyAll();
 	}
 	
 	
