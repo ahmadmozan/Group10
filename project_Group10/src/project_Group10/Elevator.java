@@ -1,4 +1,10 @@
 package project_Group10;
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Arrays;
 /**
  * This is the Elevator class subsystem. This class will run what the elevator will do with the given data from the floor. It will determine which floor to go to 
  * and will notify the scheduler when it has reached the appropriate floor. This class will also have buttons inside to indicate teh floor to go to
@@ -17,6 +23,10 @@ public class Elevator extends Thread {
 	public static Floor_main flr = new Floor_main();
 	private static int currElev = 1;
 	public static boolean moveit = false;
+	
+	public static DatagramPacket sendPacket, receivePacket;
+	public static DatagramSocket sendreceiveSocket;
+	public static byte[] message;
 
 /**
  * This method returns to the scheduler class the results of the task complete. It updates the scheduler.
@@ -48,6 +58,57 @@ public synchronized void getSignal() {
      notifyAll();
 }
 
+
+public static void receiver() {
+	message = new byte[100];
+	receivePacket = new DatagramPacket(message, message.length);
+
+	try {
+		System.out.println("Waiting for packets...");
+		// Block until a datagram is received via sendReceiveSocket.
+		sendreceiveSocket.receive(receivePacket);
+	} catch (IOException e) {
+		e.printStackTrace();
+		System.exit(1);
+	}
+	System.out.println("Task received");
+	System.out.println("From: " + receivePacket.getAddress());
+	System.out.println("Port: " + receivePacket.getPort());
+	System.out.println("Containing: ");
+	int len = receivePacket.getLength();
+	len = receivePacket.getLength();
+
+	String received = new String(message, 0, len);
+	System.out.println("received");
+	System.out.println("Bytes" + Arrays.toString(message));
+}
+
+public static void toCart(byte[] message) {// need the info
+	try {
+		sendPacket = new DatagramPacket(message, message.length, InetAddress.getLocalHost(), 23);
+	} catch (UnknownHostException e) {
+		e.printStackTrace();
+		System.exit(1);
+	}
+
+	System.out.println("Scheduler: Sending message to Elevator...");
+	System.out.println("To Elevator: " + sendPacket.getAddress());
+	System.out.println("Destionation Elevator port: " + sendPacket.getPort());
+	int len = sendPacket.getLength();
+	System.out.println("Length: " + len);
+	System.out.println("Containing: ");
+	System.out.println("String: " + new String(sendPacket.getData(), 0, len));
+	System.out.println("Bytes" + Arrays.toString(message));
+
+	try {
+		sendreceiveSocket.send(sendPacket);
+	} catch (IOException e) {
+		e.printStackTrace();
+		System.exit(1);
+		;
+		System.out.println("Packet sent");
+	}
+}
 
 /////////////////////////////////////////
 //// State Machine setup/////////////////
@@ -166,6 +227,7 @@ public enum elevatorstatemch{
 	
 }
 
+// state machine to cycle through the states we have
 public synchronized void StateMachine2() {
 	elevatorstatemch state = elevatorstatemch.getInfo;
 	while(true) {
@@ -194,4 +256,38 @@ public void run(){
 	StateMachine2();
 
     }
+
+public static void main(String[] args) {
+	
+	byte[] info0 = info[0].getBytes();
+	byte[] info1 = info[1].getBytes();
+	byte[] info2 = info[2].getBytes();
+	byte[] info3 = info[3].getBytes();
+	
+	toCart(info0);
+	try {
+		TimeUnit.SECONDS.sleep(5);
+	} catch (InterruptedException e) {
+		e.printStackTrace();
+	}
+	toCart(info1);
+	try {
+		TimeUnit.SECONDS.sleep(5);
+	} catch (InterruptedException e) {
+		e.printStackTrace();
+	}
+	toCart(info2);
+	try {
+		TimeUnit.SECONDS.sleep(5);
+	} catch (InterruptedException e) {
+		e.printStackTrace();
+	}
+	toCart(info3);
+	try {
+		TimeUnit.SECONDS.sleep(5);
+	} catch (InterruptedException e) {
+		e.printStackTrace();
+	}
+}
+
 }

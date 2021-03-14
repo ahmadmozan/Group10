@@ -1,5 +1,11 @@
 package project_Group10;
 
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -30,6 +36,9 @@ public class Scheduler extends Thread{
 	public static int currElev = 1;
 
 	public static Main mn = new Main();
+	
+	public static DatagramSocket sendreceiveSocket;
+	public static DatagramPacket sendPacket, receivePacket;
 	
 	/**
 	 * gets the input file and prints it
@@ -225,6 +234,61 @@ public class Scheduler extends Thread{
 			}
 		}
 	}
+	
+	
+	/** 
+	 * Send the information to the Elevtor using UDP
+	 */
+	public static void sender(byte[] message ) {//need the info
+	try {
+		sendPacket= new DatagramPacket(message, message.length,InetAddress.getLocalHost(), 23);
+	} catch (UnknownHostException e) {
+		e.printStackTrace();
+		System.exit(1);
+	}
+	
+	
+	System.out.println("Scheduler: Sending message to Elevator...");
+	System.out.println("To Elevator: "+sendPacket.getAddress());
+	System.out.println("Destionation Elevator port: "+sendPacket.getPort());
+	int len = sendPacket.getLength();
+	System.out.println("Length: "+ len);
+	System.out.println("Containing: ");
+	System.out.println("String: "+new String(sendPacket.getData(),0,len));
+	System.out.println("Bytes"+Arrays.toString(message));
+	
+	try {
+		sendreceiveSocket.send(sendPacket);
+	} catch (IOException e) {
+		e.printStackTrace();
+		System.exit(1);;
+		System.out.println("Packet sent");
+	}
+	}
+	public static void receiver() {
+		byte[] message = new byte[100];
+		receivePacket= new DatagramPacket(message, message.length);
+		
+		try {
+	  	  System.out.println("Waiting for packets...");
+	       // Block until a datagram is received via sendReceiveSocket.  
+	       sendreceiveSocket.receive(receivePacket);
+	    } catch(IOException e) {
+	       e.printStackTrace();
+	       System.exit(1);
+	    }
+		System.out.println("Task received");
+		System.out.println("From: "+ receivePacket.getAddress());
+		System.out.println("Port: "+ receivePacket.getPort());
+		System.out.println("Containing: ");
+		int len= receivePacket.getLength();
+		len=receivePacket.getLength();
+		
+		String received = new String(message,0,len);
+		System.out.println("received");
+		System.out.println("Bytes"+ Arrays.toString(message));
+	}
+	
 	
 	/**
 	 * runs the state machine system.
