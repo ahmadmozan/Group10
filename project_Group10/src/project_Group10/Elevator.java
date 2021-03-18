@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 /**
@@ -19,14 +20,21 @@ import project_Group10.Scheduler.statemachine;
 public class Elevator extends Thread {
 
 	public static String info[] = new String[4];
-	public static String  Signal;
+	public String Signal2;
+	public String return2;
+	public String Signal1;
+	public String return1;
+
+
 	public static Floor_main flr = new Floor_main();
 	private static int currElev = 1;
 	public static boolean moveit = false;
 	
 	public static DatagramPacket sendPacket, receivePacket;
-	public static DatagramSocket sendreceiveSocket;
+	public static DatagramSocket sendreceiveSocket,correctinfo2,correctinfo1;
 	public static byte[] message;
+	public String Information1[];
+	public String Information2[];
 
 /**
  * This method returns to the scheduler class the results of the task complete. It updates the scheduler.
@@ -43,23 +51,78 @@ public synchronized static void outPut() {
 //not uses yet will be used later
 public synchronized void getSignal() {
 
-    while( Signal == "false") {
-        try {
-            System.out.println("nobdoy is using the elavator yet");
-            wait();
-        }catch (InterruptedException e) {
-            System.out.println(e);
-        }
+	while (Signal1 == "false") {
+		try {
+			System.out.println("nobdoy is using the elavator yet");
+			wait();
+		} catch (InterruptedException e) {
+			System.out.println(e);
+		}
 
-        if (Signal== "True") {
-             System.out.println("the elevator is heading to ur service");
-        }
-    }
-     notifyAll();
+		if (Signal1 == "True") {
+			System.out.println("the elevator is heading to ur service");
+		}
+	}
+	notifyAll();
 }
 
 
-public static void receiver() {
+
+
+public synchronized void returnSignal() {
+
+	while (return1 == "false") {
+		try {
+			System.out.println("nobdoy is using the elavator yet");
+			wait();
+		} catch (InterruptedException e) {
+			System.out.println(e);
+		}
+
+		if (return1 == "True") {
+			System.out.println("the elevator is heading to ur service");
+		}
+	}
+	notifyAll();
+}
+
+
+public synchronized void getSignal2() {
+
+	while (Signal2 == "false") {
+		try {
+			System.out.println("nobdoy is using the elavator yet");
+			wait();
+		} catch (InterruptedException e) {
+			System.out.println(e);
+		}
+
+		if (Signal2 == "True") {
+			System.out.println("the second elevator is heading to ur service");
+		}
+	}
+	notifyAll();
+}
+
+public synchronized void returnSignal2() {
+
+	while (return2 == "false") {
+		try {
+			System.out.println("nobdoy is using the elavator 1 or 2");
+			wait();
+		} catch (InterruptedException e) {
+			System.out.println(e);
+		}
+
+		if (return2 == "True") {
+			System.out.println("the second elevator is heading to ur service");
+		}
+	}
+	notifyAll();
+}
+
+/*public static void receiver() {
+
 	message = new byte[100];
 	receivePacket = new DatagramPacket(message, message.length);
 
@@ -81,7 +144,108 @@ public static void receiver() {
 	String received = new String(message, 0, len);
 	System.out.println("received");
 	System.out.println("Bytes" + Arrays.toString(message));
+}*/
+
+public  synchronized void elevator2() {
+
+	try {
+		sendreceiveSocket = new DatagramSocket();
+		correctinfo2 = new DatagramSocket(9988);
+	} catch (SocketException se) {
+		se.printStackTrace();
+		System.exit(1);
+
+	}
+	int messagesProcessed1 = 0;
+
+	try {
+		DatagramSocket socket = new DatagramSocket(23); // Creates socket bound to port 69
+
+		for (int i = 0; i < 4; i++) {
+
+			byte[] requestByteArray = "request".getBytes();
+			boolean receieved = false; // defines a flag to check for receieving a actual packet vs a nothing to
+										// report packet ("null")
+			DatagramPacket recievedPacket = new DatagramPacket(new byte[4], 17); // Creates a packet to recieve into
+			DatagramPacket requestPacket = new DatagramPacket(requestByteArray, requestByteArray.length,
+					InetAddress.getLocalHost(), 22);
+
+			while (!receieved) { // Loop until a non null packet is recieved
+//					printPacket(requestPacket, true);
+				socket.send(requestPacket); // Send a request to the intermediate server
+				socket.receive(recievedPacket); // Receive the response
+//					printPacket(recievedPacket, false);
+				if (!(new String(recievedPacket.getData()).trim().equals("NA"))) {// If the response is not null,
+																					// ie. a actual response
+					receieved = true; // Break out of loop
+				}
+				Thread.sleep(1000);
+			}
+
+			byte[] dataArray = recievedPacket.getData(); // get the data from the packet to analyze
+			if (dataArray[0] != 0 | dataArray[0] != 1) { // If the prefix is not invalid
+				throw new IOException("Bad Packet (Invalid Request)"); // Get the length of the first string
+			}
+
+			Information2[i] = new String(dataArray);
+
+		}
+
+	} catch (IOException | InterruptedException e) {
+		e.printStackTrace();
+	}
 }
+
+public  synchronized void elevator1() {
+	try {
+		sendreceiveSocket = new DatagramSocket();
+		correctinfo1 = new DatagramSocket(8888);
+	} catch (SocketException se) {
+		se.printStackTrace();
+		System.exit(1);
+}
+
+	int messagesProcessed2 = 0;
+
+	try {
+		DatagramSocket socket2 = new DatagramSocket(23); // Creates socket bound to port 69
+
+		for (int i = 0; i < 4; i++) {
+
+			byte[] requestByteArray = "request".getBytes();
+			boolean receieved = false; // defines a flag to check for receieving a actual packet vs a nothing to
+										// report packet ("null")
+			DatagramPacket recievedPacket = new DatagramPacket(new byte[4], 17); // Creates a packet to recieve into
+			DatagramPacket requestPacket = new DatagramPacket(requestByteArray, requestByteArray.length,
+					InetAddress.getLocalHost(), 22);
+
+			while (!receieved) { // Loop until a non null packet is recieved
+//				printPacket(requestPacket, true);
+				socket2.send(requestPacket); // Send a request to the intermediate server
+				socket2.receive(recievedPacket); // Receive the response
+//				printPacket(recievedPacket, false);
+				if (!(new String(recievedPacket.getData()).trim().equals("NA"))) {// If the response is not null,
+																					// ie. a actual response
+					receieved = true; // Break out of loop
+				}
+				Thread.sleep(1000);
+			}
+
+			byte[] dataArray = recievedPacket.getData(); // get the data from the packet to analyze
+			if (dataArray[0] != 0 | dataArray[0] != 1) { // If the prefix is not invalid
+				throw new IOException("Bad Packet (Invalid Request)"); // Get the length of the first string
+			}
+
+			Information1[i] = new String(dataArray);
+
+		}
+
+	} catch (IOException | InterruptedException e) {
+		e.printStackTrace();
+	}
+}
+
+
 
 public static void toCart(byte[] message) {// need the info
 	try {
@@ -190,7 +354,7 @@ public enum elevatorstatemch{
 				Door.closeDoor();
 			}
 			
-			currElev = Button.getdestFloor();
+			currElev = Button.destFloor();
 			
 			if(currElev < Integer.parseInt(Scheduler.floorno)) {
 				Scheduler.mot.moveUp(Button.getdestFloor());
@@ -248,6 +412,7 @@ public static void  elevButton() {
 	newbutton.destFloor();
 	currElev = newbutton.destFloor;
 }
+
  /*
  * This method runs the elevator class subsystem.
  */

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
@@ -37,25 +38,18 @@ public class Scheduler extends Thread{
 
 	public static Main mn = new Main();
 	
-	public static DatagramSocket sendreceiveSocket;
+	public static DatagramSocket sendSocket, receiveSocket;
 	public static DatagramPacket sendPacket, receivePacket;
 	
-	/**
-	 * gets the input file and prints it
-	 */
-	public synchronized void getfInput() {
-		
-		while(fInput == null) {
-			try {
-				System.out.println("Waiting on an input file");
-				wait();
-			}catch (InterruptedException e) {
-				System.out.println(e);
-			}
-		}
-		notifyAll();
-		System.out.println(fInput);
-	}
+
+	//public Scheduler() {
+	//	try {
+	//		sendSocket = new DatagramSocket();
+	//		receiveSocket = new DatagramSocket(65);
+	//	} catch (SocketException e) {
+	//		e.printStackTrace();
+	//	}
+	//}
 	
 	/**
 	 * Gets floor and prints it
@@ -65,23 +59,7 @@ public class Scheduler extends Thread{
 		return fInput[1];
 	}
 	
-	/**
-	 * It checks if there is a floor value in yet or not and 
-	 * prints that
-	 */
-	public synchronized void CheckFloor() {
-		while(fInput[1] == null) {
-			try {
-				System.out.println("wow");
-				wait();
-			}catch(InterruptedException e) {
-				System.out.println(e);
-			}
-		}
-		floorno = getFloor();
-		System.out.println(getFloor());
-	}
-	
+
 	/**
 	 * Gets Direction and prints it
 	 * @return Direction string
@@ -90,22 +68,7 @@ public class Scheduler extends Thread{
 		return fInput[2];
 	}
 	
-	/**
-	 * It checks if there is a direction value in yet or not and 
-	 * prints that
-	 */
-	public synchronized void CheckDirection() {
-		while(fInput[2] == null) {
-			try {
-				System.out.println();
-				wait();
-			}catch(InterruptedException e) {
-				System.out.println(e);
-			}
-		}
-		Direc = getDirection();
-		System.out.println(getDirection());
-	}
+
 	
 	/**
 	 * Gets time and prints it
@@ -115,23 +78,7 @@ public class Scheduler extends Thread{
 		return fInput[0];
 	}
 	
-	/**
-	 * It checks if there is a time value in yet or not and 
-	 * prints that
-	 */
-	public synchronized void CheckTime() {
-		while(fInput[0] == null) {
-			try {
-				System.out.println();
-				wait();
-			}catch(InterruptedException e) {
-				System.out.println(e);
-			}
-		}
-		time = getTime();
-		System.out.println(getTime());
-	}
-	
+
 	/**
 	 * Gets car and prints it
 	 * @return car string
@@ -140,22 +87,6 @@ public class Scheduler extends Thread{
 		return fInput[3];
 	}
 	
-	/**
-	 * It checks if there is a car value in yet or not and 
-	 * prints that
-	 */
-	public synchronized void CheckCar() {
-		while(fInput[3] == null) {
-			try {
-				System.out.println();
-				wait();
-			}catch(InterruptedException e) {
-				System.out.println(e);
-			}
-		}
-		car = getCar();
-		System.out.println(getCar());
-	}
 	
 	
 	/////////////////////////////////////////
@@ -186,6 +117,11 @@ public class Scheduler extends Thread{
 				
 				System.out.println("Moving Elevator");
 				Elevator.moveit = true;
+				
+				//send udp
+				//receive udp
+				//send info
+				
 				System.out.println();
 				return "Moving Elevator";
 			}
@@ -200,7 +136,7 @@ public class Scheduler extends Thread{
 			public String dowork() {
 				while(Elevator.moveit == true) {
 				}
-				System.out.println("person has been dropped, waiting on new one");
+				System.out.println("person has been dropped, waiting on new instructions");
 				fInput = new String[4];
 				floorno = null;
 				Direc = null;
@@ -237,56 +173,45 @@ public class Scheduler extends Thread{
 	
 	
 	/** 
-	 * Send the information to the Elevtor using UDP
+	 * 
 	 */
-	public static void sender(byte[] message ) {//need the info
-	try {
-		sendPacket= new DatagramPacket(message, message.length,InetAddress.getLocalHost(), 23);
-	} catch (UnknownHostException e) {
-		e.printStackTrace();
-		System.exit(1);
-	}
-	
-	
-	System.out.println("Scheduler: Sending message to Elevator...");
-	System.out.println("To Elevator: "+sendPacket.getAddress());
-	System.out.println("Destionation Elevator port: "+sendPacket.getPort());
-	int len = sendPacket.getLength();
-	System.out.println("Length: "+ len);
-	System.out.println("Containing: ");
-	System.out.println("String: "+new String(sendPacket.getData(),0,len));
-	System.out.println("Bytes"+Arrays.toString(message));
-	
-	try {
-		sendreceiveSocket.send(sendPacket);
-	} catch (IOException e) {
-		e.printStackTrace();
-		System.exit(1);;
-		System.out.println("Packet sent");
-	}
-	}
-	public static void receiver() {
-		byte[] message = new byte[100];
-		receivePacket= new DatagramPacket(message, message.length);
+	public static void RPC() {
+		
+		byte Data[] = new byte[3];
+		Data[0] = (byte) 0;
+		Data[1] = (byte) 1;
+		Data[2] = (byte) 2;
+		InetAddress inet = null;
+		try {
+			inet = InetAddress.getByName("10.0.0.219");
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		sendPacket = new DatagramPacket(Data, Data.length, inet, 65);
 		
 		try {
-	  	  System.out.println("Waiting for packets...");
-	       // Block until a datagram is received via sendReceiveSocket.  
-	       sendreceiveSocket.receive(receivePacket);
-	    } catch(IOException e) {
-	       e.printStackTrace();
-	       System.exit(1);
-	    }
-		System.out.println("Task received");
-		System.out.println("From: "+ receivePacket.getAddress());
-		System.out.println("Port: "+ receivePacket.getPort());
-		System.out.println("Containing: ");
-		int len= receivePacket.getLength();
-		len=receivePacket.getLength();
+			sendSocket.send(sendPacket);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
-		String received = new String(message,0,len);
-		System.out.println("received");
-		System.out.println("Bytes"+ Arrays.toString(message));
+		byte Data1[] = new byte[1];
+		receivePacket = new DatagramPacket(Data1, Data1.length);
+		
+		try {
+			receiveSocket.receive(receivePacket);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		if(Data[0] == (byte) 0) {
+			System.out.println("ops both elevators are busy try again later");
+		}
+		if(Data[0] == (byte) 1) {
+			
+		}
+		
+		
 	}
 	
 	
