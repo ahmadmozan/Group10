@@ -4,6 +4,10 @@ import java.io.*;
 import java.net.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.concurrent.TimeUnit;
+
+import project_Group10.Elevator1.elevatorstatemch;
+
 import java.io.ByteArrayOutputStream;
 
 public class Elevator2 {
@@ -17,6 +21,9 @@ public class Elevator2 {
 	public String Signal2;
 	public String return2;
 
+	private static int currElev = 1;
+	public static boolean moveit = false;
+	
 	public Elevator2() {
 		try {
 			sendReceiveSocket = new DatagramSocket();
@@ -102,6 +109,150 @@ public class Elevator2 {
 		}
 		notifyAll();
 	}
+	
+	
+/////////////////////////////////////////
+////State Machine setup/////////////////
+/////////////////////////////////////////
+
+	public enum elevatorstatemch {
+		getInfo {
+			public elevatorstatemch next() {
+				return Move;
+			}
+
+			public String dowork() {
+				moveit = true;
+				System.out.println("Getting informtion on where to go");
+				Elevator.outPut();
+				System.out.println();
+				return "Getting informtion on where to go";
+			}
+
+		},
+		Move {
+
+			public elevatorstatemch next() {
+				return Move2;
+			}
+
+			public String dowork() {
+
+				System.out.println("Information received!");
+				System.out.println("lets move elevator2 to desired location");
+
+				if (Door.getDo() == false) {
+					Door.closeDoor();
+				}
+
+				if (currElev < Integer.parseInt(Scheduler.floorno)) {
+					System.out.println("moving down");
+					Scheduler.mot.moveDown(Button.getfloorNum());
+				}
+
+				if (currElev > Integer.parseInt(Scheduler.floorno)) {
+					System.out.println("moving up");
+					Scheduler.mot.moveUp(Button.getfloorNum());
+				}
+
+				Scheduler.sen.sendSignal();
+				Door.openDoor();
+				Scheduler.sen.clearSignal();
+
+				try {
+					TimeUnit.SECONDS.sleep(5);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+
+				Door.closeDoor();
+
+				System.out.println("Person secured inside elevator2");
+				System.out.println();
+				return "Person secured inside elevator2";
+			}
+
+		},
+		Move2 {
+
+			public elevatorstatemch next() {
+				return getInfo;
+			}
+
+			public String dowork() {
+
+				if (Door.getDo() == false) {
+					Door.closeDoor();
+				}
+
+				currElev = Button.destFloor();
+
+				if (currElev < Integer.parseInt(Scheduler.floorno)) {
+					Scheduler.mot.moveUp(Button.getdestFloor());
+				}
+				if (currElev > Integer.parseInt(Scheduler.floorno)) {
+					Scheduler.mot.moveDown(Button.getdestFloor());
+				}
+
+				Scheduler.sen.sendSignal();
+				Door.openDoor();
+				Scheduler.sen.clearSignal();
+
+				try {
+					TimeUnit.SECONDS.sleep(5);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+
+				Door.closeDoor();
+				System.out.println("Now that person has been dropped off, job done");
+				System.out.println();
+
+				Elevator.info = new String[4];
+				moveit = false;
+
+				return "Now that person has been dropped off, job done";
+			}
+
+		};
+
+		public abstract elevatorstatemch next();
+
+		public abstract String dowork();
+
+	}
+
+//state machine to cycle through the states we have
+	public synchronized static void StateMachine2() {
+		elevatorstatemch state = elevatorstatemch.getInfo;
+		while (true) {
+			state.dowork();
+			state = state.next();
+
+			try {
+				TimeUnit.SECONDS.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+//to get destination after person enters elevator
+	public static void elevButton() {
+		Button newbutton = new Button();
+		newbutton.destFloor();
+		currElev = newbutton.destFloor;
+	}
+
+	/*
+	 * This method runs the elevator class subsystem.
+	 */
+	public void run() {
+
+		StateMachine2();
+
+	}
+	
 
 	public static void main(String args[]) {
 		Elevator2 newe2 = new Elevator2();

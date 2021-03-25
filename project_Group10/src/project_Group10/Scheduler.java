@@ -116,11 +116,7 @@ public class Scheduler extends Thread{
 			public String dowork() {
 				
 				System.out.println("Moving Elevator");
-				Elevator.moveit = true;
-				
-				//send udp
-				//receive udp
-				//send info
+				Elevator.moveit();
 				
 				System.out.println();
 				return "Moving Elevator";
@@ -134,8 +130,6 @@ public class Scheduler extends Thread{
 			}
 			
 			public String dowork() {
-				while(Elevator.moveit == true) {
-				}
 				System.out.println("person has been dropped, waiting on new instructions");
 				fInput = new String[4];
 				floorno = null;

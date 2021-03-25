@@ -27,8 +27,6 @@ public class Elevator extends Thread {
 
 
 	public static Floor_main flr = new Floor_main();
-	private static int currElev = 1;
-	public static boolean moveit = false;
 	
 	public static DatagramPacket sendPacket, receivePacket;
 	public static DatagramSocket sendreceiveSocket,correctinfo2,correctinfo1;
@@ -274,151 +272,26 @@ public static void toCart(byte[] message) {// need the info
 	}
 }
 
-/////////////////////////////////////////
-//// State Machine setup/////////////////
-/////////////////////////////////////////
-
-public enum elevatorstatemch{
-	getInfo{
-		public elevatorstatemch next() {
-			return Move;
-		}
-		
-		public String dowork() {
-			System.out.println("Getting informtion on where to go");
-			flr.sch.mn.getInfo();
-			outPut();
-			System.out.println();
-			return "Getting informtion on where to go";
-		}
-		
-	},
-	Move{
-
-		public elevatorstatemch next() {
-			return Move2;
-		}
-
-		public String dowork() {
-			
-			while(moveit == false){
-			}
-			
-			System.out.println("Information received!");
-			System.out.println("lets move elevator to desired location");
-			
-			if(Door.getDo() == false) {
-				Door.closeDoor();
-			}
-			
-			if(currElev < Integer.parseInt(Scheduler.floorno)) {
-				System.out.println("moving down");
-				Scheduler.mot.moveDown(Button.getfloorNum());
-			}
-			
-			if(currElev > Integer.parseInt(Scheduler.floorno)) {
-				System.out.println("moving up");
-				Scheduler.mot.moveUp(Button.getfloorNum());
-			}
-			
-			
-			
-			Scheduler.sen.sendSignal();
-			Door.openDoor();
-			Scheduler.sen.clearSignal();
-			
-			try {
-				TimeUnit.SECONDS.sleep(5);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			
-			Door.closeDoor();
-			
-			System.out.println("Person secured inside elevator");
-			System.out.println();
-			return "Person secured inside elevator";
-		}
-		
-	},
-	Move2{
-
-		public elevatorstatemch next() {
-			return getInfo;
-		}
-
-		public String dowork() {
-			
-			
-			if(Door.getDo() == false) {
-				Door.closeDoor();
-			}
-			
-			currElev = Button.destFloor();
-			
-			if(currElev < Integer.parseInt(Scheduler.floorno)) {
-				Scheduler.mot.moveUp(Button.getdestFloor());
-			}
-			if(currElev > Integer.parseInt(Scheduler.floorno)) {
-				Scheduler.mot.moveDown(Button.getdestFloor());
-			}
-			
-			
-			Scheduler.sen.sendSignal();
-			Door.openDoor();
-			Scheduler.sen.clearSignal();
-			
-			try {
-				TimeUnit.SECONDS.sleep(5);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			
-			Door.closeDoor();
-			System.out.println("Now that person has been dropped off, job done");
-			System.out.println();
-			
-			info = new String[4];
-			moveit = false;
-			
-			return "Now that person has been dropped off, job done";
-		}
-			
-	};
-	
-	public abstract elevatorstatemch next();
-	public abstract String dowork();
-	
-}
-
-// state machine to cycle through the states we have
-public synchronized void StateMachine2() {
-	elevatorstatemch state = elevatorstatemch.getInfo;
-	while(true) {
-		state.dowork();
-		state = state.next();
-		
-		try {
-			TimeUnit.SECONDS.sleep(10);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-}
-
-// to get destination after person enters elevator
-public static void  elevButton() {
-	Button newbutton= new Button();
-	newbutton.destFloor();
-	currElev = newbutton.destFloor;
-}
-
  /*
  * This method runs the elevator class subsystem.
  */
+
+public static void moveit() {
+	if(Elevator1.moveit == false) {
+		Elevator1.StateMachine2();
+	}
+	else if(Elevator2.moveit == false) {
+		Elevator2.StateMachine2();
+	}
+	else {
+		System.out.println("try again in a moment both elevators are busy");
+	}
+}
+
 public void run(){
 	
-	StateMachine2();
+	flr.sch.mn.getInfo();
+	//udp call
 
     }
 

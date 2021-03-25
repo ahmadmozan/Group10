@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class Main extends Thread {
 	
 	/**
-	 * This method is retreiving the data from the floor class via the scheduler. 
+	 * This method is retrieving the data from the floor class via the scheduler. 
 	 * It checks if the information was collected or not before attempting to collect it
 	 */
 		
