@@ -1,8 +1,14 @@
 package project_Group10;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class Main extends Thread {
+
+	public boolean empty= true;
+	public String[] data;
 	
 	/**
 	 * This method is retrieving the data from the floor class via the scheduler. 
@@ -30,20 +36,40 @@ public class Main extends Thread {
 	
 	/**
 	 * Generate the input file and store it in an Object array
-	 * @return
 	 */
 	@SuppressWarnings("static-access")
-	public synchronized  Object[] inputFile() {
-		Floor_main.b = new Button();
-		Floor_main.input[0]=Floor_main.b.getTime().toString();
-		Floor_main.input[1]= String.valueOf(Floor_main.b.currentFloor());
-		Floor_main.input[2] = Floor_main.b.direction();
-		Floor_main.input[3]=String.valueOf(Floor_main.car);
+	public synchronized  void inputFile() {
+
+		BufferedReader reader;
+		try {
+			System.out.println("Getting data...");
+			reader=new BufferedReader(new FileReader("C:\\Users\\akkas\\Desktop\\SYSC 3303\\InputFile.txt"));
+			String line = reader.readLine();
+			while(line !=null) {
+				//System.out.println(line);
+				for (int i=0;i<6;i++) {
+				line=reader.readLine();
+				data[i]=line;
+				}
+				//System.out.println(Arrays.toString(data));
+				
+				
+			}
+			reader.close();
+		}catch (IOException e) {
+			System.out.println("Error: File cannot be found");
+			e.printStackTrace();
+		}
+//		Floor_main.b = new Button();
+//		Floor_main.input[0]=Floor_main.b.getTime().toString();
+//		Floor_main.input[1]= String.valueOf(Floor_main.b.currentFloor());
+//		Floor_main.input[2] = Floor_main.b.direction();
+//		Floor_main.input[3]=String.valueOf(Floor_main.car);
 		
 		
-		System.out.println(Arrays.toString(Floor_main.input));
+		//System.out.println(Arrays.toString(Floor_main.input));
 		notifyAll();
-		return Floor_main.input;
+		//return Floor_main.input;
 	}
 	
 	
