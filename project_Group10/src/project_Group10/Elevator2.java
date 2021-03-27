@@ -140,19 +140,37 @@ public class Elevator2 {
 
 				System.out.println("Information received!");
 				System.out.println("lets move elevator2 to desired location");
+				long start_door= System.currentTimeMillis();
+				long currentTime_door=start_door;
+				long end_door= start_door + 10*1000;
 
 				if (Door.getDo() == false) {
 					Door.closeDoor();
 				}
+				if(currentTime_door>=end_door) {
+					System.out.println("Error: Door malfunction");
+				}
 
 				if (currElev > Integer.parseInt(Scheduler.floorno)) {
+					long start_move= System.currentTimeMillis();
+					long currentTime_move=start_move;
+					long end_move1= start_move + 20*1000;
 					System.out.println("moving down");
 					Scheduler.mot.moveDown(Integer.parseInt(Scheduler.floorno));
+					if(currentTime_move>=end_move1) {
+						System.out.println("Error: Elevator malfunction");
+					}
 				}
 
 				if (currElev < Integer.parseInt(Scheduler.floorno)) {
+					long start_move= System.currentTimeMillis();
+					long currentTime_move=start_move;
+					long end_move= start_move + 20*1000;
 					System.out.println("moving up");
 					Scheduler.mot.moveUp(Integer.parseInt(Scheduler.floorno));
+					if(currentTime_move>=end_move) {
+						System.out.println("Error: Elevator malfunction");
+					}
 				}
 
 				Scheduler.sen.sendSignal();
@@ -161,9 +179,9 @@ public class Elevator2 {
 
 				Door.closeDoor();
 
-				System.out.println("Person secured inside elevator2");
+				System.out.println("Person secured inside elevator1");
 				System.out.println();
-				return "Person secured inside elevator2";
+				return "Person secured inside elevator1";
 			}
 
 		},
@@ -182,13 +200,28 @@ public class Elevator2 {
 				currElev = Button.destFloor();
 
 				if (currElev > Integer.parseInt(Scheduler.floorno)) {
+					long start_move= System.currentTimeMillis();
+					long currentTime_move=start_move;
+					long end_move= start_move + 20*1000;
 					Scheduler.mot.moveUp(Button.getdestFloor());
+					if(currentTime_move>=end_move) {
+						System.out.println("Error: Elevator malfunction");
+					}
 				}
 				if (currElev < Integer.parseInt(Scheduler.floorno)) {
+					long start_move= System.currentTimeMillis();
+					long currentTime_move=start_move;
+					long end_move= start_move + 20*1000;
 					Scheduler.mot.moveDown(Button.getdestFloor());
+					if(currentTime_move>=end_move) {
+						System.out.println("Error: Elevator malfunction");
+					}
 				}
 
 				Scheduler.sen.sendSignal();
+				long start= System.currentTimeMillis();
+				long currentTime=start;
+				long end= start + 30*1000;
 				Door.openDoor();
 				Scheduler.sen.clearSignal();
 
@@ -199,12 +232,15 @@ public class Elevator2 {
 				}
 
 				Door.closeDoor();
+				if(currentTime==end) {
+					return "Error: Door malfunction";
+				}
 				System.out.println("Now that person has been dropped off, job done");
 				System.out.println();
 
 				Elevator.info = new String[4];
 				moveit = false;
-
+				
 				return "Now that person has been dropped off, job done";
 			}
 
@@ -247,12 +283,15 @@ public class Elevator2 {
 
 	}
 	
-
+	
+	
 	public static void main(String args[]) {
-		Elevator2 newe2 = new Elevator2();
+		Elevator1 newe = new Elevator1();
+
 		while (true) {
-			newe2.Receieve();
+			newe.Receieve();
 		}
+
 	}
 
 }

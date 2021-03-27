@@ -90,7 +90,6 @@ public class Scheduler extends Thread{
 	}
 	
 	
-	
 	/////////////////////////////////////////
 	//// State Machine setup/////////////////
 	/////////////////////////////////////////
@@ -104,6 +103,7 @@ public class Scheduler extends Thread{
 			public String dowork() {
 				mn.setfInput();
 				System.out.println("Information has been submitted, moving elevator next");
+				
 				System.out.println();
 				return "Information has been submited, moving elevator next";
 			}
@@ -118,7 +118,15 @@ public class Scheduler extends Thread{
 			public String dowork() {
 				
 				System.out.println("Moving Elevator");
+				long start= System.currentTimeMillis();
+				long currentTime=start;
+				long end= start + 30*1000;
 				Elevator.moveit();
+				if(currentTime>=end) {
+					System.out.println("Error: Elevator did not reach floor");
+					System.exit(1);
+					
+				}
 				
 				System.out.println();
 				return "Moving Elevator";
