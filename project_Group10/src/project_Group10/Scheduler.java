@@ -30,6 +30,8 @@ public class Scheduler extends Thread{
 	public static String Direc = null;
 	public static String time = null;
 	public static String car = null;
+	public static Object Dtime;
+	public static String Mtime;
 	
 	public static Motor mot = new Motor();
 	public static Sensor sen = new Sensor();
@@ -40,7 +42,7 @@ public class Scheduler extends Thread{
 	
 	public static DatagramSocket sendSocket, receiveSocket;
 	public static DatagramPacket sendPacket, receivePacket;
-	
+
 
 	//public Scheduler() {
 	//	try {

@@ -16,7 +16,7 @@ public class Floor_main extends Thread {
 	
 	public static int car=1;
 	static Button b;
-	public static Object[] input = new Object[4];
+	public static Object[] input = new Object[6];
 	
 	
 	/*

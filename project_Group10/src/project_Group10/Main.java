@@ -8,7 +8,7 @@ import java.util.Arrays;
 public class Main extends Thread {
 
 	public boolean empty= true;
-	public String[] data;
+	public Object[] data = new Object[6];
 	
 	/**
 	 * This method is retrieving the data from the floor class via the scheduler. 
@@ -30,6 +30,7 @@ public class Main extends Thread {
 	        System.out.println(Elevator.info[1]);
 	        System.out.println(Elevator.info[2]);
 	        System.out.println(Elevator.info[3]);
+	        
 	        System.out.println();
 	    }
 	
@@ -43,17 +44,17 @@ public class Main extends Thread {
 		BufferedReader reader;
 		try {
 			System.out.println("Getting data...");
-			reader=new BufferedReader(new FileReader("C:\\Users\\akkas\\Desktop\\SYSC 3303\\InputFile.txt"));
+			reader=new BufferedReader(new FileReader("C:\\Users\\ahmad\\Documents\\InputFile.txt"));
 			String line = reader.readLine();
 			while(line !=null) {
 				//System.out.println(line);
 				for (int i=0;i<6;i++) {
-				line=reader.readLine();
 				data[i]=line;
+				line=reader.readLine();
+				Floor_main.input[i] = data[i];
+				System.out.println(Floor_main.input[i]);
 				}
 				//System.out.println(Arrays.toString(data));
-				
-				
 			}
 			reader.close();
 		}catch (IOException e) {
@@ -93,16 +94,20 @@ public class Main extends Thread {
 		
 		
 		
-		Scheduler.floorno = (String) Floor_main.input[1];		// time/ floor / up/down / elevator no.
+		Scheduler.floorno = (String) Floor_main.input[1];		// time/ floor / up/down / elevator no./ door timer/ motor timer
 		Scheduler.Direc = (String) Floor_main.input[2];
 		Scheduler.time = (String) Floor_main.input[0];
 		Scheduler.car = (String) Floor_main.input[3];
+		Scheduler.Dtime = (String) Floor_main.input[4];
+		Scheduler.Mtime = (String) Floor_main.input[5];
 		
 		
 		Elevator.info[0] = Scheduler.time; 
 		Elevator.info[1] = Scheduler.floorno;
 		Elevator.info[2] = Scheduler.Direc; 
 		Elevator.info[3] = Scheduler.car;
+		Elevator.info[4] = (String) Scheduler.Dtime;
+		Elevator.info[5] = Scheduler.Mtime;
 		
 		notifyAll();
 	}

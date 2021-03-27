@@ -19,7 +19,7 @@ import project_Group10.Scheduler.statemachine;
 
 public class Elevator extends Thread {
 
-	public static String info[] = new String[4];
+	public static String info[] = new String[6];
 	public String Signal2;
 	public String return2;
 	public String Signal1;
@@ -297,35 +297,37 @@ public void run(){
 
 public static void main(String[] args) {
 	
-	byte[] info0 = info[0].getBytes();
-	byte[] info1 = info[1].getBytes();
-	byte[] info2 = info[2].getBytes();
-	byte[] info3 = info[3].getBytes();
 	
-	toCart(info0);
-	try {
-		TimeUnit.SECONDS.sleep(5);
-	} catch (InterruptedException e) {
-		e.printStackTrace();
-	}
-	toCart(info1);
-	try {
-		TimeUnit.SECONDS.sleep(5);
-	} catch (InterruptedException e) {
-		e.printStackTrace();
-	}
-	toCart(info2);
-	try {
-		TimeUnit.SECONDS.sleep(5);
-	} catch (InterruptedException e) {
-		e.printStackTrace();
-	}
-	toCart(info3);
-	try {
-		TimeUnit.SECONDS.sleep(5);
-	} catch (InterruptedException e) {
-		e.printStackTrace();
-	}
+	
+//	byte[] info0 = info[0].getBytes();
+//	byte[] info1 = info[1].getBytes();
+//	byte[] info2 = info[2].getBytes();
+//	byte[] info3 = info[3].getBytes();
+//	
+//	toCart(info0);
+//	try {
+//		TimeUnit.SECONDS.sleep(5);
+//	} catch (InterruptedException e) {
+//		e.printStackTrace();
+//	}
+//	toCart(info1);
+//	try {
+//		TimeUnit.SECONDS.sleep(5);
+//	} catch (InterruptedException e) {
+//		e.printStackTrace();
+//	}
+//	toCart(info2);
+//	try {
+//		TimeUnit.SECONDS.sleep(5);
+//	} catch (InterruptedException e) {
+//		e.printStackTrace();
+//	}
+//	toCart(info3);
+//	try {
+//		TimeUnit.SECONDS.sleep(5);
+//	} catch (InterruptedException e) {
+//		e.printStackTrace();
+//	}
 }
 
 }
