@@ -106,8 +106,10 @@ public class Main extends Thread {
 		Elevator.info[1] = Scheduler.floorno;
 		Elevator.info[2] = Scheduler.Direc; 
 		Elevator.info[3] = Scheduler.car;
-		Elevator.info[4] = (String) Scheduler.Dtime;
-		Elevator.info[5] = Scheduler.Mtime;
+		
+		
+		Door.DTime = (String) Scheduler.Dtime;
+		Motor.MTime = (String) Scheduler.Mtime;
 		
 		notifyAll();
 	}

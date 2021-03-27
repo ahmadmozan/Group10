@@ -1,9 +1,11 @@
 package project_Group10;
 
+import java.util.concurrent.TimeUnit;
+
 public class Door{
 	
 	public static boolean door = true;  	// Door closed = true
-
+	public static String DTime;
 
 	// gets door
 	
@@ -17,6 +19,11 @@ public class Door{
 		if(door == true) {
 			door = false;
 			System.out.println("opening door");
+			try {
+				TimeUnit.SECONDS.sleep(Integer.parseInt(DTime)/2);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			return true;
 		}else {
 			return false;
@@ -31,6 +38,11 @@ public class Door{
 		}else {
 			door = true;
 			System.out.println("closing door");
+			try {
+				TimeUnit.SECONDS.sleep(Integer.parseInt(DTime)/2);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			return true;
 		}
 	}

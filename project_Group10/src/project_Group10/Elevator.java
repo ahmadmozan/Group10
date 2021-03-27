@@ -19,7 +19,7 @@ import project_Group10.Scheduler.statemachine;
 
 public class Elevator extends Thread {
 
-	public static String info[] = new String[6];
+	public static String info[] = new String[4];
 	public String Signal2;
 	public String return2;
 	public String Signal1;

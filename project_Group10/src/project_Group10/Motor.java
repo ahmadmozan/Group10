@@ -3,6 +3,8 @@
  */
 package project_Group10;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author bs
  *
@@ -11,7 +13,7 @@ public class Motor {
 	
 	
 private Boolean status ;
-	
+public static String MTime;
 
 	// Turns on Motor
 	public void turnOn() {
@@ -36,6 +38,11 @@ private Boolean status ;
 	public void moveUp(int floor) {
 		
 		System.out.println("we are currently moving up to floor " + floor);
+		try {
+			TimeUnit.SECONDS.sleep(Integer.parseInt(MTime)*floor);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		System.out.println("we just arrived at floor " + floor);
 	}
 	
@@ -43,6 +50,11 @@ private Boolean status ;
 	public void moveDown(int floor) {
 			
 		System.out.println("we are currently moving down to floor " + floor);
+		try {
+			TimeUnit.SECONDS.sleep(Integer.parseInt(MTime)*floor);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		System.out.println("we just arrived at floor " + floor);
 	}
 		

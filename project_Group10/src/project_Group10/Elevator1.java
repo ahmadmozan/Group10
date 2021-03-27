@@ -148,25 +148,19 @@ public class Elevator1 {
 					Door.closeDoor();
 				}
 
-				if (currElev < Integer.parseInt(Scheduler.floorno)) {
+				if (currElev > Integer.parseInt(Scheduler.floorno)) {
 					System.out.println("moving down");
-					Scheduler.mot.moveDown(Button.getfloorNum());
+					Scheduler.mot.moveDown(Integer.parseInt(Scheduler.floorno));
 				}
 
-				if (currElev > Integer.parseInt(Scheduler.floorno)) {
+				if (currElev < Integer.parseInt(Scheduler.floorno)) {
 					System.out.println("moving up");
-					Scheduler.mot.moveUp(Button.getfloorNum());
+					Scheduler.mot.moveUp(Integer.parseInt(Scheduler.floorno));
 				}
 
 				Scheduler.sen.sendSignal();
 				Door.openDoor();
 				Scheduler.sen.clearSignal();
-
-				try {
-					TimeUnit.SECONDS.sleep(5);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
 
 				Door.closeDoor();
 
@@ -190,10 +184,10 @@ public class Elevator1 {
 
 				currElev = Button.destFloor();
 
-				if (currElev < Integer.parseInt(Scheduler.floorno)) {
+				if (currElev > Integer.parseInt(Scheduler.floorno)) {
 					Scheduler.mot.moveUp(Button.getdestFloor());
 				}
-				if (currElev > Integer.parseInt(Scheduler.floorno)) {
+				if (currElev < Integer.parseInt(Scheduler.floorno)) {
 					Scheduler.mot.moveDown(Button.getdestFloor());
 				}
 
