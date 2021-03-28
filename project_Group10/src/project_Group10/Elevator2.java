@@ -6,14 +6,14 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 
-import project_Group10.Elevator1.elevatorstatemch;
+
 
 import java.io.ByteArrayOutputStream;
 
 public class Elevator2 {
 
-	private DatagramPacket sendPacket, receivePacket, rp;
-	private DatagramSocket sendReceiveSocket, correctinfo;
+	//private DatagramPacket sendPacket, receivePacket, rp;
+	private DatagramSocket EM;
 	public String mode;
 	public String Reading2;
 	public String Information[];
@@ -24,37 +24,43 @@ public class Elevator2 {
 	private static int currElev = 1;
 	public static boolean moveit = false;
 	
-	public Elevator2() {
-		try {
-			sendReceiveSocket = new DatagramSocket();
-			correctinfo = new DatagramSocket(9988);
-		} catch (SocketException se) {
-			se.printStackTrace();
-			System.exit(1);
+	
 
-		}
-	}
+	public void Receieve() throws InterruptedException {
 
-	public void Receieve() {
-		int messagesProcessed = 0;
+		/// this was added by ousama on 27/03/21
 
 		try {
-			DatagramSocket socket = new DatagramSocket(23); // Creates socket bound to port 69
+			 EM= new DatagramSocket(24); // Creates socket bound to port 24
 
-			for (int i = 0; i < 4; i++) {
+			
 
-				byte[] requestByteArray = "request".getBytes();
-				boolean receieved = false; // defines a flag to check for receieving a actual packet vs a nothing to
-											// report packet ("null")
-				DatagramPacket recievedPacket = new DatagramPacket(new byte[4], 17); // Creates a packet to recieve into
-				DatagramPacket requestPacket = new DatagramPacket(requestByteArray, requestByteArray.length,
-						InetAddress.getLocalHost(), 22);
-
+				
+				byte[] ele1=new byte[1024];
+				
+				DatagramPacket E1 = new DatagramPacket(ele1, ele1.length); // Creates a packet to recieve into
+				//DatagramPacket requestPacket = new DatagramPacket(requestByteArray, requestByteArray.length,InetAddress.getLocalHost(), 22);
+				
+				EM.receive(E1);
+				String ss;
+				if (!moveit) {
+					
+					ss= "Elevator free";
+				} else {
+					ss = "Elevator currently in use";
+				}
+				
+				byte [] answer= (ss).getBytes();
+				DatagramPacket m1= new DatagramPacket(answer,answer.length,InetAddress.getLocalHost(),22);
+				EM.send(m1);
+			
+			// everthing ousama wrote on 27/03/21
+				/*
 				while (!receieved) { // Loop until a non null packet is recieved
-//						printPacket(requestPacket, true);
-					socket.send(requestPacket); // Send a request to the intermediate server
-					socket.receive(recievedPacket); // Receive the response
-//						printPacket(recievedPacket, false);
+//					printPacket(requestPacket, true);
+					EM.send(requestPacket); // Send a request to the intermediate server
+					EM.receive(recievedPacket); // Receive the response
+//					printPacket(recievedPacket, false);
 					if (!(new String(recievedPacket.getData()).trim().equals("NA"))) {// If the response is not null,
 																						// ie. a actual response
 						receieved = true; // Break out of loop
@@ -69,47 +75,13 @@ public class Elevator2 {
 
 				Information[i] = new String(dataArray);
 
-			}
+			}*/
 
-		} catch (IOException | InterruptedException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public synchronized void getSignal2() {
-
-		while (Signal2 == "false") {
-			try {
-				System.out.println("nobdoy is using the elavator yet");
-				wait();
-			} catch (InterruptedException e) {
-				System.out.println(e);
-			}
-
-			if (Signal2 == "True") {
-				System.out.println("the second elevator is heading to ur service");
-			}
-		}
-		notifyAll();
-	}
-
-	public synchronized void returnSignal2() {
-
-		while (return2 == "false") {
-			try {
-				System.out.println("nobdoy is using the elavator 1 or 2");
-				wait();
-			} catch (InterruptedException e) {
-				System.out.println(e);
-			}
-
-			if (return2 == "True") {
-				System.out.println("the second elevator is heading to ur service");
-			}
-		}
-		notifyAll();
-	}
-	
 	
 /////////////////////////////////////////
 ////State Machine setup/////////////////

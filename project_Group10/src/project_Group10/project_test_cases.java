@@ -1,21 +1,18 @@
 package project_Group10;
 
-/**
- * 
- * @author ahmad
- */
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-class project_test_cases {
+public class project_test_cases {
 
 
 	@Test
-	void test() {
+	public void test() {
 		// TEST CASES FOR EACH CLASS
 		Thread floor = new Floor_main();
 		Thread sch = new Scheduler();
@@ -72,6 +69,8 @@ class project_test_cases {
 		assertTrue(motor.checkStatus() == true);
 		motor.turnOff();
 		assertTrue(motor.checkStatus() == false);
+		// STATE MACHINE TESTS
+		
 		
 	}
 

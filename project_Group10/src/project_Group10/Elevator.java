@@ -24,12 +24,14 @@ public class Elevator extends Thread {
 	public String return2;
 	public String Signal1;
 	public String return1;
+	public static boolean moveit1 = true;
+	public static boolean moveit2 = true;
 
 
 	public static Floor_main flr = new Floor_main();
 	
 	public static DatagramPacket sendPacket, receivePacket;
-	public static DatagramSocket sendreceiveSocket,correctinfo2,correctinfo1;
+	public static DatagramSocket sendreceiveSocket,correctinfo2,correctinfo1, EM;
 	public static byte[] message;
 	public String Information1[];
 	public String Information2[];
@@ -277,16 +279,60 @@ public static void toCart(byte[] message) {// need the info
  */
 
 public static void moveit() {
-	if(Elevator1.moveit == false) {
+	if(!moveit1) {
 		Elevator1.StateMachine2();
 	}
-	else if(Elevator2.moveit == false) {
+	else if(!moveit2) {
 		Elevator2.StateMachine2();
 	}
 	else {
 		System.out.println("try again in a moment both elevators are busy");
 	}
 }
+
+/// this was added by ousama/B on 27/03/21
+public static void sendToEles() throws Exception {
+	
+	EM= new DatagramSocket(22);
+
+	
+	System.out.println("UDP Connection : Checking for free elevator");
+	 
+	String str ="Is elevator is free";
+	byte[] str1= (str).getBytes();
+	DatagramPacket EM1= new DatagramPacket(str1,str1.length,InetAddress.getLocalHost(),23);
+	EM.send(EM1);
+	
+	byte[] message=new byte[1024];
+	DatagramPacket m1=new DatagramPacket(message,message.length);
+	EM.receive(m1);
+	
+	String s=new String (m1.getData());
+	if (s=="Elevator free") {
+		
+		moveit1 = false;
+		System.out.println("Elevator 1 free");
+	}
+	 
+	
+	
+	else {
+		DatagramPacket EM2= new DatagramPacket(str1,str1.length,InetAddress.getLocalHost(),24);
+		EM.send(EM2);
+		
+		byte[] message2=new byte[1024];
+		DatagramPacket m2=new DatagramPacket(message2,message2.length);
+		EM.receive(m2);
+		
+		String s2=new String (m2.getData());
+		moveit2 = false;
+		System.out.println("Elevator 2 free");
+		
+	}
+	
+}
+//everthing ousama/B wrote on 27/03/21
+
 
 public void run(){
 	
@@ -296,6 +342,12 @@ public void run(){
     }
 
 public static void main(String[] args) {
+	try {
+		Elevator.sendToEles();
+	} catch (Exception e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
 	
 	
 	
