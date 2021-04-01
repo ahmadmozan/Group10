@@ -24,7 +24,6 @@ public class Elevator1 {
 	public static boolean moveit = false;
 	
 
-	
 
 	public void Receieve() throws InterruptedException {
 
@@ -53,6 +52,21 @@ public class Elevator1 {
 				byte [] answer= (ss).getBytes();
 				DatagramPacket m1= new DatagramPacket(answer,answer.length,InetAddress.getLocalHost(),22);
 				EM.send(m1);
+
+                                try {
+					TimeUnit.SECONDS.sleep(5);
+				} catch (InterruptedException e) {
+				e.printStackTrace();
+				}
+				
+				EM.receive(E1);
+				
+				String ff = new String (E1.getData());
+				
+				if (ff == "Run") {
+					
+					Elevator1.StateMachine2();
+				}
 			
 			// everthing ousama wrote on 27/03/21
 				/*
@@ -83,7 +97,6 @@ public class Elevator1 {
 	}
 
 
-	
 	
 	
 /////////////////////////////////////////

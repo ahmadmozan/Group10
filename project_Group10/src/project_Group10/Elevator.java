@@ -279,11 +279,18 @@ public static void toCart(byte[] message) {// need the info
  */
 
 public static void moveit() {
+
+        DatagramPacket EM1
+        String choose ="Run";
+	byte[] choose1= (choose).getBytes();
+
 	if(!moveit1) {
-		Elevator1.StateMachine2();
+		EM1= new DatagramPacket(choose1,choose1.length,InetAddress.getLocalHost(),23);
+		EM.send(EM1);
 	}
 	else if(!moveit2) {
-		Elevator2.StateMachine2();
+		EM1= new DatagramPacket(choose1,choose1.length,InetAddress.getLocalHost(),24);
+		EM.send(EM1);
 	}
 	else {
 		System.out.println("try again in a moment both elevators are busy");
