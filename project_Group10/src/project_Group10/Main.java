@@ -42,25 +42,25 @@ public class Main extends Thread {
 	public synchronized  void inputFile() {
 
 		BufferedReader reader;
-		try {
-			System.out.println("Getting data...");
-			reader=new BufferedReader(new FileReader("C:\\Users\\ahmad\\Documents\\InputFile.txt"));
-			String line = reader.readLine();
-			while(line !=null) {
-				//System.out.println(line);
-				for (int i=0;i<6;i++) {
-				data[i]=line;
-				line=reader.readLine();
-				Floor_main.input[i] = data[i];
-				System.out.println(Floor_main.input[i]);
-				}
-				//System.out.println(Arrays.toString(data));
-			}
-			reader.close();
-		}catch (IOException e) {
-			System.out.println("Error: File cannot be found");
-			e.printStackTrace();
-		}
+//		try {
+//			System.out.println("Getting data...");
+//			reader=new BufferedReader(new FileReader("C:\\Users\\ahmad\\Documents\\InputFile.txt"));
+//			String line = reader.readLine();
+//			while(line !=null) {
+//				//System.out.println(line);
+//				for (int i=0;i<6;i++) {
+//				data[i]=line;
+//				line=reader.readLine();
+//				Floor_main.input[i] = data[i];
+//				System.out.println(Floor_main.input[i]);
+//				}
+//				//System.out.println(Arrays.toString(data));
+//			}
+//			reader.close();
+//		}catch (IOException e) {
+//			System.out.println("Error: File cannot be found");
+//			e.printStackTrace();
+//		}
 //		Floor_main.b = new Button();
 //		Floor_main.input[0]=Floor_main.b.getTime().toString();
 //		Floor_main.input[1]= String.valueOf(Floor_main.b.currentFloor());
@@ -81,25 +81,25 @@ public class Main extends Thread {
 	 */
 	public synchronized void setfInput() {
 		
-		while(Floor_main.input[0] == null && Floor_main.input[1] == null && Floor_main.input[2] == null && Floor_main.input[3] == null) {
-			try {
-				System.out.println("null");
-				wait();
-			}catch(InterruptedException e) {
-				System.out.println(e);
-			}
-		}
+//		while(Floor_main.input[0] == null && Floor_main.input[1] == null && Floor_main.input[2] == null && Floor_main.input[3] == null) {
+//			try {
+//				System.out.println("null");
+//				wait();
+//			}catch(InterruptedException e) {
+//				System.out.println(e);
+//			}
+//		}
 		
 		System.out.println("HELOEOOEOE");
 		
 		
 		
-		Scheduler.floorno = (String) Floor_main.input[1];		// time/ floor / up/down / elevator no./ door timer/ motor timer
-		Scheduler.Direc = (String) Floor_main.input[2];
-		Scheduler.time = (String) Floor_main.input[0];
-		Scheduler.car = (String) Floor_main.input[3];
-		Scheduler.Dtime = (String) Floor_main.input[4];
-		Scheduler.Mtime = (String) Floor_main.input[5];
+//		Scheduler.floorno = (String) Floor_main.input[1];		// time/ floor / up/down / elevator no./ door timer/ motor timer
+//		Scheduler.Direc = (String) Floor_main.input[2];
+//		Scheduler.time = (String) Floor_main.input[0];
+//		Scheduler.car = (String) Floor_main.input[3];
+//		Scheduler.Dtime = (String) Floor_main.input[4];
+//		Scheduler.Mtime = (String) Floor_main.input[5];
 		
 		
 		Elevator.info[0] = Scheduler.time; 

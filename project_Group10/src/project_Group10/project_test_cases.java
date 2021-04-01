@@ -25,13 +25,14 @@ public class project_test_cases {
 		
 		
 		// FLOOR CLASS TESTS
-		String[] input2 = {"13", "6", "Up", "1"};
-		((Floor_main) floor).input[1] = "6";
-		((Floor_main) floor).input[2] = "Up";
-		((Floor_main) floor).input[3] = "1";
-		assertTrue(((Floor_main) floor).input[1].equals("6"));
-		assertTrue(((Floor_main) floor).input[2].equals("Up"));
-		assertFalse(((Floor_main) floor).input[3].equals("3"));
+		
+//		String[] input2 = {"13", "6", "Up", "1"};
+//		((Floor_main) floor).input[1] = "6";
+//		((Floor_main) floor).input[2] = "Up";
+//		((Floor_main) floor).input[3] = "1";
+//		assertTrue(((Floor_main) floor).input[1].equals("6"));
+//		assertTrue(((Floor_main) floor).input[2].equals("Up"));
+//		assertFalse(((Floor_main) floor).input[3].equals("3"));
 		
 		
 		// SCHEDULER CLASS TESTS - (currently not working still developing it)

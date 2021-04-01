@@ -280,17 +280,36 @@ public static void toCart(byte[] message) {// need the info
 
 public static void moveit() {
 
-        DatagramPacket EM1
+        DatagramPacket EM1 = null;
         String choose ="Run";
 	byte[] choose1= (choose).getBytes();
 
 	if(!moveit1) {
-		EM1= new DatagramPacket(choose1,choose1.length,InetAddress.getLocalHost(),23);
-		EM.send(EM1);
+		try {
+			EM1= new DatagramPacket(choose1,choose1.length,InetAddress.getLocalHost(),23);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		try {
+			EM.send(EM1);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	else if(!moveit2) {
-		EM1= new DatagramPacket(choose1,choose1.length,InetAddress.getLocalHost(),24);
-		EM.send(EM1);
+		try {
+			EM1= new DatagramPacket(choose1,choose1.length,InetAddress.getLocalHost(),24);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			EM.send(EM1);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	else {
 		System.out.println("try again in a moment both elevators are busy");
@@ -343,7 +362,7 @@ public static void sendToEles() throws Exception {
 
 public void run(){
 	
-	flr.sch.mn.getInfo();
+	//flr.sch.mn.getInfo();
 	//udp call
 
     }

@@ -275,7 +275,11 @@ public class Elevator2 {
 		Elevator1 newe = new Elevator1();
 
 		while (true) {
-			newe.Receieve();
+			try {
+				newe.Receieve();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 
 	}
