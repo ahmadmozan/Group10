@@ -16,7 +16,7 @@ public class project_test_cases {
 		// TEST CASES FOR EACH CLASS
 		Thread floor = new Floor_main();
 		Thread sch = new Scheduler();
-		Thread elv = new Elevator();
+		Thread elv = new Elevator(2);
 		//Lamp lamp = new Lamp();
 		Door door = new Door();
 		Button button = new Button();

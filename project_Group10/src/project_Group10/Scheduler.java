@@ -39,11 +39,13 @@ public class Scheduler extends Thread{
 	
 	public static int currElev = 1;
 
-	public static Main mn = new Main();
+	//public static Main mn = new Main();
 	
 	public static DatagramSocket sendSocket, receiveSocket, sendSocket1, receiveSocket1;
 	public static DatagramPacket sendPacket, receivePacket;
 	public static DatagramPacket sendPacket1, receivePacket1;
+	public static DatagramPacket sendPacketElev;
+	public static DatagramSocket sendSocketElev;
 	public static byte[] data = new byte[100];
 	public static String s = null;
 	static Scheduler sch = new Scheduler();
@@ -53,6 +55,7 @@ public class Scheduler extends Thread{
 			try {
 		         sendSocket = new DatagramSocket();
 		         sendSocket1 = new DatagramSocket();
+		         sendSocketElev = new DatagramSocket();
 		         receiveSocket = new DatagramSocket(5000);
 		         receiveSocket1 = new DatagramSocket(5500);
 		      } catch (SocketException se) {
@@ -255,6 +258,8 @@ public class Scheduler extends Thread{
 			System.exit(1);
 		}
 		System.out.println(new String(sendPacket.getData(),0,sendPacket.getLength()));
+		System.out.println("Checking which elevator is free");
+		
 		try {
 			sendSocket.send(sendPacket);
 		} catch (IOException e) {
@@ -271,8 +276,26 @@ public class Scheduler extends Thread{
 		}
 		
 		System.out.println(new String(receivePacket1.getData(),0,receivePacket.getLength()));
+		System.out.println("Now we command that elevator that was free");
 		
 		if(receivePacket1.getData()[0] == (byte) 1 ) {
+			
+			byte[] Elev = new byte[1];
+			Elev[0] = (byte) 1;
+			
+			try {
+				sendPacketElev = new DatagramPacket(Elev, Elev.length, InetAddress.getLocalHost(), 5501);
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+				System.exit(1);
+			}
+			try {
+				sendSocketElev.send(sendPacketElev);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+				System.exit(1);
+			}
+			
 			
 			try {
 				sendPacket1 = new DatagramPacket(data, data.length, InetAddress.getLocalHost(), 5502);
@@ -285,10 +308,28 @@ public class Scheduler extends Thread{
 				sendSocket1.send(sendPacket1);
 			} catch (IOException e) {
 				e.printStackTrace();
+				System.exit(1);
 			}
 			
 		}
-		else if(receivePacket1.getData()[1] == (byte) 1) {
+		else if(receivePacket1.getData()[0] == (byte) 2) {
+			
+			byte[] Elev = new byte[1];
+			Elev[0] = (byte) 2;
+			
+			try {
+				sendPacketElev = new DatagramPacket(Elev, Elev.length, InetAddress.getLocalHost(), 5501);
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+				System.exit(1);
+			}
+			try {
+				sendSocketElev.send(sendPacketElev);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+				System.exit(1);
+			}
+			
 			
 			try {
 				sendPacket1 = new DatagramPacket(data, data.length, InetAddress.getLocalHost(), 5502);
