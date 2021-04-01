@@ -252,7 +252,7 @@ public class Scheduler extends Thread{
 		byte[] free = "free".getBytes();
 		
 		try {
-			sendPacket = new DatagramPacket(free, free.length, InetAddress.getLocalHost(), 5500);
+			sendPacket = new DatagramPacket(free, free.length, InetAddress.getLocalHost(), 550);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 			System.exit(1);
@@ -266,7 +266,7 @@ public class Scheduler extends Thread{
 			e.printStackTrace();
 		}
 		
-		byte[] DATA1 = new byte[2];
+		byte[] DATA1 = new byte[1];
 		receivePacket1 = new DatagramPacket(DATA1, DATA1.length);
 		
 		try {

@@ -31,6 +31,7 @@ public class ElevatorCart {
 		cartNumber = i;
 		flrLamp = new Lamp();
 		cartDoor = new Door();
+		motor = new Motor();
 		status = false;
 		currFlr = "1";
 		

@@ -20,7 +20,7 @@ import project_Group10.Scheduler.statemachine;
 
 public class Elevator extends Thread {
 
-	public static String info[] = new String[4];
+	public static String info[] = new String[6];
 	public String Signal2;
 	public String return2;
 	public String Signal1;
@@ -31,7 +31,7 @@ public class Elevator extends Thread {
 
 	public static Floor_main flr = new Floor_main();
 	
-	public static DatagramPacket sendPacket, receivePacket, receivePacketElev;
+	public static DatagramPacket sendPacket, receivePacket, receivePacketElev, receivePacketElev1;
 	public static DatagramSocket receiveSocket,sendSocket, EM, EMM;
 	public static byte[] message;
 	public String Information1[];
@@ -64,7 +64,7 @@ public  Elevator(int i) {
 
 public static void toSched() {
 	try {
-		receiveSocket = new DatagramSocket(5500);
+		receiveSocket = new DatagramSocket(550);
 		sendSocket = new DatagramSocket();
 		EM = new DatagramSocket(5501);
 		EMM = new DatagramSocket(5502);
@@ -99,7 +99,7 @@ public static void toSched() {
 		
 		free2[0] = (byte) x;
 		try {
-			sendPacket = new DatagramPacket(free2, free2.length,InetAddress.getLocalHost(),5500);
+			sendPacket = new DatagramPacket(free2, free2.length,InetAddress.getLocalHost(),5000);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 			System.exit(1);
@@ -113,7 +113,49 @@ public static void toSched() {
 		}
 	}
 	
+	byte[] free3 = new byte[1];
+	receivePacketElev = new DatagramPacket(free3, free3.length);
 	
+	try {
+		EM.receive(receivePacketElev);
+	} catch (IOException e) {
+		e.printStackTrace();
+		System.exit(1);
+	}
+	
+	String s2 = new String(receivePacketElev.getData(), StandardCharsets.UTF_8);
+	System.out.println(s2);
+	if(s2 == "1") {
+		byte[] Info = new byte[100];
+		receivePacketElev1 = new DatagramPacket(Info, Info.length);
+		try {
+			EMM.receive(receivePacketElev1);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		String Info1 = new String(receivePacketElev1.getData(), StandardCharsets.UTF_8);
+		String[] Info2 = Info1.split(" ");
+		info = Info2;
+		carts[0].setDestFlr(Integer.parseInt(info[1]), Integer.parseInt(info[3]));
+	}
+	else if(s2 == "2") {
+		byte[] Info = new byte[100];
+		receivePacketElev1 = new DatagramPacket(Info, Info.length);
+		try {
+			EMM.receive(receivePacketElev1);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String Info1 = new String(receivePacketElev1.getData(), StandardCharsets.UTF_8);
+		String[] Info2 = Info1.split(" ");
+		info = Info2;
+		carts[1].setDestFlr(Integer.parseInt(info[1]), Integer.parseInt(info[3]));
+		
+	}
+	else {
+		System.out.println("Whoops wrong information");
+	}
 	
 }
 
@@ -126,13 +168,9 @@ public void run(){
     }
 
 public static void main(String[] args) {
-	try {
-		//Elevator.sendToEles();
-	} catch (Exception e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	}
 	
+	Elevator elv = new Elevator(2);
+	elv.toSched();
 }
 
 }
