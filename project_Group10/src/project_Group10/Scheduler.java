@@ -204,7 +204,7 @@ public class Scheduler extends Thread{
 			}
 			
 			public String dowork() {
-				System.out.println("person has been dropped, waiting on new instructions");
+				System.out.println("Elevator on the move, waiting on new instructions");
 				fInput = new String[6];
 				floorno = null;
 				Direc = null;
@@ -215,7 +215,7 @@ public class Scheduler extends Thread{
 				data = new byte[100];
 				s = null;
 				System.out.println();
-				return "person has been dropped, waiting on new one";
+				return "Elevator on the move, waiting on new one";
 			}
 			
 		},;
@@ -275,13 +275,14 @@ public class Scheduler extends Thread{
 			e.printStackTrace();
 		}
 		
-		System.out.println(new String(receivePacket1.getData(),0,receivePacket.getLength()));
+		System.out.println(new String(receivePacket1.getData(),0,receivePacket1.getLength()));
 		System.out.println("Now we command that elevator that was free");
 		
-		if(receivePacket1.getData()[0] == (byte) 1 ) {
+		if(new String(receivePacket1.getData(),0,receivePacket1.getLength()).equals("1") ) {
 			
 			byte[] Elev = new byte[1];
-			Elev[0] = (byte) 1;
+			String X2 = "1";
+			Elev = X2.getBytes();
 			
 			try {
 				sendPacketElev = new DatagramPacket(Elev, Elev.length, InetAddress.getLocalHost(), 5501);
@@ -312,10 +313,11 @@ public class Scheduler extends Thread{
 			}
 			
 		}
-		else if(receivePacket1.getData()[0] == (byte) 2) {
-			
+		else if(new String(receivePacket1.getData(),0,receivePacket1.getLength()).equals("2")) {
+
 			byte[] Elev = new byte[1];
-			Elev[0] = (byte) 2;
+			String X2 = "2";
+			Elev = X2.getBytes();
 			
 			try {
 				sendPacketElev = new DatagramPacket(Elev, Elev.length, InetAddress.getLocalHost(), 5501);

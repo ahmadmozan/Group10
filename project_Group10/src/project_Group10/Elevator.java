@@ -90,28 +90,56 @@ public static void toSched() {
 	String s = new String(receivePacket.getData(), StandardCharsets.UTF_8);
 	System.out.println(s);
 	
-	if(s == "free") {
+	if(s.equals("free") ) {
+		System.out.println("choosing elevator");
 		for (int i=0; i<carts.length; i++) {
 			if(carts[i].cartStatus() == false) {
-				x++;
+				String X = Integer.toString((i+1));
+				free2 = X.getBytes();
+				
+				try {
+					sendPacket = new DatagramPacket(free2, free2.length, InetAddress.getLocalHost(), 5500);
+
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
+					System.exit(1);
+				}
+
+				try {
+					sendSocket.send(sendPacket);
+				} catch (IOException e) {
+					e.printStackTrace();
+					System.exit(1);
+				}
+				System.out.println(new String(sendPacket.getData(), StandardCharsets.UTF_8));
+				
+				break;
 			}
 		}
 		
-		free2[0] = (byte) x;
+		
+	}
+	else{
+		String X = Integer.toString(0);
+		free2 = X.getBytes();
 		try {
-			sendPacket = new DatagramPacket(free2, free2.length,InetAddress.getLocalHost(),5000);
+			sendPacket = new DatagramPacket(free2, free2.length, InetAddress.getLocalHost(), 5500);
+
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		
+
 		try {
 			sendSocket.send(sendPacket);
-		}catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
+		System.out.println(new String(sendPacket.getData(), StandardCharsets.UTF_8));
 	}
+	
+	
 	
 	byte[] free3 = new byte[1];
 	receivePacketElev = new DatagramPacket(free3, free3.length);
@@ -125,7 +153,8 @@ public static void toSched() {
 	
 	String s2 = new String(receivePacketElev.getData(), StandardCharsets.UTF_8);
 	System.out.println(s2);
-	if(s2 == "1") {
+	
+	if(s2.equals("1") ) {
 		byte[] Info = new byte[100];
 		receivePacketElev1 = new DatagramPacket(Info, Info.length);
 		try {
@@ -138,8 +167,9 @@ public static void toSched() {
 		String[] Info2 = Info1.split(" ");
 		info = Info2;
 		carts[0].setDestFlr(Integer.parseInt(info[1]), Integer.parseInt(info[3]));
+		carts[0].StateMachine2();
 	}
-	else if(s2 == "2") {
+	else if(s2.equals("2")) {
 		byte[] Info = new byte[100];
 		receivePacketElev1 = new DatagramPacket(Info, Info.length);
 		try {
@@ -151,6 +181,7 @@ public static void toSched() {
 		String[] Info2 = Info1.split(" ");
 		info = Info2;
 		carts[1].setDestFlr(Integer.parseInt(info[1]), Integer.parseInt(info[3]));
+		carts[1].StateMachine2();
 		
 	}
 	else {
