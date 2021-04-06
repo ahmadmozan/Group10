@@ -102,7 +102,7 @@ public class Floor_main extends Thread {
 				convertToByte(data);
 				sendAndReceive();
 				try {
-					Thread.sleep(20000);
+					Thread.sleep(40000);
 				} 
 				catch (InterruptedException e)
 				{

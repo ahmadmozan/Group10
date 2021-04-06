@@ -277,7 +277,7 @@ public class Scheduler extends Thread{
 		System.out.println(new String(receivePacket1.getData(),0,receivePacket1.getLength()));
 		System.out.println("Now we command that elevator that was free");
 		
-		if(new String(receivePacket1.getData(),0,receivePacket1.getLength()).equals("1") ) {
+		if(new String(receivePacket1.getData(),StandardCharsets.UTF_8).equals("1") ) {
 			
 			byte[] Elev = new byte[1];
 			String X2 = "1";
@@ -312,7 +312,7 @@ public class Scheduler extends Thread{
 			}
 			
 		}
-		else if(new String(receivePacket1.getData(),0,receivePacket1.getLength()).equals("2")) {
+		else if(new String(receivePacket1.getData(),StandardCharsets.UTF_8).equals("2")) {
 
 			byte[] Elev = new byte[1];
 			String X2 = "2";

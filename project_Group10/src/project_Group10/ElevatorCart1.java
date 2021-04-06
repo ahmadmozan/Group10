@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 import project_Group10.ElevatorCart.elevatorstatemch;
 
 
-public class ElevatorCart {
+public class ElevatorCart1 {
 
 	//private DatagramPacket m1,EM1;
 	private Lamp flrLamp;
@@ -20,9 +20,9 @@ public class ElevatorCart {
 	private int cartNumber;
 	public static boolean status;
 	private static int  currFlr;
-	public static int  destFlr;
-	public static int  finalFlr;
-	public static byte[] signal;
+	private static int  destFlr;
+	private static int  finalFlr;
+	public static byte[] signal = new byte[100];
 	public static String DoorTime;
 	public static String MotorTime;
 	public static DatagramPacket receive, receive1;
@@ -30,11 +30,11 @@ public class ElevatorCart {
 	public static Motor mot;
 	
 	public static String info[] = new String[6];
+	public static ElevatorCart1 cart2;
 	
-	public static ElevatorCart cart1;
 
 	@SuppressWarnings("static-access")
-	public ElevatorCart()  {
+	public ElevatorCart1()  {
 		flrLamp = new Lamp();
 		cartDoor = new Door();
 		mot = new Motor();
@@ -101,7 +101,7 @@ public class ElevatorCart {
 	          System.exit(1);
 	      }
 	   }
-	 
+	
 	 public static void receive2() {
 		 byte[] info1 = new byte[100];
 		 receive1 = new DatagramPacket(info1, info1.length);
@@ -115,13 +115,13 @@ public class ElevatorCart {
 		String[] Infor1 = infor.split(" ");
 		info = Infor1;
 		
-		cart1.destFlr = Integer.parseInt(info[1]);
-		cart1.finalFlr = Integer.parseInt(info[3]);
-		cart1.DoorTime = info[4];
-		cart1.MotorTime = info[5];
+		cart2.destFlr = Integer.parseInt(info[1]);
+		cart2.finalFlr = Integer.parseInt(info[3]);
+		cart2.DoorTime = info[4];
+		cart2.MotorTime = info[5];
 		
 	 }
-	
+	 
 /////////////////////////////////////////
 ////State Machine setup/////////////////
 /////////////////////////////////////////
@@ -134,11 +134,9 @@ public class ElevatorCart {
 			}
 
 			public String dowork() {
-				cart1.status = true;
-				System.out.println(status);
+				cart2.status = true;
 				System.out.println("Getting informtion on where to go");
-				cart1.receive2();
-				cart1.outPut();
+				cart2.outPut();
 				System.out.println();
 				return "Getting informtion on where to go";
 			}
@@ -261,7 +259,7 @@ public class ElevatorCart {
 				System.out.println();
 
 				//Elevator.info = new String[4];
-				cart1.status = false;
+				cart2.status = false;
 				return "Now that person has been dropped off, job done";
 			}
 
@@ -294,15 +292,15 @@ public class ElevatorCart {
 	
 	
 	public static void main(String args[])  {
-		cart1 = new ElevatorCart();
+		cart2 = new ElevatorCart1();
 		try {
-			cart1.receiveSocket = new DatagramSocket(510);
-			cart1.receiveSocket1 = new DatagramSocket(511);
+			cart2.receiveSocket = new DatagramSocket(520);
+			cart2.receiveSocket1 = new DatagramSocket(521);
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
 		while(true) {
-			cart1.receive();
+			cart2.receive();
 		}
 		
 	}

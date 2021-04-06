@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import project_Group10.ElevatorCart.elevatorstatemch;
 import project_Group10.Scheduler.statemachine;
 
 public class Elevator extends Thread {
@@ -33,46 +34,16 @@ public class Elevator extends Thread {
 
 	public static DatagramPacket sendPacket, receivePacket, receivePacketElev, receivePacketElev1;
 	public static DatagramSocket receiveSocket,sendSocket, EM, EMM;
+	
+	public static DatagramPacket elevPacket1, elevPacket12, elevPacket2, elevPacket3, elevPacket4;
+	public static DatagramSocket elevSocket1, elevSocket12, elevSocket2, elevSocket3, elevSocket4;
+	
+	
 	public static byte[] message;
-	public String Information1[];
-	public String Information2[];
-	private static ElevatorCart[] carts;
 
-	/**
-	 * This method returns to the scheduler class the results of the task complete. It updates the scheduler.
-	 */
-	public synchronized static void outPut() {
-
-		System.out.println("we are currently on the "+ info[1]+"floor.\n");
-		System.out.println("we are currently going"+ info[2]+"\n");
-		System.out.println("the current time is "+ info[0]+"\n");
-		System.out.println("we are currently in car number "+info[3]+"\n");
-
-	}
-
-
-	public  Elevator(int i) {
-
-		carts = new ElevatorCart[i];
-
-		for (int x=0; x<i; x++) {
-
-			carts[x] = new ElevatorCart(x);
-		}
-	}
 
 
 	public static void toSched() {
-		try {
-			receiveSocket = new DatagramSocket(550);
-			sendSocket = new DatagramSocket();
-			EM = new DatagramSocket(5501);
-			EMM = new DatagramSocket(5502);
-
-		} catch(SocketException se) {
-			se.printStackTrace();
-			System.exit(1);
-		} 
 
 		System.out.println("now waiting to receive information from Scheduler");
 
@@ -92,31 +63,52 @@ public class Elevator extends Thread {
 
 		if(s.equals("free") ) {
 			System.out.println("choosing elevator");
-			for (int i=0; i<carts.length; i++) {
-				if(carts[i].cartStatus() == false) {
-					String X = Integer.toString((i+1));
-					free2 = X.getBytes();
+			System.out.println("elv1: " + ElevatorCart.cart1.status);
+			System.out.println("elv2: " + ElevatorCart1.cart2.status);
+			if (ElevatorCart.cart1.status == false) {
+				String X = "1";
+				free2 = new byte[1];
+				free2 = X.getBytes();
 
-					try {
-						sendPacket = new DatagramPacket(free2, free2.length, InetAddress.getLocalHost(), 5500);
+				try {
+					sendPacket = new DatagramPacket(free2, free2.length, InetAddress.getLocalHost(), 5500);
 
-					} catch (UnknownHostException e) {
-						e.printStackTrace();
-						System.exit(1);
-					}
-
-					try {
-						sendSocket.send(sendPacket);
-					} catch (IOException e) {
-						e.printStackTrace();
-						System.exit(1);
-					}
-					System.out.println(new String(sendPacket.getData(), StandardCharsets.UTF_8));
-
-					break;
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
+					System.exit(1);
 				}
-			}
 
+				try {
+					sendSocket.send(sendPacket);
+				} catch (IOException e) {
+					e.printStackTrace();
+					System.exit(1);
+				}
+				System.out.println(new String(sendPacket.getData(), StandardCharsets.UTF_8));
+			}
+			
+			else if (ElevatorCart1.cart2.status == false) {
+				String X = "2";
+				free2 = new byte[1];
+				free2 = X.getBytes();
+
+				try {
+					sendPacket = new DatagramPacket(free2, free2.length, InetAddress.getLocalHost(), 5500);
+
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
+					System.exit(1);
+				}
+
+				try {
+					sendSocket.send(sendPacket);
+				} catch (IOException e) {
+					e.printStackTrace();
+					System.exit(1);
+				}
+				System.out.println(new String(sendPacket.getData(), StandardCharsets.UTF_8));
+			}
+			
 
 		}
 		else{
@@ -166,12 +158,41 @@ public class Elevator extends Thread {
 			String Info1 = new String(receivePacketElev1.getData(), StandardCharsets.UTF_8);
 			String[] Info2 = Info1.split(" ");
 			info = Info2;
-			carts[0].setDestFlr(Integer.parseInt(info[1]), Integer.parseInt(info[3]));
+			//ElevatorCart.setDestFlr(Integer.parseInt(info[1]), Integer.parseInt(info[3]));
+			//System.out.println(info[1]);
+			//System.out.println(info[3]);
 			//System.out.println(info[4]);
 			//System.out.println(info[5]);
-			carts[0].DoorTime = info[4];
-			carts[0].MotorTime = info[5];
-			carts[0].StateMachine2();
+			//ElevatorCart.cart1.destFlr = Integer.parseInt(info[1]);
+			//ElevatorCart.cart1.finalFlr = Integer.parseInt(info[3]);
+			//ElevatorCart.cart1.DoorTime = info[4];
+			//ElevatorCart.cart1.MotorTime = info[5];
+			//carts[0].StateMachine2();
+			byte[] go = "go".getBytes();
+			try {
+				elevPacket1 = new DatagramPacket(go, go.length, InetAddress.getLocalHost(), 510);
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			}
+			try {
+				elevSocket1.send(elevPacket1);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			System.out.println("Elevator1 on the move");
+			
+			
+			try {
+				elevPacket12 = new DatagramPacket(receivePacketElev1.getData(), receivePacketElev1.getData().length, InetAddress.getLocalHost(), 511);
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			}
+			try {
+				elevSocket12.send(elevPacket12);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
 		}
 		else if(s2.equals("2")) {
 			byte[] Info = new byte[100];
@@ -184,13 +205,36 @@ public class Elevator extends Thread {
 			String Info1 = new String(receivePacketElev1.getData(), StandardCharsets.UTF_8);
 			String[] Info2 = Info1.split(" ");
 			info = Info2;
-			carts[1].setDestFlr(Integer.parseInt(info[1]), Integer.parseInt(info[3]));
+			//ElevatorCart1.setDestFlr(Integer.parseInt(info[1]), Integer.parseInt(info[3]));
 			//System.out.println(info[4]);
 			//System.out.println(info[5]);
-			carts[1].DoorTime = info[4];
-			carts[1].MotorTime = info[5];
-			carts[1].StateMachine2();
-
+			//ElevatorCart1.DoorTime = info[4];
+			//ElevatorCart1.MotorTime = info[5];
+			//carts[1].StateMachine2();
+			byte[] go = "go".getBytes();
+			try {
+				elevPacket1 = new DatagramPacket(go, go.length, InetAddress.getLocalHost(), 520);
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			}
+			try {
+				elevSocket2.send(elevPacket2);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			System.out.println("Elevator1 on the move");
+			
+			try {
+				elevPacket12 = new DatagramPacket(receivePacketElev1.getData(), receivePacketElev1.getData().length, InetAddress.getLocalHost(), 521);
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			}
+			try {
+				elevSocket12.send(elevPacket12);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
 		}
 		else {
 			System.out.println("Whoops wrong information");
@@ -199,16 +243,25 @@ public class Elevator extends Thread {
 	}
 
 
-	public void run(){
-
-		//flr.sch.mn.getInfo();
-		//udp call
-
-	}
-
 	public static void main(String[] args) {
-		Elevator elv = new Elevator(2);
-		elv.toSched();
-	}
+		Elevator elv = new Elevator();
+		try {
+			receiveSocket = new DatagramSocket(550);
+			sendSocket = new DatagramSocket();
+			elevSocket1 = new DatagramSocket();
+			elevSocket12 = new DatagramSocket();
+			elevSocket2 = new DatagramSocket();
+			elevSocket3 = new DatagramSocket();
+			elevSocket4 = new DatagramSocket();
+			EM = new DatagramSocket(5501);
+			EMM = new DatagramSocket(5502);
 
+		} catch(SocketException se) {
+			se.printStackTrace();
+			System.exit(1);
+		} 
+		while(true) {
+			elv.toSched();
+		}
+	}
 }
