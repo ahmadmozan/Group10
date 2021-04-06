@@ -23,20 +23,33 @@ public class ElevatorCart {
 	private static String  currFlr;
 	private static int  destFlr;
 	private static int  finalFlr;
+	public String DoorTime;
+	public String MotorTime;
+	private static Elevator electoe;
+	
+	
 	
 
 
+	@SuppressWarnings("static-access")
 	public ElevatorCart(int i)  {
+		DoorTime= electoe.info[4];
+		MotorTime=electoe.info[5];
+	    
 		
 		cartNumber = i;
 		flrLamp = new Lamp();
 		cartDoor = new Door();
+		
 		motor = new Motor();
 		status = false;
 		currFlr = "1";
 		
-	}
+		
+		
 	
+	}
+
 	public boolean setDestFlr(int dest, int dest2)  {
 		
 		destFlr= dest;
@@ -55,7 +68,7 @@ public class ElevatorCart {
 	public boolean closeDoor(int i)  {
 		
 		
-		return cartDoor.closeDoor();	
+		return Door.closeDoor();	
 	}
 	
 	
@@ -63,14 +76,14 @@ public class ElevatorCart {
 	public boolean openDoor(int i)  {
 		
 		
-		return cartDoor.openDoor();		
+		return Door.openDoor();		
 	}
 	
 	
 	public boolean doorStatus()  {
 		
 		
-		return cartDoor.getDo();		
+		return Door.getDo();		
 	}
 
 
@@ -150,8 +163,8 @@ public class ElevatorCart {
 				long currentTime_door=start_door;
 				long end_door= start_door + 10*1000;
 
-				if (cartDoor.getDo() == false) {
-					cartDoor.closeDoor();
+				if (Door.getDo() == false) {
+					Door.closeDoor();
 				}
 				if(currentTime_door>=end_door) {
 					System.out.println("Error: Door malfunction");
@@ -177,13 +190,13 @@ public class ElevatorCart {
 					if(currentTime_move>=end_move) {
 						System.out.println("Error: Elevator malfunction");
 					}
+					
 				}
-
-				//Scheduler.sen.sendSignal();
-				cartDoor.openDoor();
+				
+				//Door.openDoor();
+				
 				//Scheduler.sen.clearSignal();
-
-				cartDoor.closeDoor();
+				Door.closeDoor();
 
 				System.out.println("Person secured inside elevator1");
 				System.out.println();
@@ -199,8 +212,8 @@ public class ElevatorCart {
 
 			public String dowork() {
 
-				if (cartDoor.getDo() == false) {
-					cartDoor.closeDoor();
+				if (Door.getDo() == false) {
+					Door.closeDoor();
 				}
                 
 				 
@@ -228,7 +241,7 @@ public class ElevatorCart {
 				long start= System.currentTimeMillis();
 				long currentTime=start;
 				long end= start + 30*1000;
-				cartDoor.openDoor();
+				Door.openDoor();
 				//Scheduler.sen.clearSignal();
 
 				try {
@@ -237,7 +250,7 @@ public class ElevatorCart {
 					e.printStackTrace();
 				}
 
-				cartDoor.closeDoor();
+				Door.closeDoor();
 				if(currentTime==end) {
 					return "Error: Door malfunction";
 				}
@@ -253,15 +266,15 @@ public class ElevatorCart {
 		};
 
 		public abstract elevatorstatemch next();
-
 		public abstract String dowork();
-
 	}
+	
+	
 
 	//state machine to cycle through the states we have
 		public synchronized void StateMachine2() {
 			elevatorstatemch state = elevatorstatemch.getInfo;
-			while (true) {
+			while(true) {
 				state.dowork();
 				state = state.next();
 

@@ -30,7 +30,7 @@ public class Elevator extends Thread {
 
 
 	public static Floor_main flr = new Floor_main();
-	
+
 	public static DatagramPacket sendPacket, receivePacket, receivePacketElev, receivePacketElev1;
 	public static DatagramSocket receiveSocket,sendSocket, EM, EMM;
 	public static byte[] message;
@@ -38,170 +38,174 @@ public class Elevator extends Thread {
 	public String Information2[];
 	private static ElevatorCart[] carts;
 
-/**
- * This method returns to the scheduler class the results of the task complete. It updates the scheduler.
- */
-public synchronized static void outPut() {
-	
-    System.out.println("we are currently on the "+ info[1]+"floor.\n");
-    System.out.println("we are currently going"+ info[2]+"\n");
-    System.out.println("the current time is "+ info[0]+"\n");
-    System.out.println("we are currently in car number "+info[3]+"\n");
+	/**
+	 * This method returns to the scheduler class the results of the task complete. It updates the scheduler.
+	 */
+	public synchronized static void outPut() {
 
-}
+		System.out.println("we are currently on the "+ info[1]+"floor.\n");
+		System.out.println("we are currently going"+ info[2]+"\n");
+		System.out.println("the current time is "+ info[0]+"\n");
+		System.out.println("we are currently in car number "+info[3]+"\n");
 
-
-public  Elevator(int i) {
-	
-	carts = new ElevatorCart[i];
-	
-	for (int x=0; x<i; x++) {
-		
-		carts[x] = new ElevatorCart(x);
 	}
-}
 
 
-public static void toSched() {
-	try {
-		receiveSocket = new DatagramSocket(550);
-		sendSocket = new DatagramSocket();
-		EM = new DatagramSocket(5501);
-		EMM = new DatagramSocket(5502);
-		
-	} catch(SocketException se) {
-        se.printStackTrace();
-        System.exit(1);
-     } 
-	
-	System.out.println("now waiting to receive information from Scheduler");
-	
-	byte[] free = new byte[4];
-	receivePacket = new DatagramPacket(free, free.length);
-	try {
-		receiveSocket.receive(receivePacket);
-	} catch (IOException e) {
-		e.printStackTrace();
-		System.exit(1);
+	public  Elevator(int i) {
+
+		carts = new ElevatorCart[i];
+
+		for (int x=0; x<i; x++) {
+
+			carts[x] = new ElevatorCart(x);
+		}
 	}
-	
-	byte[] free2 = new byte[1];
-	int x = 0;
-	String s = new String(receivePacket.getData(), StandardCharsets.UTF_8);
-	System.out.println(s);
-	
-	if(s.equals("free") ) {
-		System.out.println("choosing elevator");
-		for (int i=0; i<carts.length; i++) {
-			if(carts[i].cartStatus() == false) {
-				String X = Integer.toString((i+1));
-				free2 = X.getBytes();
-				
-				try {
-					sendPacket = new DatagramPacket(free2, free2.length, InetAddress.getLocalHost(), 5500);
 
-				} catch (UnknownHostException e) {
-					e.printStackTrace();
-					System.exit(1);
-				}
 
-				try {
-					sendSocket.send(sendPacket);
-				} catch (IOException e) {
-					e.printStackTrace();
-					System.exit(1);
+	public static void toSched() {
+		try {
+			receiveSocket = new DatagramSocket(550);
+			sendSocket = new DatagramSocket();
+			EM = new DatagramSocket(5501);
+			EMM = new DatagramSocket(5502);
+
+		} catch(SocketException se) {
+			se.printStackTrace();
+			System.exit(1);
+		} 
+
+		System.out.println("now waiting to receive information from Scheduler");
+
+		byte[] free = new byte[4];
+		receivePacket = new DatagramPacket(free, free.length);
+		try {
+			receiveSocket.receive(receivePacket);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+
+		byte[] free2 = new byte[1];
+		int x = 0;
+		String s = new String(receivePacket.getData(), StandardCharsets.UTF_8);
+		System.out.println(s);
+
+		if(s.equals("free") ) {
+			System.out.println("choosing elevator");
+			for (int i=0; i<carts.length; i++) {
+				if(carts[i].cartStatus() == false) {
+					String X = Integer.toString((i+1));
+					free2 = X.getBytes();
+
+					try {
+						sendPacket = new DatagramPacket(free2, free2.length, InetAddress.getLocalHost(), 5500);
+
+					} catch (UnknownHostException e) {
+						e.printStackTrace();
+						System.exit(1);
+					}
+
+					try {
+						sendSocket.send(sendPacket);
+					} catch (IOException e) {
+						e.printStackTrace();
+						System.exit(1);
+					}
+					System.out.println(new String(sendPacket.getData(), StandardCharsets.UTF_8));
+
+					break;
 				}
-				System.out.println(new String(sendPacket.getData(), StandardCharsets.UTF_8));
-				
-				break;
 			}
-		}
-		
-		
-	}
-	else{
-		String X = Integer.toString(0);
-		free2 = X.getBytes();
-		try {
-			sendPacket = new DatagramPacket(free2, free2.length, InetAddress.getLocalHost(), 5500);
 
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-			System.exit(1);
+
+		}
+		else{
+			String X = Integer.toString(0);
+			free2 = X.getBytes();
+			try {
+				sendPacket = new DatagramPacket(free2, free2.length, InetAddress.getLocalHost(), 5500);
+
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+				System.exit(1);
+			}
+
+			try {
+				sendSocket.send(sendPacket);
+			} catch (IOException e) {
+				e.printStackTrace();
+				System.exit(1);
+			}
+			System.out.println(new String(sendPacket.getData(), StandardCharsets.UTF_8));
 		}
 
+
+
+		byte[] free3 = new byte[1];
+		receivePacketElev = new DatagramPacket(free3, free3.length);
+
 		try {
-			sendSocket.send(sendPacket);
+			EM.receive(receivePacketElev);
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		System.out.println(new String(sendPacket.getData(), StandardCharsets.UTF_8));
-	}
-	
-	
-	
-	byte[] free3 = new byte[1];
-	receivePacketElev = new DatagramPacket(free3, free3.length);
-	
-	try {
-		EM.receive(receivePacketElev);
-	} catch (IOException e) {
-		e.printStackTrace();
-		System.exit(1);
-	}
-	
-	String s2 = new String(receivePacketElev.getData(), StandardCharsets.UTF_8);
-	System.out.println(s2);
-	
-	if(s2.equals("1") ) {
-		byte[] Info = new byte[100];
-		receivePacketElev1 = new DatagramPacket(Info, Info.length);
-		try {
-			EMM.receive(receivePacketElev1);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
+		String s2 = new String(receivePacketElev.getData(), StandardCharsets.UTF_8);
+		System.out.println(s2);
+
+		if(s2.equals("1") ) {
+			byte[] Info = new byte[100];
+			receivePacketElev1 = new DatagramPacket(Info, Info.length);
+			try {
+				EMM.receive(receivePacketElev1);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			String Info1 = new String(receivePacketElev1.getData(), StandardCharsets.UTF_8);
+			String[] Info2 = Info1.split(" ");
+			info = Info2;
+			carts[0].setDestFlr(Integer.parseInt(info[1]), Integer.parseInt(info[3]));
+			carts[0].DoorTime=info[4];
 		
-		String Info1 = new String(receivePacketElev1.getData(), StandardCharsets.UTF_8);
-		String[] Info2 = Info1.split(" ");
-		info = Info2;
-		carts[0].setDestFlr(Integer.parseInt(info[1]), Integer.parseInt(info[3]));
-		carts[0].StateMachine2();
-	}
-	else if(s2.equals("2")) {
-		byte[] Info = new byte[100];
-		receivePacketElev1 = new DatagramPacket(Info, Info.length);
-		try {
-			EMM.receive(receivePacketElev1);
-		} catch (IOException e) {
-			e.printStackTrace();
+			carts[0].MotorTime=info[5];
+			
+			carts[0].StateMachine2();
 		}
-		String Info1 = new String(receivePacketElev1.getData(), StandardCharsets.UTF_8);
-		String[] Info2 = Info1.split(" ");
-		info = Info2;
-		carts[1].setDestFlr(Integer.parseInt(info[1]), Integer.parseInt(info[3]));
-		carts[1].StateMachine2();
-		
+		else if(s2.equals("2")) {
+			byte[] Info = new byte[100];
+			receivePacketElev1 = new DatagramPacket(Info, Info.length);
+			try {
+				EMM.receive(receivePacketElev1);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			String Info1 = new String(receivePacketElev1.getData(), StandardCharsets.UTF_8);
+			String[] Info2 = Info1.split(" ");
+			info = Info2;
+			carts[1].setDestFlr(Integer.parseInt(info[1]), Integer.parseInt(info[3]));
+			carts[1].StateMachine2();
+
+		}
+		else {
+			System.out.println("Whoops wrong information");
+		}
+
 	}
-	else {
-		System.out.println("Whoops wrong information");
+
+
+	public void run(){
+
+		//flr.sch.mn.getInfo();
+		//udp call
+
 	}
-	
-}
 
+	public static void main(String[] args) {
 
-public void run(){
-	
-	//flr.sch.mn.getInfo();
-	//udp call
-
-    }
-
-public static void main(String[] args) {
-	
-	Elevator elv = new Elevator(2);
-	elv.toSched();
-}
+		Elevator elv = new Elevator(2);
+		elv.toSched();
+	}
 
 }

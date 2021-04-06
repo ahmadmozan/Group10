@@ -14,6 +14,7 @@ public class Motor {
 	
 private Boolean status ;
 public static String MTime;
+private static Elevator ElevaM;
 
 	// Turns on Motor
 	public void turnOn() {
@@ -36,6 +37,8 @@ public static String MTime;
 	
 	// Motor moves up to input floor and returns true if successful
 	public void moveUp(int floor) {
+		MTime= ElevaM.info[5];
+		
 		
 		System.out.println("we are currently moving up to floor " + floor);
 		try {

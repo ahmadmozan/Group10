@@ -6,6 +6,9 @@ public class Door{
 	
 	public static boolean door = true;  	// Door closed = true
 	public static String DTime;
+	private static Elevator ElevaD;
+	
+
 
 	// gets door
 	
@@ -16,10 +19,13 @@ public class Door{
 
 	// opens door
 	public static boolean openDoor() {
+		DTime= ElevaD.info[4];
+		
 		if(door == true) {
 			door = false;
 			System.out.println("opening door");
 			try {
+				
 				TimeUnit.SECONDS.sleep(Integer.parseInt(DTime)/2);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
