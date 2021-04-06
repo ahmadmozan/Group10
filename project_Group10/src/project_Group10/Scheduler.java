@@ -92,7 +92,6 @@ public class Scheduler extends Thread{
 		          e.printStackTrace();
 		          System.exit(1);
 		      }
-		      receiveSocket.close();
 		   }
 		 
 		 

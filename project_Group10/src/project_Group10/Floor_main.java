@@ -74,7 +74,6 @@ public class Floor_main extends Thread {
 	      }
 
 	      System.out.println("Information sent to Scheduler");
-	      sendReceiveSocket.close();
 	   }
 	
 	public static void main(String[] args) {
@@ -87,8 +86,6 @@ public class Floor_main extends Thread {
 		String[] op = data;
 	    for(String str : op)
 	        System.out.println(str);
-	    convertToByte(data);
-	    floor.sendAndReceive();
 	}
 	
 	public static void getData() {
@@ -102,7 +99,15 @@ public class Floor_main extends Thread {
 				for (int i=0;i<1;i++) {
 				data[i]=line;
 				line=reader.readLine();
-				
+				convertToByte(data);
+				sendAndReceive();
+				try {
+					Thread.sleep(20000);
+				} 
+				catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
 				}
 				//System.out.println(Arrays.toString(data));
 				
