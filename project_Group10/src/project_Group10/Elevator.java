@@ -167,10 +167,10 @@ public class Elevator extends Thread {
 			String[] Info2 = Info1.split(" ");
 			info = Info2;
 			carts[0].setDestFlr(Integer.parseInt(info[1]), Integer.parseInt(info[3]));
-			carts[0].DoorTime=info[4];
-		
-			carts[0].MotorTime=info[5];
-			
+			//System.out.println(info[4]);
+			//System.out.println(info[5]);
+			carts[0].DoorTime = info[4];
+			carts[0].MotorTime = info[5];
 			carts[0].StateMachine2();
 		}
 		else if(s2.equals("2")) {
@@ -185,6 +185,10 @@ public class Elevator extends Thread {
 			String[] Info2 = Info1.split(" ");
 			info = Info2;
 			carts[1].setDestFlr(Integer.parseInt(info[1]), Integer.parseInt(info[3]));
+			//System.out.println(info[4]);
+			//System.out.println(info[5]);
+			carts[1].DoorTime = info[4];
+			carts[1].MotorTime = info[5];
 			carts[1].StateMachine2();
 
 		}
@@ -203,7 +207,6 @@ public class Elevator extends Thread {
 	}
 
 	public static void main(String[] args) {
-
 		Elevator elv = new Elevator(2);
 		elv.toSched();
 	}

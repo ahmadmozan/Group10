@@ -19,13 +19,13 @@ public class ElevatorCart {
 	private static Door cartDoor;
 	private int cartNumber;
 	private static boolean status;
-	private Motor motor;
-	private static String  currFlr;
+	private static int  currFlr;
 	private static int  destFlr;
 	private static int  finalFlr;
-	public String DoorTime;
-	public String MotorTime;
-	private static Elevator electoe;
+	public static String DoorTime;
+	public static String MotorTime;
+	
+	public static Motor mot;
 	
 	
 	
@@ -33,17 +33,13 @@ public class ElevatorCart {
 
 	@SuppressWarnings("static-access")
 	public ElevatorCart(int i)  {
-		DoorTime= electoe.info[4];
-		MotorTime=electoe.info[5];
-	    
 		
 		cartNumber = i;
 		flrLamp = new Lamp();
 		cartDoor = new Door();
-		
-		motor = new Motor();
+		mot = new Motor();
 		status = false;
-		currFlr = "1";
+		currFlr = 1;
 		
 		
 		
@@ -109,10 +105,10 @@ public class ElevatorCart {
 			}catch (NumberFormatException e) {}
 		
 		if (destFlr !=0) {
-			motor.moveUp(destFlr);
+			mot.moveUp(destFlr);
 			}
 		
-		currFlr = floor;
+		currFlr = Integer.parseInt(floor);
 	}
 	
 	
@@ -124,9 +120,9 @@ public class ElevatorCart {
 			}catch (NumberFormatException e) {}
 		
 		if (destFlr !=0) {
-			motor.moveUp(destFlr);
+			mot.moveUp(destFlr);
 			}
-		currFlr = floor;
+		currFlr = Integer.parseInt(floor);
 	}
 	
 /////////////////////////////////////////
@@ -159,41 +155,51 @@ public class ElevatorCart {
 
 				System.out.println("Information received!");
 				System.out.println("lets move elevator1 to desired location");
+				
+				mot.MTime = MotorTime;
+				cartDoor.DTime = DoorTime;
+				
 				long start_door= System.currentTimeMillis();
 				long currentTime_door=start_door;
 				long end_door= start_door + 10*1000;
 
-				if (Door.getDo() == false) {
-					Door.closeDoor();
+				if (cartDoor.getDo() == false) {
+					cartDoor.closeDoor();
 				}
 				if(currentTime_door>=end_door) {
 					System.out.println("Error: Door malfunction");
 				}
 
-				if (Integer.parseInt(currFlr) < destFlr) {
+				if (currFlr > destFlr) {
 					long start_move= System.currentTimeMillis();
 					long currentTime_move=start_move;
 					long end_move1= start_move + 20*1000;
 					System.out.println("moving down");
-					//Scheduler.mot.moveDown(Integer.parseInt(Scheduler.floorno));
+					System.out.println(MotorTime);
+					//int x = Integer.parseInt(MotorTime);
+					//System.out.println(x);
+					mot.moveDown(destFlr);
 					if(currentTime_move>=end_move1) {
 						System.out.println("Error: Elevator malfunction");
 					}
 				}
 
-				if (Integer.parseInt(currFlr) > destFlr) {
+				if (currFlr < destFlr) {
 					long start_move= System.currentTimeMillis();
 					long currentTime_move=start_move;
 					long end_move= start_move + 20*1000;
 					System.out.println("moving up");
-					//Scheduler.mot.moveUp(Integer.parseInt(Scheduler.floorno));
+					System.out.println(MotorTime);
+					//int x = Integer.parseInt(MotorTime);
+					//System.out.println(x);
+					mot.moveUp(destFlr);
 					if(currentTime_move>=end_move) {
 						System.out.println("Error: Elevator malfunction");
 					}
 					
 				}
 				
-				//Door.openDoor();
+				Door.openDoor();
 				
 				//Scheduler.sen.clearSignal();
 				Door.closeDoor();
@@ -218,20 +224,24 @@ public class ElevatorCart {
                 
 				 
 
-				if (Integer.parseInt(currFlr) < destFlr) {
+				if (currFlr < finalFlr) {
 					long start_move= System.currentTimeMillis();
 					long currentTime_move=start_move;
 					long end_move= start_move + 20*1000;
-					//Scheduler.mot.moveUp(Button.getdestFloor());
+					System.out.println("moving up");
+					System.out.println(MotorTime);
+					mot.moveUp(finalFlr);
 					if(currentTime_move>=end_move) {
 						System.out.println("Error: Elevator malfunction");
 					}
 				}
-				if (Integer.parseInt(currFlr) > destFlr) {
+				if (currFlr > finalFlr) {
 					long start_move= System.currentTimeMillis();
 					long currentTime_move=start_move;
 					long end_move= start_move + 20*1000;
-					//Scheduler.mot.moveDown(Button.getdestFloor());
+					System.out.println("moving down");
+					System.out.println(MotorTime);
+					mot.moveDown(finalFlr);
 					if(currentTime_move>=end_move) {
 						System.out.println("Error: Elevator malfunction");
 					}
@@ -243,12 +253,6 @@ public class ElevatorCart {
 				long end= start + 30*1000;
 				Door.openDoor();
 				//Scheduler.sen.clearSignal();
-
-				try {
-					TimeUnit.SECONDS.sleep(5);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
 
 				Door.closeDoor();
 				if(currentTime==end) {

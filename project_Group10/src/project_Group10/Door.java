@@ -6,7 +6,6 @@ public class Door{
 	
 	public static boolean door = true;  	// Door closed = true
 	public static String DTime;
-	private static Elevator ElevaD;
 	
 
 
@@ -19,7 +18,6 @@ public class Door{
 
 	// opens door
 	public static boolean openDoor() {
-		DTime= ElevaD.info[4];
 		
 		if(door == true) {
 			door = false;
