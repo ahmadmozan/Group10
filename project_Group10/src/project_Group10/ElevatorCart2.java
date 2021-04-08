@@ -26,7 +26,8 @@ public class ElevatorCart2 extends Thread{
 	public static String MotorTime;
 	public static DatagramPacket receive, receive1;
 	public static DatagramSocket receiveSocket, receiveSocket1;
-	public static Motor mot = new Motor();;
+	public static Motor mot = new Motor();
+	public static boolean shutdown;
 	
 	public static String info[] = new String[6];
 	
@@ -151,43 +152,43 @@ public class ElevatorCart2 extends Thread{
 				mot.MTime = MotorTime;
 				cartDoor.DTime = DoorTime;
 				
-				long start_door= System.currentTimeMillis();
-				long currentTime_door=start_door;
-				long end_door= start_door + 10*1000;
+				
 
 				if (cartDoor.getDo() == false) {
 					cartDoor.closeDoor();
 				}
-				if(currentTime_door>=end_door) {
-					System.out.println("Error: Door malfunction");
-				}
+				
 
 				if (currFlr > destFlr) {
-					long start_move= System.currentTimeMillis();
-					long currentTime_move=start_move;
-					long end_move1= start_move + 20*1000;
+					
 					System.out.println("moving down");
 					System.out.println(MotorTime);
 					//int x = Integer.parseInt(MotorTime);
 					//System.out.println(x);
 					mot.moveDown(destFlr);
-					if(currentTime_move>=end_move1) {
-						System.out.println("Error: Elevator malfunction");
+					if(mot.shutdown()==true) {
+						shutdown=true;
 					}
+					else {
+						shutdown=false;
+					}
+					
 				}
 
 				if (currFlr < destFlr) {
-					long start_move= System.currentTimeMillis();
-					long currentTime_move=start_move;
-					long end_move= start_move + 20*1000;
+					
 					System.out.println("moving up");
 					System.out.println(MotorTime);
 					//int x = Integer.parseInt(MotorTime);
 					//System.out.println(x);
 					mot.moveUp(destFlr);
-					if(currentTime_move>=end_move) {
-						System.out.println("Error: Elevator malfunction");
+					if(mot.shutdown()==true) {
+						shutdown=true;
 					}
+					else {
+						shutdown=false;
+					}
+					
 					
 				}
 				
@@ -217,39 +218,39 @@ public class ElevatorCart2 extends Thread{
 				 
 
 				if (currFlr < finalFlr) {
-					long start_move= System.currentTimeMillis();
-					long currentTime_move=start_move;
-					long end_move= start_move + 20*1000;
+					
 					System.out.println("moving up");
 					System.out.println(MotorTime);
 					mot.moveUp(finalFlr);
-					if(currentTime_move>=end_move) {
-						System.out.println("Error: Elevator malfunction");
+					if(mot.shutdown()==true) {
+						shutdown=true;
 					}
+					else {
+						shutdown=false;
+					}
+					
 				}
 				if (currFlr > finalFlr) {
-					long start_move= System.currentTimeMillis();
-					long currentTime_move=start_move;
-					long end_move= start_move + 20*1000;
+					
 					System.out.println("moving down");
 					System.out.println(MotorTime);
 					mot.moveDown(finalFlr);
-					if(currentTime_move>=end_move) {
-						System.out.println("Error: Elevator malfunction");
+					if(mot.shutdown()==true) {
+						shutdown=true;
 					}
+					else {
+						shutdown=false;
+					}
+					
 				}
 
 				//Scheduler.sen.sendSignal();
-				long start= System.currentTimeMillis();
-				long currentTime=start;
-				long end= start + 30*1000;
+				
 				Door.openDoor();
 				//Scheduler.sen.clearSignal();
 
 				Door.closeDoor();
-				if(currentTime==end) {
-					return "Error: Door malfunction";
-				}
+			
 				System.out.println(cMon.getStatus3());
 				System.out.println("Now that person has been dropped off, job done");
 				System.out.println();
@@ -274,6 +275,9 @@ public class ElevatorCart2 extends Thread{
 			while(true) {
 				state.dowork();
 				if(state == state.Move2) {
+					break;
+				}
+				if(shutdown=true) {
 					break;
 				}
 				state = state.next();
