@@ -24,9 +24,14 @@ public class Door{
 		if(door == true) {
 			door = false;
 			System.out.println("Opening door");
-			if(Integer.parseInt(DTime)>9.52) {
+			if(Double.parseDouble(DTime)>9.52) {
 				System.out.println("Error: Door did not open");
 				System.out.println("Attempting to open door again");
+				try {
+					TimeUnit.SECONDS.sleep((long) 9.52);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				DTime="9.52";
 			}
 //			startTimeElev= System.currentTimeMillis();
@@ -34,7 +39,7 @@ public class Door{
 			
 			try {
 				
-				TimeUnit.SECONDS.sleep(Integer.parseInt(DTime)/2);
+				TimeUnit.SECONDS.sleep((long) (Double.parseDouble(DTime)/2));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -53,16 +58,16 @@ public class Door{
 		}else {
 			
 			System.out.println("Closing door");
-			if(Integer.parseInt(DTime)>9.52) {
-				System.out.println("Error: Door did not open");
-				System.out.println("Attempting to open door again");
-				DTime="9.52";
+			try {
+				TimeUnit.SECONDS.sleep((long) 9.52);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 //			startTimeElev= System.currentTimeMillis();
 //			
 //			endTimeElev= (long) (startTimeElev + ((9.52/2)));
 			try {
-				TimeUnit.SECONDS.sleep(Integer.parseInt(DTime)/2);
+				TimeUnit.SECONDS.sleep((long) (Double.parseDouble(DTime)/2));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

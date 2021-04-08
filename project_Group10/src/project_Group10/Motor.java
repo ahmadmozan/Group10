@@ -42,9 +42,14 @@ private Boolean shutdown;
 		
 		System.out.println("We are currently moving up to floor " + floor);
 		
-		if(Integer.parseInt(MTime)>7.18*floor) {
+		if(Integer.parseInt(MTime)>7.18) {
 
 			System.out.println("Error: Elevator did not reach the floor");
+			try {
+				TimeUnit.SECONDS.sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			shutdown=true;
 		}
 		
@@ -66,7 +71,7 @@ private Boolean shutdown;
 	public void moveDown(int floor) {
 			
 		System.out.println("We are currently moving down to floor " + floor);
-		if(Integer.parseInt(MTime)>7.18*floor) {
+		if(Integer.parseInt(MTime)>7.18) {
 
 			System.out.println("Error: Elevator did not reach the floor");
 			shutdown=true;
