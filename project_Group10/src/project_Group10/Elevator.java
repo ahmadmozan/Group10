@@ -395,7 +395,7 @@ public class Elevator extends Thread {
 	}
 
 	public static void main(String[] args) {
-		
+		System.out.println();
 		CartMonitor cc = new CartMonitor();
 		
 		Elevator elvMain = new Elevator(cc);
