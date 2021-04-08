@@ -277,9 +277,9 @@ public class ElevatorCart3 extends Thread{
 				if(state == state.Move2) {
 					break;
 				}
-				if(shutdown=true) {
-					break;
-				}
+//				if(shutdown=true) {
+//					break;
+//				}
 				state = state.next();
 				
 				try {
