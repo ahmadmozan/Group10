@@ -4,6 +4,9 @@
 package project_Group10;
 
 import java.util.concurrent.TimeUnit;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
+import java.util.Date;
 
 /**
  * @author bs
@@ -40,11 +43,11 @@ private Boolean shutdown;
 	// Motor moves up to input floor and returns true if successful
 	public void moveUp(int floor) {
 		
-		System.out.println("We are currently moving up to floor " + floor);
+		System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"We are currently moving up to floor " + floor+"]");
 		
 		if(Integer.parseInt(MTime)>7.18) {
 
-			System.out.println("Error: Elevator did not reach the floor");
+			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Error: Elevator did not reach the floor"+"]");
 			try {
 				TimeUnit.SECONDS.sleep(2000);
 			} catch (InterruptedException e) {
@@ -62,7 +65,7 @@ private Boolean shutdown;
 		}
 		
 		
-		System.out.println("We just arrived at floor " + floor);
+		System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"We just arrived at floor " + floor+"]");
 		shutdown=false;
 		}
 	}
@@ -70,10 +73,10 @@ private Boolean shutdown;
 	// Motor moves down to input floor and returns true if successful
 	public void moveDown(int floor) {
 			
-		System.out.println("We are currently moving down to floor " + floor);
+		System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"We are currently moving down to floor " + floor+"]");
 		if(Integer.parseInt(MTime)>7.18) {
 
-			System.out.println("Error: Elevator did not reach the floor");
+			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Error: Elevator did not reach the floor"+"]");
 			shutdown=true;
 		}
 		else {
@@ -82,7 +85,7 @@ private Boolean shutdown;
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			
-			System.out.println("We just arrived at floor " + floor);
+			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"We just arrived at floor " + floor+"]");
 			shutdown=false;
 			}
 	}

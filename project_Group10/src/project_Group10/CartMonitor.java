@@ -1,7 +1,9 @@
 package project_Group10;
 
 public class CartMonitor {
-	
+	/**
+	 * In this class all the elevator are set to false which indicates that they are free and when they are true they are  busy
+	 */
 	public static boolean elev1 = false;
 	public static boolean elev2 = false;
 	public static boolean elev3 = false;

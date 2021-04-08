@@ -7,6 +7,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
+import java.util.Date;
 
 import project_Group10.ElevatorCart.elevatorstatemch;
 
@@ -42,10 +45,10 @@ public class ElevatorCart3 extends Thread{
 	 */
 	public synchronized static void outPut() {
 
-		System.out.println("we are currently on the "+ info[1]+" floor.\n");
-		System.out.println("we are currently going "+ info[2]+"\n");
-		System.out.println("the current time is "+ info[0]+"\n");
-		System.out.println("we are heading to "+info[3]+"\n");
+		System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"we are currently on the "+ info[1]+" floor.]\n");
+		System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"we are currently going "+ info[2]+"]"+"\n");
+		System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"the current time is "+ info[0]+"]"+"\n");
+		System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"we are heading to "+info[3]+"]"+"\n");
 
 	}
 	
@@ -63,18 +66,18 @@ public class ElevatorCart3 extends Thread{
 
 	      signal = new byte[2];
 	      receive= new DatagramPacket(signal, signal.length);
-	      System.out.println("Waiting for task...\n");
+	      System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Waiting for task...]\n");
 
 	      try {        
-	         System.out.println("Waiting..."); // so we know we're waiting
+	         System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Waiting..."+"]"); // so we know we're waiting
 	         receiveSocket.receive(receive);
 	      } catch (IOException e) {
 	         e.printStackTrace();
 	         System.exit(1);
 	      }
 
-	      System.out.println(receive.getData());
-	      System.out.println("Task received. Moving now...");
+	      System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+receive.getData()+"]");
+	      System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Task received. Moving now..."+"]");
 	      
 	      String s = new String(receive.getData(), StandardCharsets.UTF_8);
 	      System.out.println(s);
@@ -83,7 +86,7 @@ public class ElevatorCart3 extends Thread{
 	    	  StateMachine2();
 	      }
 	      else {
-	    	  System.out.println("whoops something went wrong");
+	    	  System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"whoops something went wrong"+"]");
 	      }
 	      
 	      // Slow things down (wait 5 seconds)
@@ -129,8 +132,8 @@ public class ElevatorCart3 extends Thread{
 
 			public String dowork() {
 				//status = true;
-				System.out.println(cMon.getStatus4());
-				System.out.println("Getting informtion on where to go");
+				System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+cMon.getStatus4()+"]");
+				System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Getting informtion on where to go"+"]");
 				receive2();
 				outPut();
 				System.out.println();
@@ -146,8 +149,8 @@ public class ElevatorCart3 extends Thread{
 
 			public String dowork() {
 
-				System.out.println("Information received!");
-				System.out.println("lets move elevator4 to desired location");
+				System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Information received!"+"]");
+				System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"lets move elevator4 to desired location"+"]");
 				
 				mot.MTime = MotorTime;
 				cartDoor.DTime = DoorTime;
@@ -161,8 +164,8 @@ public class ElevatorCart3 extends Thread{
 
 				if (currFlr > destFlr) {
 					
-					System.out.println("moving down");
-					System.out.println(MotorTime);
+					System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"moving down"+"]");
+					System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+MotorTime+"]");
 					//int x = Integer.parseInt(MotorTime);
 					//System.out.println(x);
 					mot.moveDown(destFlr);
@@ -177,8 +180,8 @@ public class ElevatorCart3 extends Thread{
 
 				if (currFlr < destFlr) {
 					
-					System.out.println("moving up");
-					System.out.println(MotorTime);
+					System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"moving up"+"]");
+					System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+MotorTime+"]");
 					//int x = Integer.parseInt(MotorTime);
 					//System.out.println(x);
 					mot.moveUp(destFlr);
@@ -196,8 +199,8 @@ public class ElevatorCart3 extends Thread{
 				
 				//Scheduler.sen.clearSignal();
 				Door.closeDoor();
-				System.out.println(cMon.getStatus4());
-				System.out.println("Person secured inside elevator4");
+				System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+cMon.getStatus4()+"]");
+				System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Person secured inside elevator4"+"]");
 				System.out.println();
 				return "Person secured inside elevator1";
 			}
@@ -219,8 +222,8 @@ public class ElevatorCart3 extends Thread{
 
 				if (currFlr < finalFlr) {
 					
-					System.out.println("moving up");
-					System.out.println(MotorTime);
+					System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"moving up"+"]");
+					System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+MotorTime+"]");
 					mot.moveUp(finalFlr);
 					if(mot.shutdown()==true) {
 						shutdown=true;
@@ -232,8 +235,8 @@ public class ElevatorCart3 extends Thread{
 				}
 				if (currFlr > finalFlr) {
 					
-					System.out.println("moving down");
-					System.out.println(MotorTime);
+					System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"moving down"+"]");
+					System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+MotorTime+"]");
 					mot.moveDown(finalFlr);
 					if(mot.shutdown()==true) {
 						shutdown=true;
@@ -251,8 +254,8 @@ public class ElevatorCart3 extends Thread{
 
 				Door.closeDoor();
 				
-				System.out.println(cMon.getStatus4());
-				System.out.println("Now that person has been dropped off, job done");
+				System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+cMon.getStatus4()+"]");
+				System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Now that person has been dropped off, job done"+"]");
 				System.out.println();
 
 				//Elevator.info = new String[4];

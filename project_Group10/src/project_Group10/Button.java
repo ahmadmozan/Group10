@@ -3,6 +3,9 @@ package project_Group10;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
+import java.util.Date;
 /**
  * This class is used to control the Buttons on the system. It has the floor buttons indicating up or down and elevator buttons indicating which floor to 
  * travel to.
@@ -11,7 +14,7 @@ import java.util.Scanner;
  */
 public class Button {
 	private String direction= null;
-	private static int floorNum;
+	private static int floorNum;// floor of which the person is at in the moment 
 	private static int max_floors= 5;
 	public static int destFloor;
 	
@@ -66,7 +69,7 @@ public class Button {
 			break;
 		}
 		else {
-			System.out.println("There are only 5 floors, which floor are you on?");
+			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"There are only 5 floors, which floor are you on?"+"]");
 		}
 	}
 		return floornum;
@@ -79,18 +82,18 @@ public class Button {
 		while(true) {
 			@SuppressWarnings("resource")
 			Scanner enterFloor = new Scanner(System.in);
-			System.out.println("which floor would you like to go to?");
+			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"which floor would you like to go to?"+"]");
 			floor=enterFloor.nextInt();
 			if (floor<max_floors) {
-				System.out.println("Going to floor: "+ floor);
+				System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Going to floor: "+ floor+"]");
 				break;
 			}
 			else {
-				System.out.println("There are only 5 floors");
+				System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"There are only 5 floors"+"]");
 			}
 			
 		}
-		destFloor = floor;
+		destFloor = floor;// the floor of which the person would like to be dropped off at
 		return floor;
 		
 	}
