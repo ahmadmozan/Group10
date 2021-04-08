@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 import project_Group10.ElevatorCart.elevatorstatemch;
 
 
-public class ElevatorCart extends Thread{
+public class ElevatorCart3 extends Thread{
 
 	//private DatagramPacket m1,EM1;
 	private Lamp flrLamp = new Lamp();
@@ -32,7 +32,7 @@ public class ElevatorCart extends Thread{
 	
 	public static CartMonitor cMon;
 	
-	public ElevatorCart(CartMonitor cc) {
+	public ElevatorCart3(CartMonitor cc) {
 		cMon = cc;
 	}
 	
@@ -128,7 +128,7 @@ public class ElevatorCart extends Thread{
 
 			public String dowork() {
 				//status = true;
-				System.out.println(cMon.getStatus1());
+				System.out.println(cMon.getStatus4());
 				System.out.println("Getting informtion on where to go");
 				receive2();
 				outPut();
@@ -146,7 +146,7 @@ public class ElevatorCart extends Thread{
 			public String dowork() {
 
 				System.out.println("Information received!");
-				System.out.println("lets move elevator1 to desired location");
+				System.out.println("lets move elevator4 to desired location");
 				
 				mot.MTime = MotorTime;
 				cartDoor.DTime = DoorTime;
@@ -195,8 +195,8 @@ public class ElevatorCart extends Thread{
 				
 				//Scheduler.sen.clearSignal();
 				Door.closeDoor();
-				System.out.println(cMon.getStatus1());
-				System.out.println("Person secured inside elevator1");
+				System.out.println(cMon.getStatus4());
+				System.out.println("Person secured inside elevator4");
 				System.out.println();
 				return "Person secured inside elevator1";
 			}
@@ -250,7 +250,7 @@ public class ElevatorCart extends Thread{
 				if(currentTime==end) {
 					return "Error: Door malfunction";
 				}
-				System.out.println(cMon.getStatus1());
+				System.out.println(cMon.getStatus4());
 				System.out.println("Now that person has been dropped off, job done");
 				System.out.println();
 
@@ -270,7 +270,7 @@ public class ElevatorCart extends Thread{
 	//state machine to cycle through the states we have
 		public synchronized static void StateMachine2() {
 			elevatorstatemch state = elevatorstatemch.getInfo;
-			cMon.setTrue1();
+			cMon.setTrue4();
 			while(true) {
 				state.dowork();
 				if(state == state.Move2) {
@@ -284,13 +284,13 @@ public class ElevatorCart extends Thread{
 					e.printStackTrace();
 				}
 			}
-			cMon.setFalse1();
+			cMon.setFalse4();
 		}
 
 		public void run() {
 			try {
-				receiveSocket = new DatagramSocket(510);
-				receiveSocket1 = new DatagramSocket(511);
+				receiveSocket = new DatagramSocket(540);
+				receiveSocket1 = new DatagramSocket(541);
 			} catch (SocketException e) {
 				e.printStackTrace();
 			}

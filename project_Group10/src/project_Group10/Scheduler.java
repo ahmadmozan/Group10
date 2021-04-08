@@ -347,6 +347,76 @@ public class Scheduler extends Thread{
 			
 		}
 		}
+		else if(new String(receivePacket1.getData(),StandardCharsets.UTF_8).equals("3")) {
+
+			byte[] Elev = new byte[1];
+			String X2 = "3";
+			Elev = X2.getBytes();
+			
+			try {
+				sendPacketElev = new DatagramPacket(Elev, Elev.length, InetAddress.getLocalHost(), 5501);
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+				System.exit(1);
+			}
+			try {
+				sendSocketElev.send(sendPacketElev);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+				System.exit(1);
+			}
+			
+			
+			try {
+				sendPacket1 = new DatagramPacket(data, data.length, InetAddress.getLocalHost(), 5502);
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+				System.exit(1);
+			}
+			
+			try {
+				sendSocket1.send(sendPacket1);
+			} catch (IOException e) {
+				e.printStackTrace();
+			
+			
+		}
+		}
+		else if(new String(receivePacket1.getData(),StandardCharsets.UTF_8).equals("4")) {
+
+			byte[] Elev = new byte[1];
+			String X2 = "4";
+			Elev = X2.getBytes();
+			
+			try {
+				sendPacketElev = new DatagramPacket(Elev, Elev.length, InetAddress.getLocalHost(), 5501);
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+				System.exit(1);
+			}
+			try {
+				sendSocketElev.send(sendPacketElev);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+				System.exit(1);
+			}
+			
+			
+			try {
+				sendPacket1 = new DatagramPacket(data, data.length, InetAddress.getLocalHost(), 5502);
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+				System.exit(1);
+			}
+			
+			try {
+				sendSocket1.send(sendPacket1);
+			} catch (IOException e) {
+				e.printStackTrace();
+			
+			
+		}
+		}
 		else{
 			System.out.println("whoops elevators busy try again in a moment!");
 		}

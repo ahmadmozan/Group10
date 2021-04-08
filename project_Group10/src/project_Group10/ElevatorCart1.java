@@ -11,39 +11,33 @@ import java.util.concurrent.TimeUnit;
 import project_Group10.ElevatorCart.elevatorstatemch;
 
 
-public class ElevatorCart1 {
+public class ElevatorCart1 extends Thread{
 
 	//private DatagramPacket m1,EM1;
-	private Lamp flrLamp;
+	private Lamp flrLamp = new Lamp();
 	private Button flrButton;
-	private static Door cartDoor;
+	private static Door cartDoor = new Door();
 	private int cartNumber;
-	public static boolean status;
-	private static int  currFlr;
-	private static int  destFlr;
-	private static int  finalFlr;
-	public static byte[] signal = new byte[100];
+	private static int  currFlr = 1;
+	public static int  destFlr;
+	public static int  finalFlr;
+	public static byte[] signal;
 	public static String DoorTime;
 	public static String MotorTime;
 	public static DatagramPacket receive, receive1;
 	public static DatagramSocket receiveSocket, receiveSocket1;
-	public static Motor mot;
+	public static Motor mot = new Motor();;
 	
 	public static String info[] = new String[6];
-	public static ElevatorCart1 cart2;
 	
-
-	@SuppressWarnings("static-access")
-	public ElevatorCart1()  {
-		flrLamp = new Lamp();
-		cartDoor = new Door();
-		mot = new Motor();
-		status = false;
-		currFlr = 1;
-		
+	public static CartMonitor cMon;
 	
+	public ElevatorCart1(CartMonitor cc) {
+		cMon = cc;
 	}
-
+	
+	
+	
 	/**
 	 * This method returns to the scheduler class the results of the task complete. It updates the scheduler.
 	 */
@@ -112,13 +106,14 @@ public class ElevatorCart1 {
 		}
 		
 		String infor = new String(receive1.getData(), StandardCharsets.UTF_8);
+		System.out.println(infor);
 		String[] Infor1 = infor.split(" ");
 		info = Infor1;
 		
-		cart2.destFlr = Integer.parseInt(info[1]);
-		cart2.finalFlr = Integer.parseInt(info[3]);
-		cart2.DoorTime = info[4];
-		cart2.MotorTime = info[5];
+		destFlr = Integer.parseInt(info[1]);
+		finalFlr = Integer.parseInt(info[3]);
+		DoorTime = info[4];
+		MotorTime = info[5];
 		
 	 }
 	 
@@ -134,9 +129,11 @@ public class ElevatorCart1 {
 			}
 
 			public String dowork() {
-				cart2.status = true;
+				//status1 = true;
+				//System.out.println(cMon.elev2);
 				System.out.println("Getting informtion on where to go");
-				cart2.outPut();
+				receive2();
+				outPut();
 				System.out.println();
 				return "Getting informtion on where to go";
 			}
@@ -166,7 +163,7 @@ public class ElevatorCart1 {
 				if(currentTime_door>=end_door) {
 					System.out.println("Error: Door malfunction");
 				}
-
+				System.out.println(cMon.elev2);
 				if (currFlr > destFlr) {
 					long start_move= System.currentTimeMillis();
 					long currentTime_move=start_move;
@@ -218,7 +215,7 @@ public class ElevatorCart1 {
 				if (Door.getDo() == false) {
 					Door.closeDoor();
 				}
-                
+				System.out.println(cMon.elev2);
 				 
 
 				if (currFlr < finalFlr) {
@@ -257,9 +254,9 @@ public class ElevatorCart1 {
 				}
 				System.out.println("Now that person has been dropped off, job done");
 				System.out.println();
-
+				System.out.println(cMon.elev2);
 				//Elevator.info = new String[4];
-				cart2.status = false;
+				//status1 = false;
 				return "Now that person has been dropped off, job done";
 			}
 
@@ -274,6 +271,7 @@ public class ElevatorCart1 {
 	//state machine to cycle through the states we have
 		public synchronized static void StateMachine2() {
 			elevatorstatemch state = elevatorstatemch.getInfo;
+			cMon.setTrue2();
 			while(true) {
 				state.dowork();
 				if(state == state.Move2) {
@@ -287,23 +285,20 @@ public class ElevatorCart1 {
 					e.printStackTrace();
 				}
 			}
+			cMon.setFalse2();
 		}
 
-	
-	
-	public static void main(String args[])  {
-		cart2 = new ElevatorCart1();
-		try {
-			cart2.receiveSocket = new DatagramSocket(520);
-			cart2.receiveSocket1 = new DatagramSocket(521);
-		} catch (SocketException e) {
-			e.printStackTrace();
+		public void run() {
+			try {
+				receiveSocket = new DatagramSocket(520);
+				receiveSocket1 = new DatagramSocket(521);
+			} catch (SocketException e) {
+				e.printStackTrace();
+			}
+			while (true) {
+				receive();
+			}
 		}
-		while(true) {
-			cart2.receive();
-		}
-		
-	}
 		
 
 }
