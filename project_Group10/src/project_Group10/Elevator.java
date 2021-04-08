@@ -402,11 +402,14 @@ public class Elevator extends Thread {
 		System.out.println();
 		CartMonitor cc = new CartMonitor();
 		
+		OutputGui g1 =new OutputGui();
+		g1.frm();
+		
 		Elevator elvMain = new Elevator(cc);
-		ElevatorCart elv1 = new ElevatorCart(cc);
-		ElevatorCart1 elv2 = new ElevatorCart1(cc);
-		ElevatorCart2 elv3 = new ElevatorCart2(cc);
-		ElevatorCart3 elv4 = new ElevatorCart3(cc);
+		ElevatorCart elv1 = new ElevatorCart(cc,g1);
+		ElevatorCart1 elv2 = new ElevatorCart1(cc,g1);
+		ElevatorCart2 elv3 = new ElevatorCart2(cc,g1);
+		ElevatorCart3 elv4 = new ElevatorCart3(cc,g1);
 		
 		elvMain.start();
 		elv1.start();

@@ -33,9 +33,11 @@ public class ElevatorCart extends Thread{
 	public static String info[] = new String[6];
 	
 	public static CartMonitor cMon;
+	public static OutputGui g2;
 	
-	public ElevatorCart(CartMonitor cc) {
+	public ElevatorCart(CartMonitor cc,OutputGui g) {
 		cMon = cc;
+		g2 = g;
 	}
 	
 	/**
@@ -130,6 +132,7 @@ public class ElevatorCart extends Thread{
 
 			public String dowork() {
 				//status = true;
+				g2.setFlr1("Floor: "+Integer.toString(currFlr));
 				System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+cMon.getStatus1()+"]");
 				System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Getting informtion on where to go"+"]");
 				receive2();
@@ -165,10 +168,12 @@ public class ElevatorCart extends Thread{
 					System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+MotorTime+"]");
 					//int x = Integer.parseInt(MotorTime);
 					//System.out.println(x);
+					g2.setStat1("Status:Moving down");
 					mot.moveDown(destFlr);
 					//checks if the motor should be shutdown. if true then elevator got stuck and break out of the statemachine
 					//same logic for the rest of the elevators too
 					if(mot.shutdown()==true) {
+						g2.setStat1("Status:Elev1 Error");
 						shutdown=true;
 					}
 					else {
@@ -183,8 +188,10 @@ public class ElevatorCart extends Thread{
 					System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+MotorTime+"]");
 					//int x = Integer.parseInt(MotorTime);
 					//System.out.println(x);
+					g2.setStat1("Status:Moving up");
 					mot.moveUp(destFlr);
 					if(mot.shutdown()==true) {
+						g2.setStat1("Status:Elev1 Error");
 						shutdown=true;
 					}
 					else {
@@ -194,6 +201,7 @@ public class ElevatorCart extends Thread{
 					
 				}
 				currFlr = destFlr;
+				g2.setFlr1("Floor: "+Integer.toString(currFlr));
 				Door.openDoor();
 				
 				//Scheduler.sen.clearSignal();
@@ -223,8 +231,10 @@ public class ElevatorCart extends Thread{
 					
 					System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"moving up"+"]");
 					System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+MotorTime+"]");
+					g2.setStat1("Status:Moving up");
 					mot.moveUp(finalFlr);
 					if(mot.shutdown()==true) {
+						g2.setStat1("Status:Elev1 Error");
 						shutdown=true;
 					}
 					else {
@@ -236,8 +246,10 @@ public class ElevatorCart extends Thread{
 					
 					System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"moving down"+"]");
 					System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+MotorTime+"]");
+					g2.setStat1("Status:Moving down");
 					mot.moveDown(finalFlr);
 					if(mot.shutdown()==true) {
+						g2.setStat1("Status:Elev1 Error");
 						shutdown=true;
 					}
 					else {
@@ -248,6 +260,7 @@ public class ElevatorCart extends Thread{
 
 				//Scheduler.sen.sendSignal();
 				currFlr = finalFlr;
+				g2.setFlr1("Floor: "+Integer.toString(currFlr));
 				Door.openDoor();
 				//Scheduler.sen.clearSignal();
 
@@ -259,6 +272,7 @@ public class ElevatorCart extends Thread{
 
 				//Elevator.info = new String[4];
 				//status = false;
+				g2.setStat1("Status:IDLE");
 				return "Now that person has been dropped off, job done";
 			}
 
