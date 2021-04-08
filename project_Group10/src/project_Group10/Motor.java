@@ -41,49 +41,46 @@ private Boolean shutdown;
 	public void moveUp(int floor) {
 		
 		System.out.println("We are currently moving up to floor " + floor);
-		startTimeElev= System.currentTimeMillis();
 		
-		endTimeElev= (long) (startTimeElev + (7.18*floor));
+		if(Integer.parseInt(MTime)>7.18*floor) {
+
+			System.out.println("Error: Elevator did not reach the floor");
+			shutdown=true;
+		}
+		
+		else {
 		
 		try {
 			TimeUnit.SECONDS.sleep(Integer.parseInt(MTime)*floor);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		currentTimeElev=System.currentTimeMillis();
-		total=currentTimeElev-startTimeElev;
-		if (endTimeElev>=total) {
-			
-			System.out.println("Error: Elevator did not reach the floor");
-			shutdown=true;
-		}
+		
 		
 		System.out.println("We just arrived at floor " + floor);
 		shutdown=false;
+		}
 	}
 	
 	// Motor moves down to input floor and returns true if successful
 	public void moveDown(int floor) {
 			
 		System.out.println("We are currently moving down to floor " + floor);
-		startTimeElev= System.currentTimeMillis();
-		endTimeElev= (long) (startTimeElev + (7.18*floor));
-		try {
-			TimeUnit.SECONDS.sleep(Integer.parseInt(MTime)*floor);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		currentTimeElev=System.currentTimeMillis();
-		total=currentTimeElev-startTimeElev;
-		if (endTimeElev>=total) {//and if sensor is activaed or not
-			
+		if(Integer.parseInt(MTime)>7.18*floor) {
+
 			System.out.println("Error: Elevator did not reach the floor");
 			shutdown=true;
 		}
 		else {
-		System.out.println("We just arrived at floor " + floor);
-		shutdown=false;
-		}
+			try {
+				TimeUnit.SECONDS.sleep(Integer.parseInt(MTime)*floor);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			
+			System.out.println("We just arrived at floor " + floor);
+			shutdown=false;
+			}
+	}
 	}
 	
 	public Boolean shutdown() {
