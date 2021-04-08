@@ -193,7 +193,7 @@ public class ElevatorCart extends Thread{
 					
 					
 				}
-				
+				currFlr = destFlr;
 				Door.openDoor();
 				
 				//Scheduler.sen.clearSignal();
@@ -247,7 +247,7 @@ public class ElevatorCart extends Thread{
 				}
 
 				//Scheduler.sen.sendSignal();
-			
+				currFlr = finalFlr;
 				Door.openDoor();
 				//Scheduler.sen.clearSignal();
 

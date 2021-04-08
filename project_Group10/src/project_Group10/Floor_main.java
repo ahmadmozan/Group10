@@ -95,7 +95,7 @@ public class Floor_main extends Thread {
 		BufferedReader reader;
 		try {
 			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Getting data..."+"]");
-			reader=new BufferedReader(new FileReader("C:\\Users\\pc\\Documents\\1.txt"));
+			reader=new BufferedReader(new FileReader("C:\\Users\\ahmad\\Documents\\InputFile.txt"));
 			String line = reader.readLine();
 			while(line !=null) {
 				//System.out.println(line);
