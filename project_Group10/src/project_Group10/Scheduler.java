@@ -7,12 +7,11 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 import java.text.SimpleDateFormat;
-import java.text.DateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
+import org.junit.rules.Stopwatch;
 /**
  * This class is about a scheduler subsystem that utilizes other subsystems. It is responsible for taking the input file the
  * Floor subsystem produces and pushes that file to the other subsystems. This class will be responsible for timing all the 
@@ -36,6 +35,8 @@ public class Scheduler extends Thread{
 	public static String car = null;
 	public static Object Dtime;
 	public static String Mtime;
+	public static long startTime;
+	public static long totalProTime=0;
 	
 	public static Motor mot = new Motor();
 	public static Sensor sen = new Sensor();
@@ -172,12 +173,17 @@ public class Scheduler extends Thread{
 	
 	public enum statemachine{
 		Fetch{
+			
 			public statemachine next() {
 				return SendElevator;
 			}
 			
 			public String dowork() {
 				
+				startTime = System.nanoTime();
+		        for(int i=0; i< 1000000; i++){
+		            Object obj = new Object();
+		        }
 				
 				//mn.setfInput();
 				sch.receiveAndEcho();
@@ -234,6 +240,15 @@ public class Scheduler extends Thread{
 				Mtime = null;
 				data = new byte[100];
 				s = null;
+				
+				long elapsedTime = System.nanoTime() - startTime;
+			     
+		        System.out.println("Total time in millis: "
+		                + elapsedTime/1000000);
+		        
+		        totalProTime+=elapsedTime/1000000;
+				
+		        System.out.println("the final time the Scheduler took to run in seconds : "+totalProTime/1000);
 				System.out.println();
 				return "Elevator on the move, waiting on new one";
 			}
@@ -252,6 +267,8 @@ public class Scheduler extends Thread{
 	public synchronized static void StateMachine() {
 		statemachine state = statemachine.Fetch;
 		while(true) {
+			
+			
 			state.dowork();
 			state = state.next();
 			
@@ -260,6 +277,7 @@ public class Scheduler extends Thread{
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			
 		}
 	}
 	
@@ -268,6 +286,7 @@ public class Scheduler extends Thread{
 	 * Sending and receiving packets protocol between the main elevator class and scheduler to check which elevator is free
 	 */
 	public static void RPC() {
+		
 		
 		byte[] free = "free".getBytes();
 		
@@ -458,7 +477,11 @@ public class Scheduler extends Thread{
 	 */
 	public static void main(String[] args) {
 		
-		StateMachine();
+        
+	        
+		 StateMachine();
+ 
+	} 
 		
 //		Thread elv = new Elevator();
 //		Thread Floor = new Floor_main();
@@ -473,4 +496,4 @@ public class Scheduler extends Thread{
 	
 	
 	
-}
+
