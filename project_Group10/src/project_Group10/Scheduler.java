@@ -36,6 +36,8 @@ public class Scheduler extends Thread{
 	public static String car = null;
 	public static Object Dtime;
 	public static String Mtime;
+	public static long startTime;
+	public static long totalProTime=0;
 	
 	public static Motor mot = new Motor();
 	public static Sensor sen = new Sensor();
@@ -178,6 +180,10 @@ public class Scheduler extends Thread{
 			
 			public String dowork() {
 				
+				startTime = System.nanoTime();
+                for(int i=0; i< 1000000; i++){
+                    Object obj = new Object();
+                }
 				
 				//mn.setfInput();
 				sch.receiveAndEcho();
@@ -234,6 +240,15 @@ public class Scheduler extends Thread{
 				Mtime = null;
 				data = new byte[100];
 				s = null;
+				
+				long elapsedTime = System.nanoTime() - startTime;
+				System.out.println("Total time in millis: "
+                        + elapsedTime/1000000);
+
+                totalProTime+=elapsedTime/1000000;
+
+                System.out.println("the final time the Scheduler took to run in seconds : "+totalProTime/1000);
+				
 				System.out.println();
 				return "Elevator on the move, waiting on new one";
 			}
