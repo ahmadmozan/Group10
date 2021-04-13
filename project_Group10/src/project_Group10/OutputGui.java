@@ -147,7 +147,7 @@ public class OutputGui{
 			//footer.setHorizontalTextPosition(JLabel.CENTER); //set text LEFT,CENTER, RIGHT of imageicon
 			//footer.setVerticalTextPosition(JLabel.TOP); //set text TOP,CENTER, BOTTOM of imageicon
 			status[i].setForeground(Color.white); //set font color of text
-			status[i].setFont(new Font("MV Boli",Font.PLAIN,30)); //set font of text
+			status[i].setFont(new Font("MV Boli",Font.PLAIN,25)); //set font of text
 			status[i].setBackground(Color.black); //set background color
 			status[i].setOpaque(true); //display background color
 			//footer.setBorder(border); //sets border of footer (not image+text)

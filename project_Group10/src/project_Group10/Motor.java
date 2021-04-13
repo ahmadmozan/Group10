@@ -16,10 +16,10 @@ public class Motor {
 	
 	
 private Boolean status ;
-public static String MTime;
-private static Sensor reached, check;
-private static long startTimeElev, currentTimeElev, endTimeElev, total;
-private Boolean shutdown;
+public  String MTime;
+//private static Sensor reached, check;
+//private static long startTimeElev, currentTimeElev, endTimeElev, total;
+private Boolean shutdown = false;
 
 	// Turns on Motor
 	public void turnOn() {
@@ -46,14 +46,12 @@ private Boolean shutdown;
 		System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"We are currently moving up to floor " + floor+"]");
 		
 		if(Integer.parseInt(MTime)>7.18) {
+			
+			shutdown=true;
 
 			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Error: Elevator did not reach the floor"+"]");
-			try {
-				TimeUnit.SECONDS.sleep(2000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			shutdown=true;
+			
+			
 		}
 		
 		else {
@@ -76,8 +74,9 @@ private Boolean shutdown;
 		System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"We are currently moving down to floor " + floor+"]");
 		if(Integer.parseInt(MTime)>7.18) {
 
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Error: Elevator did not reach the floor"+"]");
 			shutdown=true;
+			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Error: Elevator did not reach the floor"+"]");
+			
 		}
 		else {
 			try {

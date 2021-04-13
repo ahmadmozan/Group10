@@ -1,5 +1,6 @@
 package project_Group10;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -94,8 +95,14 @@ public class Floor_main extends Thread {
 	public static void getData() {
 		BufferedReader reader;
 		try {
+			String filename = "InputFile.txt";
+	        String workingDirectory = System.getProperty("user.dir");
+	        String absoluteFilePath = "";
+	        absoluteFilePath = workingDirectory + File.separator + filename;
+	            
+	        File file = new File(absoluteFilePath);
 			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Getting data..."+"]");
-			reader=new BufferedReader(new FileReader("C:\\Users\\ahmad\\Documents\\InputFile.txt"));
+			reader=new BufferedReader(new FileReader(file));
 			String line = reader.readLine();
 			while(line !=null) {
 				//System.out.println(line);
@@ -105,7 +112,7 @@ public class Floor_main extends Thread {
 				convertToByte(data);
 				sendAndReceive();
 				try {
-					Thread.sleep(40000);
+					Thread.sleep(4000);
 				} 
 				catch (InterruptedException e)
 				{
@@ -146,7 +153,7 @@ public class Floor_main extends Thread {
 	public boolean door() {
 		Floor= new Door();
 		boolean openClose;
-		if (Door.openDoor()==true) {
+		if (Floor.openDoor()==true) {
 			openClose=true;
 			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"The doors are opening"+"]");
 		}

@@ -42,16 +42,36 @@ public class Elevator extends Thread {
 	
 	public static byte[] message;
 	public static CartMonitor cMon;
+	public static OutputGui g;
 
 
-	public Elevator(CartMonitor cc) {
-		cMon = cc;
+
+	public  Elevator() {
+		cMon = new CartMonitor();
+		try {
+			receiveSocket = new DatagramSocket(550);
+			sendSocket = new DatagramSocket();
+			elevSocket1 = new DatagramSocket();
+			elevSocket12 = new DatagramSocket();
+			elevSocket2 = new DatagramSocket();
+			elevSocket22 = new DatagramSocket();
+			elevSocket3 = new DatagramSocket();
+			elevSocket32 = new DatagramSocket();
+			elevSocket4 = new DatagramSocket();
+			elevSocket42 = new DatagramSocket();
+			EM = new DatagramSocket(5501);
+			EMM = new DatagramSocket(5502);
+
+		} catch(SocketException se) {
+			se.printStackTrace();
+			System.exit(1);
+		} 
 	}
 	
 	/**
 	 * Using UDP to receive information from scheduler and send the information required by elevator back 
 	 */
-	public static void toSched() {
+	public synchronized static void toSched() {
 
 		System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"now waiting to receive information from Scheduler"+"]");
 
@@ -374,42 +394,24 @@ public class Elevator extends Thread {
 	}
 
 	
-	public void run() {
-		try {
-			receiveSocket = new DatagramSocket(550);
-			sendSocket = new DatagramSocket();
-			elevSocket1 = new DatagramSocket();
-			elevSocket12 = new DatagramSocket();
-			elevSocket2 = new DatagramSocket();
-			elevSocket22 = new DatagramSocket();
-			elevSocket3 = new DatagramSocket();
-			elevSocket32 = new DatagramSocket();
-			elevSocket4 = new DatagramSocket();
-			elevSocket42 = new DatagramSocket();
-			EM = new DatagramSocket(5501);
-			EMM = new DatagramSocket(5502);
-
-		} catch(SocketException se) {
-			se.printStackTrace();
-			System.exit(1);
-		} 
+	public synchronized void run() {
+		
 		while(true) {
 			toSched();
 		}
 	}
 
-	public static void main(String[] args) {
-		System.out.println();
-		CartMonitor cc = new CartMonitor();
+	public synchronized static void main(String[] args) {
+
 		
+	
+		Elevator elvMain = new Elevator();
 		OutputGui g1 =new OutputGui();
 		g1.frm();
-		
-		Elevator elvMain = new Elevator(cc);
-		ElevatorCart elv1 = new ElevatorCart(cc,g1);
-		ElevatorCart1 elv2 = new ElevatorCart1(cc,g1);
-		ElevatorCart2 elv3 = new ElevatorCart2(cc,g1);
-		ElevatorCart3 elv4 = new ElevatorCart3(cc,g1);
+		ElevatorCart elv1 = new ElevatorCart(cMon,g1);
+		ElevatorCart1 elv2 = new ElevatorCart1(cMon,g1);
+		ElevatorCart2 elv3 = new ElevatorCart2(cMon,g1);
+		ElevatorCart3 elv4 = new ElevatorCart3(cMon,g1);
 		
 		elvMain.start();
 		elv1.start();

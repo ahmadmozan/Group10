@@ -13,9 +13,9 @@ import java.util.Date;
 
 
 public class Door{
-	private static long startTimeElev, currentTimeElev, endTimeElev,total; 
-	public static boolean door = true;  	// Door closed = true
-	public static String DTime;// variable to store the door time 
+	//private static long startTimeElev, currentTimeElev, endTimeElev,total; 
+	public  boolean door = true;  	// Door closed = true
+	public  String DTime;// variable to store the door time 
 	
 
 
@@ -24,7 +24,7 @@ public class Door{
 	 * @return
 	 */
 	
-	public static boolean getDo() {
+	public  boolean getDo() {
 		return door;
 	}
 	
@@ -33,7 +33,7 @@ public class Door{
 	 *this will open the door of the elevator 
 	 * @return true
 	 */
-	public static boolean openDoor() {
+	public  boolean openDoor() {
 		
 		if(door == true) {
 			door = false;
@@ -68,7 +68,7 @@ public class Door{
 	 * closes door
 	 * @return true 
 	 */
-	public static boolean closeDoor() {
+	public boolean closeDoor() {
 		if(door == true) {
 			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Door already closed"+"]");
 			return true;
