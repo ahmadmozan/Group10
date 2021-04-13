@@ -7,6 +7,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -73,7 +74,7 @@ public class Elevator extends Thread {
 	 */
 	public synchronized static void toSched() {
 
-		System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"now waiting to receive information from Scheduler"+"]");
+		System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"now waiting to receive information from Scheduler"+"]");
 
 		byte[] free = new byte[4];
 		receivePacket = new DatagramPacket(free, free.length);
@@ -87,14 +88,14 @@ public class Elevator extends Thread {
 		byte[] free2 = new byte[1];
 		int x = 0;
 		String s = new String(receivePacket.getData(), StandardCharsets.UTF_8);
-		System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+s+"]");
+		System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+s+"]");
 
 		if(s.equals("free") ) {
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"choosing elevator"+"]");
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"elv1: " + cMon.getStatus1()+"]");
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"elv2: " + cMon.getStatus2()+"]");
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"elv3: " + cMon.getStatus3()+"]");
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"elv4: " + cMon.getStatus4()+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"choosing elevator"+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"elv1: " + cMon.getStatus1()+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"elv2: " + cMon.getStatus2()+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"elv3: " + cMon.getStatus3()+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"elv4: " + cMon.getStatus4()+"]");
 			if (cMon.getStatus1() == false) {
 				String X = "1";
 				free2 = new byte[1];
@@ -114,7 +115,7 @@ public class Elevator extends Thread {
 					e.printStackTrace();
 					System.exit(1);
 				}
-				System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+new String(sendPacket.getData(), StandardCharsets.UTF_8)+"]");
+				System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+new String(sendPacket.getData(), StandardCharsets.UTF_8)+"]");
 			}
 			else if (cMon.getStatus2() == false) {
 				String X = "2";
@@ -135,7 +136,7 @@ public class Elevator extends Thread {
 					e.printStackTrace();
 					System.exit(1);
 				}
-				System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+new String(sendPacket.getData(), StandardCharsets.UTF_8)+"]");
+				System.out.println("["+LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+new String(sendPacket.getData(), StandardCharsets.UTF_8)+"]");
 			}
 			else if (cMon.getStatus3() == false) {
 				String X = "3";
@@ -156,7 +157,7 @@ public class Elevator extends Thread {
 					e.printStackTrace();
 					System.exit(1);
 				}
-				System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+new String(sendPacket.getData(), StandardCharsets.UTF_8)+"]");
+				System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+new String(sendPacket.getData(), StandardCharsets.UTF_8)+"]");
 			}
 			else if (cMon.getStatus4() == false) {
 				String X = "4";
@@ -177,7 +178,7 @@ public class Elevator extends Thread {
 					e.printStackTrace();
 					System.exit(1);
 				}
-				System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+new String(sendPacket.getData(), StandardCharsets.UTF_8)+"]");
+				System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+new String(sendPacket.getData(), StandardCharsets.UTF_8)+"]");
 			}
 			
 
@@ -199,7 +200,7 @@ public class Elevator extends Thread {
 				e.printStackTrace();
 				System.exit(1);
 			}
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+new String(sendPacket.getData(), StandardCharsets.UTF_8)+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+new String(sendPacket.getData(), StandardCharsets.UTF_8)+"]");
 		}
 
 
@@ -227,7 +228,7 @@ public class Elevator extends Thread {
 			}
 
 			String Info1 = new String(receivePacketElev1.getData(), StandardCharsets.UTF_8);
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+Info1+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+Info1+"]");
 			String[] Info2 = Info1.split(" ");
 			info = Info2;
 			//System.out.println(info[1]);
@@ -245,7 +246,7 @@ public class Elevator extends Thread {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Elevator1 on the move"+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Elevator1 on the move"+"]");
 			
 			
 			try {
@@ -269,7 +270,7 @@ public class Elevator extends Thread {
 				e.printStackTrace();
 			}
 			String Info1 = new String(receivePacketElev1.getData(), StandardCharsets.UTF_8);
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+Info1+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+Info1+"]");
 			String[] Info2 = Info1.split(" ");
 			info = Info2;
 			//ElevatorCart1.setDestFlr(Integer.parseInt(info[1]), Integer.parseInt(info[3]));
@@ -289,7 +290,7 @@ public class Elevator extends Thread {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Elevator2 on the move"+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Elevator2 on the move"+"]");
 			
 			try {
 				elevPacket22 = new DatagramPacket(receivePacketElev1.getData(), receivePacketElev1.getData().length, InetAddress.getLocalHost(), 521);
@@ -312,7 +313,7 @@ public class Elevator extends Thread {
 				e.printStackTrace();
 			}
 			String Info1 = new String(receivePacketElev1.getData(), StandardCharsets.UTF_8);
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+Info1+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+Info1+"]");
 			String[] Info2 = Info1.split(" ");
 			info = Info2;
 			//ElevatorCart1.setDestFlr(Integer.parseInt(info[1]), Integer.parseInt(info[3]));
@@ -332,7 +333,7 @@ public class Elevator extends Thread {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Elevator3 on the move"+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Elevator3 on the move"+"]");
 			
 			try {
 				elevPacket32 = new DatagramPacket(receivePacketElev1.getData(), receivePacketElev1.getData().length, InetAddress.getLocalHost(), 531);
@@ -355,7 +356,7 @@ public class Elevator extends Thread {
 				e.printStackTrace();
 			}
 			String Info1 = new String(receivePacketElev1.getData(), StandardCharsets.UTF_8);
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+Info1+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+Info1+"]");
 			String[] Info2 = Info1.split(" ");
 			info = Info2;
 			
@@ -373,7 +374,7 @@ public class Elevator extends Thread {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Elevator4: on the move"+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Elevator4: on the move"+"]");
 			
 			try {
 				elevPacket42 = new DatagramPacket(receivePacketElev1.getData(), receivePacketElev1.getData().length, InetAddress.getLocalHost(), 541);
@@ -388,7 +389,7 @@ public class Elevator extends Thread {
 			
 		}
 		else {
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Whoops wrong information"+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Whoops wrong information"+"]");
 		}
 
 	}

@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -84,10 +85,10 @@ public class Scheduler extends Thread{
 
 		      data = new byte[100];
 		      receivePacket = new DatagramPacket(data, data.length);
-		      System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Waiting for input file.]\n");
+		      System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Waiting for input file.]\n");
 
 		      try {        
-		         System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Waiting..."+"]"); // so we know we're waiting
+		         System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Waiting..."+"]"); // so we know we're waiting
 		         receiveSocket.receive(receivePacket);
 		      } catch (IOException e) {
 		         e.printStackTrace();
@@ -96,8 +97,8 @@ public class Scheduler extends Thread{
 		      /**
 		       *  Process the received datagram.
 		       */
-		      System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Obtained input file information"+"]");
-		      System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+receivePacket.getData()+"]");
+		      System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Obtained input file information"+"]");
+		      System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+receivePacket.getData()+"]");
 		      
 		      /**
 		       *  Using sleep to slow things down (wait 5 seconds)
@@ -119,7 +120,7 @@ public class Scheduler extends Thread{
 		 public static String[] convertToString(byte[] data) 
 		 {
 			 s = new String(data, StandardCharsets.UTF_8);
-			 System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+s+"]");
+			 System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+s+"]");
 			 String[] s2 = s.split(" ");
 //			 for(int i = 0; i<s2.length; i++) {
 //				 System.out.println(s2[i]);
@@ -189,7 +190,7 @@ public class Scheduler extends Thread{
 				sch.receiveAndEcho();
 				sch.convertToString(data);
 				
-				System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Information has been submitted, moving elevator next"+"]");
+				System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Information has been submitted, moving elevator next"+"]");
 				
 				System.out.println();
 				return "Information has been submited, moving elevator next";
@@ -204,13 +205,13 @@ public class Scheduler extends Thread{
 			
 			public String dowork() {
 				
-				System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Moving Elevator"+"]");
+				System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Moving Elevator"+"]");
 				long start= System.currentTimeMillis();
 				long currentTime=start;
 				long end= start + 30*1000;
 				sch.RPC();
 				if(currentTime>=end) {
-					System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Error: Elevator did not reach floor"+"]");
+					System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Error: Elevator did not reach floor"+"]");
 					System.exit(1);
 					
 				}
@@ -230,7 +231,7 @@ public class Scheduler extends Thread{
 			 */
 			 
 			public String dowork() {
-				System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Elevator on the move, waiting on new instructions"+"]");
+				System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Elevator on the move, waiting on new instructions"+"]");
 				fInput = new String[6];
 				floorno = null;
 				Direc = null;
@@ -292,8 +293,8 @@ public class Scheduler extends Thread{
 			e.printStackTrace();
 			System.exit(1);
 		}
-		System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+new String(sendPacket.getData(),0,sendPacket.getLength())+"]");
-		System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Checking which elevator is free"+"]");
+		System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+new String(sendPacket.getData(),0,sendPacket.getLength())+"]");
+		System.out.println("["+LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Checking which elevator is free"+"]");
 		
 		try {
 			sendSocket.send(sendPacket);
@@ -310,8 +311,8 @@ public class Scheduler extends Thread{
 			e.printStackTrace();
 		}
 		
-		System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+new String(receivePacket1.getData(),0,receivePacket1.getLength())+"]");
-		System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Now we command that elevator that was free"+"]");
+		System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+new String(receivePacket1.getData(),0,receivePacket1.getLength())+"]");
+		System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Now we command that elevator that was free"+"]");
 		
 		if(new String(receivePacket1.getData(),StandardCharsets.UTF_8).equals("1") ) {
 			
@@ -454,7 +455,7 @@ public class Scheduler extends Thread{
 		}
 		}
 		else{
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"whoops elevators busy try again in a moment!"+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"whoops elevators busy try again in a moment!"+"]");
 		}
 		
 	}

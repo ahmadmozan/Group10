@@ -5,6 +5,7 @@ package project_Group10;
 
 import java.util.concurrent.TimeUnit;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -43,13 +44,13 @@ private Boolean shutdown = false;
 	// Motor moves up to input floor and returns true if successful
 	public void moveUp(int floor) {
 		
-		System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"We are currently moving up to floor " + floor+"]");
+		System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"We are currently moving up to floor " + floor+"]");
 		
 		if(Integer.parseInt(MTime)>7.18) {
 			
 			shutdown=true;
 
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Error: Elevator did not reach the floor"+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Error: Elevator did not reach the floor"+"]");
 			
 			
 		}
@@ -63,7 +64,7 @@ private Boolean shutdown = false;
 		}
 		
 		
-		System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"We just arrived at floor " + floor+"]");
+		System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"We just arrived at floor " + floor+"]");
 		shutdown=false;
 		}
 	}
@@ -71,11 +72,11 @@ private Boolean shutdown = false;
 	// Motor moves down to input floor and returns true if successful
 	public void moveDown(int floor) {
 			
-		System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"We are currently moving down to floor " + floor+"]");
+		System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"We are currently moving down to floor " + floor+"]");
 		if(Integer.parseInt(MTime)>7.18) {
 
 			shutdown=true;
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Error: Elevator did not reach the floor"+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Error: Elevator did not reach the floor"+"]");
 			
 		}
 		else {
@@ -84,7 +85,7 @@ private Boolean shutdown = false;
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"We just arrived at floor " + floor+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"We just arrived at floor " + floor+"]");
 			shutdown=false;
 			}
 	}

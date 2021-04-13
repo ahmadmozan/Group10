@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -53,10 +54,10 @@ public class ElevatorCart3 extends Thread{
 	 */
 	public synchronized static void outPut() {
 
-		System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"we are currently on the "+ info[1]+" floor.]\n");
-		System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"we are currently going "+ info[2]+"]"+"\n");
-		System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"the current time is "+ info[0]+"]"+"\n");
-		System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"we are heading to "+info[3]+"]"+"\n");
+		System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"we are currently on the "+ info[1]+" floor.]\n");
+		System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"we are currently going "+ info[2]+"]"+"\n");
+		System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"the current time is "+ info[0]+"]"+"\n");
+		System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"we are heading to "+info[3]+"]"+"\n");
 
 	}
 	
@@ -74,18 +75,18 @@ public class ElevatorCart3 extends Thread{
 
 	      signal = new byte[2];
 	      receive= new DatagramPacket(signal, signal.length);
-	      System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Waiting for task...]\n");
+	      System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Waiting for task...]\n");
 
 	      try {        
-	         System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Waiting..."+"]"); // so we know we're waiting
+	         System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Waiting..."+"]"); // so we know we're waiting
 	         receiveSocket.receive(receive);
 	      } catch (IOException e) {
 	         e.printStackTrace();
 	         System.exit(1);
 	      }
 
-	      System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+receive.getData()+"]");
-	      System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Task received. Moving now..."+"]");
+	      System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+receive.getData()+"]");
+	      System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Task received. Moving now..."+"]");
 	      
 	      String s = new String(receive.getData(), StandardCharsets.UTF_8);
 	      System.out.println(s);
@@ -94,7 +95,7 @@ public class ElevatorCart3 extends Thread{
 	    	  StateMachine2();
 	      }
 	      else {
-	    	  System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"whoops something went wrong"+"]");
+	    	  System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"whoops something went wrong"+"]");
 	      }
 	      
 	      // Slow things down (wait 5 seconds)
@@ -141,8 +142,8 @@ public class ElevatorCart3 extends Thread{
 			public String dowork() {
 				g2.setFlr4("Floor: "+Integer.toString(currFlr));
 				sCount=false;
-				System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+cMon.getStatus4()+"]");
-				System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Getting informtion on where to go"+"]");
+				System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+cMon.getStatus4()+"]");
+				System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Getting informtion on where to go"+"]");
 				receive2();
 				outPut();
 				System.out.println();
@@ -158,8 +159,8 @@ public class ElevatorCart3 extends Thread{
 
 			public String dowork() {
 
-				System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Information received!"+"]");
-				System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"lets move elevator4 to desired location"+"]");
+				System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Information received!"+"]");
+				System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"lets move elevator4 to desired location"+"]");
 				
 				mot.MTime = MotorTime;
 				cartDoor.DTime = DoorTime;
@@ -173,8 +174,8 @@ public class ElevatorCart3 extends Thread{
 
 				if (currFlr > destFlr) {
 					
-					System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"moving down"+"]");
-					System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+MotorTime+"]");
+					System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"moving down"+"]");
+					System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+MotorTime+"]");
 					g2.setStat4("Status:Moving down");
 					mot.moveDown(destFlr);
 					if(mot.shutdown()==true) {
@@ -191,8 +192,8 @@ public class ElevatorCart3 extends Thread{
 						cartDoor.openDoor();
 						
 						cartDoor.closeDoor();
-						System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+cMon.getStatus4()+"]");
-						System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Person secured inside elevator4"+"]");
+						System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+cMon.getStatus4()+"]");
+						System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Person secured inside elevator4"+"]");
 						System.out.println();
 						return "Person secured inside elevator1";
 					}
@@ -201,8 +202,8 @@ public class ElevatorCart3 extends Thread{
 
 				else if (currFlr < destFlr) {
 					
-					System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"moving up"+"]");
-					System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+MotorTime+"]");
+					System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"moving up"+"]");
+					System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+MotorTime+"]");
 					g2.setStat4("Status:Moving up");
 					mot.moveUp(destFlr);
 					if(mot.shutdown()==true) {
@@ -219,8 +220,8 @@ public class ElevatorCart3 extends Thread{
 						cartDoor.openDoor();
 						
 						cartDoor.closeDoor();
-						System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+cMon.getStatus4()+"]");
-						System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Person secured inside elevator4"+"]");
+						System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+cMon.getStatus4()+"]");
+						System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Person secured inside elevator4"+"]");
 						System.out.println();
 						return "Person secured inside elevator1";
 					}
@@ -249,8 +250,8 @@ public class ElevatorCart3 extends Thread{
 
 				if (currFlr < finalFlr) {
 					
-					System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"moving up"+"]");
-					System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+MotorTime+"]");
+					System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"moving up"+"]");
+					System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+MotorTime+"]");
 					g2.setStat4("Status:Moving up");
 					mot.moveUp(finalFlr);
 					if(mot.shutdown()==true) {
@@ -267,8 +268,8 @@ public class ElevatorCart3 extends Thread{
 						cartDoor.openDoor();
 						cartDoor.closeDoor();
 						
-						System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+cMon.getStatus4()+"]");
-						System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Now that person has been dropped off, job done"+"]");
+						System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+cMon.getStatus4()+"]");
+						System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Now that person has been dropped off, job done"+"]");
 						System.out.println();
 						g2.setStat4("Status:IDLE");
 						
@@ -280,8 +281,8 @@ public class ElevatorCart3 extends Thread{
 				}
 				else if (currFlr > finalFlr) {
 					
-					System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"moving down"+"]");
-					System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+MotorTime+"]");
+					System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"moving down"+"]");
+					System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+MotorTime+"]");
 					g2.setStat4("Status:Moving down");
 					mot.moveDown(finalFlr);
 					if(mot.shutdown()==true) {
@@ -298,8 +299,8 @@ public class ElevatorCart3 extends Thread{
 						cartDoor.openDoor();
 						cartDoor.closeDoor();
 						
-						System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+cMon.getStatus4()+"]");
-						System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Now that person has been dropped off, job done"+"]");
+						System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+cMon.getStatus4()+"]");
+						System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Now that person has been dropped off, job done"+"]");
 						System.out.println();
 						g2.setStat4("Status:IDLE");
 						

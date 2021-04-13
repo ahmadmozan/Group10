@@ -2,6 +2,7 @@ package project_Group10;
 
 import java.util.concurrent.TimeUnit;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -37,10 +38,10 @@ public class Door{
 		
 		if(door == true) {
 			door = false;
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Opening door"+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Opening door"+"]");
 			if(Double.parseDouble(DTime)>9.52) {
-				System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Error: Door did not open"+"]");
-				System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Attempting to open door again"+"]");
+				System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Error: Door did not open"+"]");
+				System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Attempting to open door again"+"]");
 				try {
 					TimeUnit.SECONDS.sleep((long) 9.52);
 				} catch (InterruptedException e) {
@@ -70,11 +71,11 @@ public class Door{
 	 */
 	public boolean closeDoor() {
 		if(door == true) {
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Door already closed"+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Door already closed"+"]");
 			return true;
 		}else {
 			
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Closing door"+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Closing door"+"]");
 			try {
 				TimeUnit.SECONDS.sleep((long) 9.52);
 			} catch (InterruptedException e) {

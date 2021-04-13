@@ -1,6 +1,7 @@
 package project_Group10;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.Scanner;
 import java.text.SimpleDateFormat;
@@ -69,7 +70,7 @@ public class Button {
 			break;
 		}
 		else {
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"There are only 5 floors, which floor are you on?"+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"There are only 5 floors, which floor are you on?"+"]");
 		}
 	}
 		return floornum;
@@ -82,14 +83,14 @@ public class Button {
 		while(true) {
 			@SuppressWarnings("resource")
 			Scanner enterFloor = new Scanner(System.in);
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"which floor would you like to go to?"+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"which floor would you like to go to?"+"]");
 			floor=enterFloor.nextInt();
 			if (floor<max_floors) {
-				System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Going to floor: "+ floor+"]");
+				System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Going to floor: "+ floor+"]");
 				break;
 			}
 			else {
-				System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"There are only 5 floors"+"]");
+				System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"There are only 5 floors"+"]");
 			}
 			
 		}

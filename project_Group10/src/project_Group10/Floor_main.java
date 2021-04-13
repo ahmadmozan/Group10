@@ -12,6 +12,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.text.DateFormat;
 import java.util.Date;
 public class Floor_main extends Thread {
@@ -64,9 +65,9 @@ public class Floor_main extends Thread {
 	         System.exit(1);
 	      }
 	      int len = sendPacket.getLength();
-	      System.out.print("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Containing: "+"]");
+	      System.out.print("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Containing: "+"]");
 	     //System.out.println(len);
-	      System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+new String(sendPacket.getData(),0,len)+"]"); // or could print "s"
+	      System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+new String(sendPacket.getData(),0,len)+"]"); // or could print "s"
 
 	      // Send the datagram packet to the server via the send/receive socket. 
 
@@ -77,19 +78,21 @@ public class Floor_main extends Thread {
 	         System.exit(1);
 	      }
 
-	      System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Information sent to Scheduler"+"]");
+	      System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Information sent to Scheduler"+"]");
 	   }
 	
 	public static void main(String[] args) {
 		
-		System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"creating threads..."+"]");
+		System.out.println("["+ LocalTime.now() + "}"+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"creating threads..."+"]");
+
+		//System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"creating threads..."+"]");
 		Floor_main floor=new Floor_main();
 		//floor.start();
 		getData();
 		//getArray();
 		String[] op = data;
 	    for(String str : op)
-	        System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+str+"]");
+	        System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+str+"]");
 	}
 	
 	public static void getData() {
@@ -101,7 +104,7 @@ public class Floor_main extends Thread {
 	        absoluteFilePath = workingDirectory + File.separator + filename;
 	            
 	        File file = new File(absoluteFilePath);
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Getting data..."+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Getting data..."+"]");
 			reader=new BufferedReader(new FileReader(file));
 			String line = reader.readLine();
 			while(line !=null) {
@@ -125,7 +128,7 @@ public class Floor_main extends Thread {
 			}
 			reader.close();
 		}catch (IOException e) {
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Error: File cannot be found"+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Error: File cannot be found"+"]");
 			e.printStackTrace();
 		}
 	}
@@ -138,8 +141,8 @@ public class Floor_main extends Thread {
 			String str=data[i];
 			info=str.getBytes();
 			String s = new String(info, StandardCharsets.UTF_8);
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+info+"]");
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+s+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+info+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+s+"]");
 		}
 		return info;
 	}
@@ -155,11 +158,11 @@ public class Floor_main extends Thread {
 		boolean openClose;
 		if (Floor.openDoor()==true) {
 			openClose=true;
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"The doors are opening"+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"The doors are opening"+"]");
 		}
 		else {
 			openClose=false;
-			System.out.println("["+ new SimpleDateFormat("hh.mm aa").format(new Date()).toString()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"The doors are closing"+"]");
+			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"The doors are closing"+"]");
 		}
 		return openClose;
 	}
