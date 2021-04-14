@@ -14,90 +14,94 @@ import java.util.Date;
  *
  */
 public class Motor {
-	
-	
-private Boolean status ;
-public  String MTime;
+
+	private Boolean status;
+	public String MTime;
 //private static Sensor reached, check;
 //private static long startTimeElev, currentTimeElev, endTimeElev, total;
-private Boolean shutdown = false;
+	private Boolean shutdown = false;
 
 	// Turns on Motor
 	public void turnOn() {
-		
+
 		status = true;
 	}
 
 	// Turns off Motor
 	public void turnOff() {
-		
-		status = false;	
+
+		status = false;
 	}
-	
-	// Checks Motor status	
+
+	// Checks Motor status
 	public Boolean checkStatus() {
-		
-		return status;	
+
+		return status;
 	}
-	
-	
+
 	// Motor moves up to input floor and returns true if successful
 	public void moveUp(int floor) {
-		
-		System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"We are currently moving up to floor " + floor+"]");
-		
-		if(Integer.parseInt(MTime)>7.18) {
-			
-			shutdown=true;
 
-			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Error: Elevator did not reach the floor"+"]");
-			
-			
-		}
-		
-		else {
-		
-		try {
-			TimeUnit.SECONDS.sleep(Integer.parseInt(MTime)*floor);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-		
-		System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"We just arrived at floor " + floor+"]");
-		shutdown=false;
-		}
-	}
-	
-	// Motor moves down to input floor and returns true if successful
-	public void moveDown(int floor) {
-			
-		System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"We are currently moving down to floor " + floor+"]");
-		if(Integer.parseInt(MTime)>7.18) {
+		System.out.println("[" + LocalTime.now() + "]" + " " + "[" + Thread.currentThread().getName() + "]" + " " + "["
+				+ "We are currently moving up to floor " + floor + "]");
 
-			shutdown=true;
-			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"Error: Elevator did not reach the floor"+"]");
-			
-		}
-		else {
+		if (Integer.parseInt(MTime) > 7.18) {
+
 			try {
-				TimeUnit.SECONDS.sleep(Integer.parseInt(MTime)*floor);
+				TimeUnit.SECONDS.sleep(Integer.parseInt(MTime) * floor);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
-			
-			System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"We just arrived at floor " + floor+"]");
-			shutdown=false;
 			}
+
+			shutdown = true;
+
+			System.out.println("[" + LocalTime.now() + "]" + " " + "[" + Thread.currentThread().getName() + "]" + " "
+					+ "[" + "Error: Elevator did not reach the floor" + "]");
+
+		}
+
+		else {
+
+			try {
+				TimeUnit.SECONDS.sleep(Integer.parseInt(MTime) * floor);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+			System.out.println("[" + LocalTime.now() + "]" + " " + "[" + Thread.currentThread().getName() + "]" + " "
+					+ "[" + "We just arrived at floor " + floor + "]");
+			shutdown = false;
+		}
 	}
+
+	// Motor moves down to input floor and returns true if successful
+	public void moveDown(int floor) {
+
+		System.out.println("[" + LocalTime.now() + "]" + " " + "[" + Thread.currentThread().getName() + "]" + " " + "["
+				+ "We are currently moving down to floor " + floor + "]");
+
+		if (Integer.parseInt(MTime) > 7.18) {
+			try {
+				TimeUnit.SECONDS.sleep(Integer.parseInt(MTime) * floor);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				TimeUnit.SECONDS.sleep(Integer.parseInt(MTime) * floor);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			System.out.println("[" + LocalTime.now() + "]" + " " + "[" + Thread.currentThread().getName() + "]" + " "
+					+ "[" + "We just arrived at floor " + floor + "]");
+			shutdown = false;
+		}
 	}
-	
+
 	public Boolean shutdown() {
-		
+
 		return shutdown;
-		
+
 	}
-	
-		
-	
 
 }

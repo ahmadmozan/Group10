@@ -177,7 +177,7 @@ public static OutputGui g2;
 					System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"moving down"+"]");
 					System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+MotorTime+"]");
 					g2.setStat2("Status:Moving down");
-					mot.moveDown(destFlr);
+					mot.moveDown((currFlr-destFlr));
 					if(mot.shutdown()==true) {
 						g2.setStat2("Status:MOTOR ERROR");
 						shutdown=true;
@@ -206,7 +206,7 @@ public static OutputGui g2;
 					System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"moving up"+"]");
 					System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+MotorTime+"]");
 					g2.setStat2("Status:Moving up");
-					mot.moveUp(destFlr);
+					mot.moveUp((destFlr-currFlr));
 					if(mot.shutdown()==true) {
 						g2.setStat2("Status:MOTOR ERROR");
 						shutdown=true;
@@ -253,7 +253,7 @@ public static OutputGui g2;
 					System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"moving up"+"]");
 					System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+MotorTime+"]");
 					g2.setStat2("Status:Moving up");
-					mot.moveUp(finalFlr);
+					mot.moveUp((finalFlr-currFlr));
 					if(mot.shutdown()==true) {
 						g2.setStat2("Status:MOTOR ERROR");
 						shutdown=true;
@@ -281,7 +281,7 @@ public static OutputGui g2;
 					System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"moving down"+"]");
 					System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+MotorTime+"]");
 					g2.setStat2("Status:Moving down");
-					mot.moveDown(finalFlr);
+					mot.moveDown((currFlr-finalFlr));
 					if(mot.shutdown()==true) {
 						g2.setStat2("Status:MOTOR ERROR");
 						shutdown=true;
