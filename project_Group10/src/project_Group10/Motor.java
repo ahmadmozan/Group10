@@ -45,7 +45,7 @@ public class Motor {
 	public void moveUp(int floor) {
 
 		System.out.println("[" + LocalTime.now() + "]" + " " + "[" + Thread.currentThread().getName() + "]" + " " + "["
-				+ "We are currently moving up to floor " + floor + "]");
+				+ "We are currently moving up to floor " + floor + " floors]");
 
 		if (Integer.parseInt(MTime) > 14.4) {
 
@@ -80,7 +80,7 @@ public class Motor {
 	public void moveDown(int floor) {
 
 		System.out.println("[" + LocalTime.now() + "]" + " " + "[" + Thread.currentThread().getName() + "]" + " " + "["
-				+ "We are currently moving down to floor " + floor + "]");
+				+ "We are currently moving down " + floor + " floors]");
 
 		if (Integer.parseInt(MTime) > 14.4) {
 			try {
@@ -88,12 +88,19 @@ public class Motor {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			
+			shutdown = true;
+
+			System.out.println("[" + LocalTime.now() + "]" + " " + "[" + Thread.currentThread().getName() + "]" + " "
+					+ "[" + "Error: Elevator did not reach the floor" + "]");
+			
 		} else {
 			try {
 				TimeUnit.SECONDS.sleep(Integer.parseInt(MTime) * floor);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			
 			System.out.println("[" + LocalTime.now() + "]" + " " + "[" + Thread.currentThread().getName() + "]" + " "
 					+ "[" + "We just arrived at floor " + floor + "]");
 			shutdown = false;
