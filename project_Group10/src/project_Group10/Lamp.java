@@ -2,9 +2,9 @@ package project_Group10;
 
 public class Lamp{
 	
-	private static String lightUp = null;
-	private static String lightDown = null ;
-	private static String lightFlo = null ;
+	public static String lightUp = null;
+	public static String lightDown = null ;
+	public static String lightFlo = null ;
 	
 		
 	
