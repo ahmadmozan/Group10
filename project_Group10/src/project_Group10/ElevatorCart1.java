@@ -1,6 +1,12 @@
 package project_Group10;
 
 import java.io.*;
+/**
+ * This class is used to represent Elevator Cart 1. If it is available, it will move to the floor it is told to by the 
+ * Elevator subsystem.It will also pick up the person and move them to the floor they requested. 
+ * @author akkas
+ *
+ */
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -66,6 +72,9 @@ public static OutputGui g2;
 		finalFlr = dest2;
 		return true;		
 	}
+	/*
+	 * Receive the signal to be ready to move 
+	 */
 	
 	 public static void receive()
 	   {
@@ -108,6 +117,9 @@ public static OutputGui g2;
 	      }
 	   }
 	
+	 /*
+	  * Receive the instructions on what to do
+	  */
 	 public static void receive2() {
 		 byte[] info1 = new byte[100];
 		 receive1 = new DatagramPacket(info1, info1.length);

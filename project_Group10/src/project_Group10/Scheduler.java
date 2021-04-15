@@ -17,8 +17,7 @@ import java.util.Date;
 /**
  * This class is about a scheduler subsystem that utilizes other subsystems. It is responsible for taking the input file the
  * Floor subsystem produces and pushes that file to the other subsystems. This class will be responsible for timing all the 
- * elevator movements and sending signals to doors, motor, lamps etc. This is only iteration1 of the project further code
- * and operations will be added to satisfy this class needs.
+ * elevator movements and sending signals to doors, motor, lamps etc. 
  * @author ahmad
  *
  */

@@ -4,6 +4,8 @@
 package project_Group10;
 
 /**
+ * This is the sensor class that indicates if an elevator has reached a floor yet or not. It will indicate the status of the 
+ * elevator and the floor. 
  * @author bs
  *
  */

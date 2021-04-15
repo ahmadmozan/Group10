@@ -98,11 +98,15 @@ public class Button {
 		return floor;
 		
 	}
-
+	/*
+	 * Return the destination Floor 
+	 */
 	public static int getdestFloor() {
 		return destFloor;
 	}
-	
+	/*
+	 * Return the floor number
+	 */
 	public static int getfloorNum() {
 		return floorNum;
 	}

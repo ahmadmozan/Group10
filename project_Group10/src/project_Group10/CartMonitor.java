@@ -9,7 +9,9 @@ public class CartMonitor {
 	public static boolean elev3 = false;
 	public static boolean elev4 = false;
 	
-	
+	/*
+	 * The following methods set the status of the elevator as either true or false
+	 */
 	public synchronized static void setTrue1() {
 		elev1 = true;
 	}
@@ -35,7 +37,10 @@ public class CartMonitor {
 	public synchronized static void setFalse4() {
 		elev4 = false;
 	}
-	
+	/*
+	 * The following methods retursn the status of the elevators 
+	 * 
+	 */
 	public synchronized static boolean getStatus1() {
 		return elev1;
 	}

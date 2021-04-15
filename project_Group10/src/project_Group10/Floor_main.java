@@ -1,5 +1,10 @@
 package project_Group10;
 import java.io.BufferedReader;
+/*
+ * This is the floor class which takes in requests from users. The floor will process the requests and send them to Scheduler
+ * to be executed. The class parses through the Input file which has the requests and sends it via UDP. The floor also implements
+ * button to show if a user pressed a button on the floor or not. 
+ */
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;

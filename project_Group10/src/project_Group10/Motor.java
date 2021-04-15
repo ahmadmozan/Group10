@@ -10,6 +10,8 @@ import java.text.DateFormat;
 import java.util.Date;
 
 /**
+ * This class is the motor that moves the elevator. If the motor is on (true) then the elevator will move. It will also run 
+ * for a certain amount of time depending on the floor instruction. It will also check for errors in the motor time. 
  * @author bs
  *
  */
@@ -45,7 +47,7 @@ public class Motor {
 		System.out.println("[" + LocalTime.now() + "]" + " " + "[" + Thread.currentThread().getName() + "]" + " " + "["
 				+ "We are currently moving up to floor " + floor + "]");
 
-		if (Integer.parseInt(MTime) > 7.18) {
+		if (Integer.parseInt(MTime) > 14.4) {
 
 			try {
 				TimeUnit.SECONDS.sleep(Integer.parseInt(MTime) * floor);
@@ -80,7 +82,7 @@ public class Motor {
 		System.out.println("[" + LocalTime.now() + "]" + " " + "[" + Thread.currentThread().getName() + "]" + " " + "["
 				+ "We are currently moving down to floor " + floor + "]");
 
-		if (Integer.parseInt(MTime) > 7.18) {
+		if (Integer.parseInt(MTime) > 14.4) {
 			try {
 				TimeUnit.SECONDS.sleep(Integer.parseInt(MTime) * floor);
 			} catch (InterruptedException e) {
@@ -97,7 +99,9 @@ public class Motor {
 			shutdown = false;
 		}
 	}
-
+	/*
+	 * Shuts down the elevator 
+	 */
 	public Boolean shutdown() {
 
 		return shutdown;

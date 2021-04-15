@@ -21,7 +21,7 @@ import project_Group10.Scheduler.statemachine;
 /**
 This is the Elevator class subsystem. This class will run what the elevator will do with the given data from the floor. It will determine which floor to go to 
 * and will notify the scheduler when it has reached the appropriate floor. This class will also have buttons inside to indicate teh floor to go to
-* and will have lamps, however they are not implemented in this version. 
+* and will have lamps. 
 * @author Ousama Al-chami
 */
 public class Elevator extends Thread {

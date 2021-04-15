@@ -12,7 +12,12 @@ import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.text.DateFormat;
 import java.util.Date;
-
+/**
+ * This class is used to represent Elevator Cart 1. If it is available, it will move to the floor it is told to by the 
+ * Elevator subsystem.It will also pick up the person and move them to the floor they requested. 
+ * @author akkas
+ *
+ */
 public class ElevatorCart extends Thread{
 
 	//private DatagramPacket m1,EM1;
@@ -57,14 +62,18 @@ public class ElevatorCart extends Thread{
 		System.out.println("["+ LocalTime.now()+"]"+ " "+"["+  Thread.currentThread().getName()+"]"+" "+"["+"we are heading to "+info[3]+"]"+"\n");
 
 	}
-	
+	/*
+	 * Set the destination floor 
+	 */
 	public static boolean setDestFlr(int dest, int dest2)  {
 		
 		destFlr= dest;
 		finalFlr = dest2;
 		return true;		
 	}
-	
+	/*
+	 * Receive the signal to be ready to move 
+	 */
 	 public static void receive()
 	   {
 	      // Construct a DatagramPacket for receiving packets up 
@@ -104,6 +113,9 @@ public class ElevatorCart extends Thread{
 	      }
 	   }
 	 
+	 /*
+	  * Receive the instructions on what to do
+	  */
 	 public static void receive2() {
 		 byte[] info1 = new byte[100];
 		 receive1 = new DatagramPacket(info1, info1.length);

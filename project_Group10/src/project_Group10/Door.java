@@ -21,8 +21,8 @@ public class Door{
 
 
 	/**
-	 *  this will get the door for elevator
-	 * @return
+	 *  This will get the door for elevator
+	 * 
 	 */
 	
 	public  boolean getDo() {
@@ -31,7 +31,7 @@ public class Door{
 	
 
 	/**
-	 *this will open the door of the elevator 
+	 *This will open the door of the elevator 
 	 * @return true
 	 */
 	public  boolean openDoor() {
@@ -66,7 +66,7 @@ public class Door{
 	
 	
 	/**
-	 * closes door
+	 * Closes door
 	 * @return true 
 	 */
 	public boolean closeDoor() {
